@@ -1,0 +1,13 @@
+.form-group .red_border{
+   border-color: red;
+}
+
+.form-group .green_border{
+   border-color: green;
+}
+
+.form-group .error{
+   font-size: 11px;
+   color: red;
+   height: 10px;
+}

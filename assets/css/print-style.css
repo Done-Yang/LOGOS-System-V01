@@ -1,0 +1,17 @@
+@page{
+    size: A4;
+    margin: 0;
+}
+#print-btn{
+    display: none;
+    visibility: none;
+}
+.print-bill{
+    display: flex;
+}
+.img-fluid-bill-qr{
+    width: 40%;
+}
+.page-title{
+    width: 100%;
+}
