@@ -138,7 +138,7 @@ if (!isset($_SESSION['director_login'])) {
                 $email_red_border = 'red_border';
                 $email = $_REQUEST['email'];
             } elseif (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-                $email_err = "Invalid email format, please add @!";
+                $email_err = "Invalid email format, Please check your E-mail again!";
                 $email_red_border = 'red_border';
                 $email = $_REQUEST['email'];
             } else {
@@ -148,8 +148,8 @@ if (!isset($_SESSION['director_login'])) {
             $status = 'Student';
 
             if (
-                !empty($u_id) and !empty($fname_en) and !empty($lname_en) and !empty($gender) and !empty($fname_la) and !empty($lname_la)
-                and !empty($study_program) and !empty($part) and !empty($tel) and !empty($email)
+                empty($u_id_err) and !empty($fname_en) and !empty($lname_en) and !empty($gender) and !empty($fname_la) and !empty($lname_la)
+                and !empty($study_program) and !empty($part) and empty($tel_err) and empty($email_err)
             ) {
 
                 $passHash = password_hash($u_id, PASSWORD_DEFAULT);
@@ -164,8 +164,8 @@ if (!isset($_SESSION['director_login'])) {
                 $stmt1->bindParam(':status', $status);
 
                 // Add Student
-                $stmt2 = $conn->prepare('INSERT INTO students(std_id, u_id, fname_en, lname_en, gender, fname_la, lname_la, program, season_start, part, tel, email) 
-                                        VALUES(:std_id, :u_id, :fname_en, :lname_en, :gender, :fname_la, :lname_la, :program, :season_start, :part, :tel, :email)');
+                $stmt2 = $conn->prepare('INSERT INTO students(std_id, u_id, fname_en, lname_en, gender, fname_la, lname_la, program, season_start, season_curent, part, tel, email) 
+                                        VALUES(:std_id, :u_id, :fname_en, :lname_en, :gender, :fname_la, :lname_la, :program, :season_start, :season_curent, :part, :tel, :email)');
 
                 $stmt2->bindParam(':std_id', $u_id);
                 $stmt2->bindParam(':u_id', $u_id);
@@ -176,6 +176,7 @@ if (!isset($_SESSION['director_login'])) {
                 $stmt2->bindParam(':lname_la', $lname_la);
                 $stmt2->bindParam(':program', $study_program);
                 $stmt2->bindParam(':season_start', $season_start);
+                $stmt2->bindParam(':season_curent', $season_start);
                 $stmt2->bindParam(':part', $part);
                 $stmt2->bindParam(':tel', $tel);
                 $stmt2->bindParam(':email', $email);
@@ -186,7 +187,7 @@ if (!isset($_SESSION['director_login'])) {
                 header("location: student-bill-preview.php?id=$u_id");
                 exit;
             } else {
-                $_SESSION['error'] = "Exist empty cell, Pleas check your data again!";
+                $_SESSION['error'] = "Something when wrong with any cells, Pleas check your data again!";
             }
         } catch (PDOException $e) {
             $e->getMessage();

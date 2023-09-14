@@ -5,21 +5,30 @@ session_start();
 if (!isset($_SESSION['teacher_login'])) {
     header('location: ../index.php');
 } else {
-    include "teacher-datas/subject-db.php";
-
     $id = $_SESSION['teacher_login'];
 
+    $db = new PDO('mysql:host=localhost;dbname=iater01', 'root', '');
 
+    include "teacher-datas/subject-db.php";
     include "teacher-datas/teacher-db.php";
-    $teacher = getTeacherById($id, $conn);
-    $user = teacherGetUserById($id, $conn);
 
-    // $sub_amount = $conn->prepare("SELECT COUNT(DISTINCT sub1_id) FROM timetables WHERE teacher1_id='$id';");
-    // $sub_amount->execute();
-    // $s_amount = $sub_amount->fetch(PDO::FETCH_ASSOC);
+    $teacher = getTeacherById($id, $db);
+    $user = teacherGetUserById($id, $db);
+
+    $sql = "SELECT teachers.t_id, COUNT(DISTINCT subjects.sub_id) num_subjects
+            FROM teachers
+            JOIN timetables ON teachers.t_id = timetables.teacher1_id OR teachers.t_id = timetables.teacher2_id
+            JOIN subjects ON timetables.sub1_id = subjects.sub_id OR timetables.sub2_id = subjects.sub_id
+            WHERE teachers.u_id = :id";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -37,7 +46,6 @@ if (!isset($_SESSION['teacher_login'])) {
     <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
     <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="../assets/plugins/simple-calendar/simple-calendar.css">
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
@@ -75,8 +83,7 @@ if (!isset($_SESSION['teacher_login'])) {
                                 <div class="db-widgets d-flex justify-content-between align-items-center">
                                     <div class="db-info">
                                         <h6>All Subjects</h6>
-                                        <!-- <h3><?php echo $s_amount ?></h3> -->
-                                        <h3>2</h3>
+                                        <h3><?php foreach ($results as $row) { echo $row['num_subjects'];} ?></h3>
                                     </div>
                                     <div class="db-icon">
                                         <img src="../assets/img/icons/subject.png" alt="Dashboard Icon" width=50>
@@ -90,8 +97,8 @@ if (!isset($_SESSION['teacher_login'])) {
                             <div class="card-body">
                                 <div class="db-widgets d-flex justify-content-between align-items-center">
                                     <div class="db-info">
-                                        <h6>All Projects</h6>
-                                        <h3>40/60</h3>
+                                        <h6>All Homework</h6>
+                                        <h3>40</h3>
                                     </div>
                                     <div class="db-icon">
                                         <img src="../assets/img/icons/project.png" alt="Dashboard Icon" width=50>
@@ -432,8 +439,6 @@ if (!isset($_SESSION['teacher_login'])) {
     <script src="../assets/js/feather.min.js"></script>
     <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="../assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="../assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
-    <script src="../assets/js/calander.js"></script>
     <script src="../assets/plugins/apexchart/chart-data.js"></script>
     <script src="../assets/js/script.js"></script>
 

@@ -4,21 +4,22 @@
 require_once 'include/config/dbcon.php';
 session_start();
 
-if (!isset($_SESSION['admin_login'])) {
+if (!isset($_SESSION['director_login'])) {
     header('location: ../index.php');
 } else {
-    $id = $_SESSION['admin_login'];
-    include "admin-datas/officer-db.php";
-    $user = officerGetUserById($id, $conn);
-    $officer = getOfficerById($id, $conn);
+    $id = $_SESSION['director_login'];
+    include "director-datas/officer-db.php";
+    include "director-datas/director-db.php";
+    $user = directorGetUserById($id, $conn);
+    $director = getDirectorById($id, $conn);
     
     $program = $season = $part = $group_id = $teacher = $year = $amount = '';
     $program_err = $season_err = $part_err = $group_id_err = $teacher_err = $year_err = $amount_err = $std_id_err = '';
     $program_red_border = $season_red_border = $part_red_border = $group_id_red_border = $teacher_red_border = $year_red_border = $amount_red_border = '';
 
-    include "admin-datas/student-db.php";
-    include "admin-datas/program-db.php";
-    include "admin-datas/season-db.php";
+    include "director-datas/student-db.php";
+    include "director-datas/program-db.php";
+    include "director-datas/season-db.php";
    
 
     if (isset($_POST['clone'])) {
@@ -113,9 +114,9 @@ if (!isset($_SESSION['admin_login'])) {
     }
 
     if (isset($_GET['std_g_id'])) {
-        include "admin-datas/studentgroup-db.php";
-        include "admin-datas/group-db.php";
-        include "admin-datas/teacher-db.php";
+        include "director-datas/studentgroup-db.php";
+        include "director-datas/group-db.php";
+        include "director-datas/teacher-db.php";
 
         $std_g_id = $_GET['std_g_id'];
 
@@ -372,13 +373,13 @@ if (!isset($_SESSION['admin_login'])) {
                                                                     <a href="student-detail.php?$id=<? $student['id'] ?>"
                                                                         class="avatar avatar-sm me-2"><img
                                                                             class="avatar-img rounded-circle"
-                                                                            src="<?php echo "upload/profile.png" ?>"
+                                                                            src="<?php echo "../admin/upload/profile.png" ?>"
                                                                             alt="User Image"></a>
                                                                     <?php } else { ?>
                                                                     <a href="student-detail.php?$id=<? $student['id'] ?>"
                                                                         class="avatar avatar-sm me-2"><img
                                                                             class="avatar-img rounded-circle"
-                                                                            src="<?php echo "upload/student_profile/$student_image" ?>"
+                                                                            src="<?php echo "../admin/upload/student_profile/$student_image" ?>"
                                                                             alt="User Image"></a>
                                                                     <?php } ?>
 
