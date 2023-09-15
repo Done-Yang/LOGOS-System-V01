@@ -136,7 +136,6 @@ if (!isset($_SESSION['officer_login'])) {
                                         <thead class="student-thread">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Officer ID</th>
                                                 <th>Full Name</th>
                                                 <th>Tel</th>
                                                 <th>Email Address</th>
@@ -155,7 +154,6 @@ if (!isset($_SESSION['officer_login'])) {
 
                                             <tr>
                                                 <td><?php echo $i ?></td>
-                                                <td><?php echo $officer['off_id'] ?></td>
                                                 <td>
                                                     <h2 class="table-avatar">
                                                         <?php $officer_image = $officer['image'];

@@ -15,7 +15,7 @@ if (!isset($_SESSION['officer_login'])) {
 
         include "officer-datas/teacher-db.php";
         $t = getTeacherById($id, $conn);
-        $user = teacherGetUserById($id, $conn);
+        $u = teacherGetUserById($id, $conn);
     }
 }
 
@@ -117,7 +117,7 @@ if (!isset($_SESSION['officer_login'])) {
                                             <?php }
                                         ?>
                                     </h4>
-                                    <h6 class="text-muted"><?php echo $users['status'] ?></h6>
+                                    <h6 class="text-muted"><?php echo $u['status'] ?></h6>
                                     <div class="user-Location"><i class="fas fa-map-marker-alt"></i> <?php echo $t['village_current'].', '.$t['district_current'].', '.$t['province_current'] ?></div>
 
                                 </div>
@@ -131,10 +131,6 @@ if (!isset($_SESSION['officer_login'])) {
                                             <span>Personal Details</span>
                                             <!-- <a class="edit-link" href="teacher-edit.php?id=<?= $t['t_id'] ?>"><i class="far fa-edit me-1"></i>Edit</a> -->
                                         </h5>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Teacher ID:</p>
-                                            <p class="col-sm-9"><?php echo $t['t_id'] ?></p>
-                                        </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Teacher Status:</p>
                                             <p class="col-sm-9"><?php echo $t['t_status'] ?></p>
@@ -154,10 +150,6 @@ if (!isset($_SESSION['officer_login'])) {
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Teacher Type:</p>
                                             <p class="col-sm-9"><?php echo $t['t_type'] ?></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Date of Birth:</p>
-                                            <p class="col-sm-9"><?php echo $t['dob'] ?></p>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Tel:</p>
@@ -184,20 +176,8 @@ if (!isset($_SESSION['officer_login'])) {
                                             <p class="col-sm-9"><?php echo $t['ethnicity'] ?></a></p>
                                         </div>
                                         <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Birth Adress:</p>
-                                            <div class="col-sm-9"><?php echo $t['village_birth'].', '.$t['district_birth'].', '.$t['province_birth'] ?></div>
-                                        </div>
-                                        <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Current Adress:</p>
                                             <div class="col-sm-9"><?php echo $t['village_current'].', '.$t['district_current'].', '.$t['province_current'] ?></div>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">House Unit:</p>
-                                            <div class="col-sm-9"><?php echo $t['house_unit'].', '.$t['district_current'].', '.$t['province_current'] ?></div>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">House No:</p>
-                                            <div class="col-sm-9"><?php echo $t['house_no'].', '.$t['district_current'].', '.$t['province_current'] ?></div>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Emergency Tel:</p>
@@ -255,33 +235,9 @@ if (!isset($_SESSION['officer_login'])) {
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Gradution Season:</p>
                                             <p class="col-sm-9"><?php echo $t['edu_season2'] ?></a></p>
                                         </div>
-                                        <!-- <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Employment History:</p>
-                                            <p class="col-sm-9"><?php echo $t['employment_history'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Language Proficiency:</p>
-                                            <p class="col-sm-9"><?php echo $t['language_proficiency'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Talent:</p>
-                                            <p class="col-sm-9"><?php echo $t['talent'] ?></a></p>
-                                        </div> -->
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Family Matters:</p>
-                                            <p class="col-sm-9"><?php echo $t['familymatters'] ?></a></p>
-                                        </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Plan In The Future:</p>
                                             <p class="col-sm-9"><?php echo $t['plansforthefuture'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Creat At:</p>
-                                            <p class="col-sm-9"><?php echo $t['created_at'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Last Update:</p>
-                                            <p class="col-sm-9"><?php echo $t['updated_at'] ?></a></p>
                                         </div>
                                     </div>
                                 </div>

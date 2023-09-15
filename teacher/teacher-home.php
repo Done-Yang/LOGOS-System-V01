@@ -7,28 +7,32 @@ if (!isset($_SESSION['teacher_login'])) {
 } else {
     $id = $_SESSION['teacher_login'];
 
-    $db = new PDO('mysql:host=localhost;dbname=iater01', 'root', '');
+    // $db = new PDO('mysql:host=localhost;dbname=iater01', 'root', '');
 
     include "teacher-datas/subject-db.php";
     include "teacher-datas/teacher-db.php";
+    include "teacher-datas/student-db.php";
 
-    $teacher = getTeacherById($id, $db);
-    $user = teacherGetUserById($id, $db);
+    $teacher = getTeacherById($id, $conn);
+    $user = teacherGetUserById($id, $conn);
 
+    // to count the teacher subject
     $sql = "SELECT teachers.t_id, COUNT(DISTINCT subjects.sub_id) num_subjects
             FROM teachers
             JOIN timetables ON teachers.t_id = timetables.teacher1_id OR teachers.t_id = timetables.teacher2_id
             JOIN subjects ON timetables.sub1_id = subjects.sub_id OR timetables.sub2_id = subjects.sub_id
             WHERE teachers.u_id = :id";
 
-    $stmt = $db->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //student star
+    $start_students = $conn->prepare("SELECT * FROM star_students ORDER BY id DESC, total_score DESC");
+    $start_students->execute();
 }
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -46,6 +50,8 @@ if (!isset($_SESSION['teacher_login'])) {
     <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
     <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/simple-calendar/simple-calendar.css">
+    <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
@@ -138,188 +144,54 @@ if (!isset($_SESSION['teacher_login'])) {
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-12 col-lg-12 col-xl-8">
-                        <div class="card flex-fill comman-shadow">
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <h5 class="card-title">Today’s Lesson</h5>
-                                    </div>
-                                    <div class="col-6">
-                                        <ul class="chart-list-out">
-                                            <li><span class="circle-blue"></span><span class="circle-gray"></span><span class="circle-gray"></span></li>
-                                            <li class="lesson-view-all"><a href="#">View All</a></li>
-                                            <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+
+                        <div class="card flex-fill student-space comman-shadow">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title">Star Students</h5>
                             </div>
-                            <div class="dash-circle">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 dash-widget1">
-                                        <div class="circle-bar circle-bar2">
-                                            <div class="circle-graph2" data-percent="80">
-                                                <b>80%</b>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3">
-                                        <div class="dash-details">
-                                            <div class="lesson-activity">
-                                                <div class="lesson-imgs">
-                                                    <img src="../assets/img/icons/lesson-icon-01.svg" alt="">
-                                                </div>
-                                                <div class="views-lesson">
-                                                    <h5>Class</h5>
-                                                    <h4>Electrical Engg</h4>
-                                                </div>
-                                            </div>
-                                            <div class="lesson-activity">
-                                                <div class="lesson-imgs">
-                                                    <img src="../assets/img/icons/lesson-icon-02.svg" alt="">
-                                                </div>
-                                                <div class="views-lesson">
-                                                    <h5>Lessons</h5>
-                                                    <h4>5 Lessons</h4>
-                                                </div>
-                                            </div>
-                                            <div class="lesson-activity">
-                                                <div class="lesson-imgs">
-                                                    <img src="../assets/img/icons/lesson-icon-03.svg" alt="">
-                                                </div>
-                                                <div class="views-lesson">
-                                                    <h5>Time</h5>
-                                                    <h4>Lessons</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3">
-                                        <div class="dash-details">
-                                            <div class="lesson-activity">
-                                                <div class="lesson-imgs">
-                                                    <img src="../assets/img/icons/lesson-icon-04.svg" alt="">
-                                                </div>
-                                                <div class="views-lesson">
-                                                    <h5>Asignment</h5>
-                                                    <h4>5 Asignment</h4>
-                                                </div>
-                                            </div>
-                                            <div class="lesson-activity">
-                                                <div class="lesson-imgs">
-                                                    <img src="../assets/img/icons/lesson-icon-05.svg" alt="">
-                                                </div>
-                                                <div class="views-lesson">
-                                                    <h5>Staff</h5>
-                                                    <h4>John Doe</h4>
-                                                </div>
-                                            </div>
-                                            <div class="lesson-activity">
-                                                <div class="lesson-imgs">
-                                                    <img src="../assets/img/icons/lesson-icon-06.svg" alt="">
-                                                </div>
-                                                <div class="views-lesson">
-                                                    <h5>Lesson Learned</h5>
-                                                    <h4>10/50</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
-                                        <div class="skip-group">
-                                            <button type="submit" class="btn btn-info skip-btn">skip</button>
-                                            <button type="submit" class="btn btn-info continue-btn">Continue</button>
-                                        </div>
-                                    </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table star-student table-hover table-center table-borderless datatable table-striped">
+                                        <thead class="thead-light student-thread">
+                                            <tr>
+                                                <th>Student ID</th>
+                                                <th>Name</th>
+                                                <th class="text-center">Grade</th>
+                                                <th class="text-center">Total</th>
+                                                <th class="text-end">Season Year</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($start_students as $st_std){?>
+                                                <tr>
+                                                    <td class="text-nowrap">
+                                                        <div><?php echo $st_std['std_id']?></div>
+                                                    </td>
+                                                    <td class="text-nowrap">
+                                                        <a href="profile.html">
+                                                            <img class="rounded-circle"
+                                                                src="../admin/upload/profile.png" width="25"
+                                                                alt="Star Students"> 
+                                                                <?php
+                                                            $std_name = getStudentById($st_std['std_id'], $conn);
+                                                            echo $std_name['fname_en'].' '.$std_name['lname_en'] ?>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center"><?php echo $st_std['grade'] ?></td>
+                                                    <td class="text-center"><?php echo $st_std['total_score'] ?></td>
+                                                    <td class="text-end">
+                                                        <div><?php echo $st_std['season'] ?></div>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12 col-lg-12 col-xl-12 d-flex">
-                                <div class="card flex-fill comman-shadow">
-                                    <div class="card-header">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="card-title">Learning Activity</h5>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="chart-list-out">
-                                                    <li><span class="circle-blue"></span>Teacher</li>
-                                                    <li><span class="circle-green"></span>Student</li>
-                                                    <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="apexcharts-area"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-12 col-xl-12 d-flex">
-                                <div class="card flex-fill comman-shadow">
-                                    <div class="card-header d-flex align-items-center">
-                                        <h5 class="card-title">Teaching History</h5>
-                                        <ul class="chart-list-out student-ellips">
-                                            <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="teaching-card">
-                                            <ul class="steps-history">
-                                                <li>Sep22</li>
-                                                <li>Sep23</li>
-                                                <li>Sep24</li>
-                                            </ul>
-                                            <ul class="activity-feed">
-                                                <li class="feed-item d-flex align-items-center">
-                                                    <div class="dolor-activity">
-                                                        <span class="feed-text1"><a>Mathematics</a></span>
-                                                        <ul class="teacher-date-list">
-                                                            <li><i class="fas fa-calendar-alt me-2"></i>September 5, 2022</li>
-                                                            <li>|</li>
-                                                            <li><i class="fas fa-clock me-2"></i>09:00 am - 10:00 am (60 Minutes)</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="activity-btns ms-auto">
-                                                        <button type="submit" class="btn btn-info">In Progress</button>
-                                                    </div>
-                                                </li>
-                                                <li class="feed-item d-flex align-items-center">
-                                                    <div class="dolor-activity">
-                                                        <span class="feed-text1"><a>Geography </a></span>
-                                                        <ul class="teacher-date-list">
-                                                            <li><i class="fas fa-calendar-alt me-2"></i>September 5, 2022</li>
-                                                            <li>|</li>
-                                                            <li><i class="fas fa-clock me-2"></i>09:00 am - 10:00 am (60 Minutes)</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="activity-btns complete ms-auto">
-                                                        <button type="submit" class="btn btn-info">Completed</button>
-                                                    </div>
-                                                </li>
-                                                <li class="feed-item d-flex align-items-center">
-                                                    <div class="dolor-activity">
-                                                        <span class="feed-text1"><a>Botony</a></span>
-                                                        <ul class="teacher-date-list">
-                                                            <li><i class="fas fa-calendar-alt me-2"></i>September 5, 2022</li>
-                                                            <li>|</li>
-                                                            <li><i class="fas fa-clock me-2"></i>09:00 am - 10:00 am (60 Minutes)</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="activity-btns ms-auto">
-                                                        <button type="submit" class="btn btn-info">In Progress</button>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="col-12 col-lg-12 col-xl-4 d-flex">
                         <div class="card flex-fill comman-shadow">
@@ -330,7 +202,7 @@ if (!isset($_SESSION['teacher_login'])) {
                                         <h2>Upcoming Events</h2>
                                         <span><a href="javascript:;"><i class="feather-plus"></i></a></span>
                                     </div>
-                                    <div class="upcome-event-date">
+                                    <!-- <div class="upcome-event-date">
                                         <h3>10 Jan</h3>
                                         <span><i class="fas fa-ellipsis-h"></i></span>
                                     </div>
@@ -417,7 +289,7 @@ if (!isset($_SESSION['teacher_login'])) {
                                             </div>
                                             <span>11:30 - 12:00 am</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -440,6 +312,9 @@ if (!isset($_SESSION['teacher_login'])) {
     <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="../assets/plugins/apexchart/apexcharts.min.js"></script>
     <script src="../assets/plugins/apexchart/chart-data.js"></script>
+    <script src="../assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+    <script src="../assets/plugins/datatables/datatables.min.js"></script>
+    <script src="../assets/js/calander.js"></script>
     <script src="../assets/js/script.js"></script>
 
 

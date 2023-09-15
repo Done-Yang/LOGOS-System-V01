@@ -14,7 +14,7 @@ if (!isset($_SESSION['officer_login'])) {
 
         include "officer-datas/director-db.php";
         $dir = getDirectorById($id, $conn);
-        $user = directorGetUserById($id, $conn);
+        $u = directorGetUserById($id, $conn);
     }
 }
 
@@ -120,7 +120,7 @@ if (!isset($_SESSION['officer_login'])) {
                                         <?php }
                                         ?>
                                     </h4>
-                                    <h6 class="text-muted"><?php echo $users['status'] ?></h6>
+                                    <h6 class="text-muted"><?php echo $u['status'] ?></h6>
                                     <div class="user-Location"><i class="fas fa-map-marker-alt"></i>
                                         <?php echo $dir['village_current'] . ', ' . $dir['district_current'] . ', ' . $dir['province_current'] ?>
                                     </div>
@@ -139,10 +139,6 @@ if (!isset($_SESSION['officer_login'])) {
                                                     class="far fa-edit me-1"></i>Edit</a> -->
                                         </h5>
                                         <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Director ID:</p>
-                                            <p class="col-sm-9"><?php echo $dir['dir_id'] ?></p>
-                                        </div>
-                                        <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">English Name:</p>
                                             <p class="col-sm-9"><?php echo $dir['fname_en'] . ' ' . $dir['lname_en'] ?>
                                             </p>
@@ -156,10 +152,6 @@ if (!isset($_SESSION['officer_login'])) {
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Chinese Name:</p>
                                             <p class="col-sm-9"><?php echo $dir['fname_ch'] . ' ' . $dir['lname_ch'] ?>
                                             </p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Date of Birth:</p>
-                                            <p class="col-sm-9"><?php echo $dir['dob'] ?></p>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Tel:</p>
@@ -184,30 +176,6 @@ if (!isset($_SESSION['officer_login'])) {
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Ethnicity:</p>
                                             <p class="col-sm-9"><?php echo $dir['ethnicity'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Birth Adress:</p>
-                                            <div class="col-sm-9">
-                                                <?php echo $dir['village_birth'] . ', ' . $dir['district_birth'] . ', ' . $dir['province_birth'] ?>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Current Adress:</p>
-                                            <div class="col-sm-9">
-                                                <?php echo $dir['village_current'] . ', ' . $dir['district_current'] . ', ' . $dir['province_current'] ?>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">House Unit:</p>
-                                            <div class="col-sm-9">
-                                                <?php echo $dir['house_unit'] . ', ' . $dir['district_current'] . ', ' . $dir['province_current'] ?>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">House No:</p>
-                                            <div class="col-sm-9">
-                                                <?php echo $dir['house_no'] . ', ' . $dir['district_current'] . ', ' . $dir['province_current'] ?>
-                                            </div>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Emergency Tel:</p>
@@ -273,35 +241,6 @@ if (!isset($_SESSION['officer_login'])) {
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Gradution Season:
                                             </p>
                                             <p class="col-sm-9"><?php echo $dir['edu_season2'] ?></a></p>
-                                        </div>
-                                        <!-- <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Employment History:</p>
-                                            <p class="col-sm-9"><?php echo $dir['employment_history'] ?></a></p>
-                                        </div> -->
-                                        <!-- <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Language Proficiency:</p>
-                                            <p class="col-sm-9"><?php echo $dir['language_proficiency'] ?></a></p>
-                                        </div> -->
-                                        <!-- <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Talent:</p>
-                                            <p class="col-sm-9"><?php echo $dir['talent'] ?></a></p>
-                                        </div> -->
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Family Matters:</p>
-                                            <p class="col-sm-9"><?php echo $dir['familymatters'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Plan In The Future:
-                                            </p>
-                                            <p class="col-sm-9"><?php echo $dir['plansforthefuture'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Creat At:</p>
-                                            <p class="col-sm-9"><?php echo $dir['created_at'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Last Update:</p>
-                                            <p class="col-sm-9"><?php echo $dir['updated_at'] ?></a></p>
                                         </div>
                                     </div>
                                 </div>
