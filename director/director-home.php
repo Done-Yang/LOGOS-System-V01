@@ -1,6 +1,7 @@
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+// require_once 'include/config/language.php';
 
 if (!isset($_SESSION['director_login'])) {
     // $_SESSION['error'] = 'Please login!';
@@ -9,7 +10,7 @@ if (!isset($_SESSION['director_login'])) {
     $id = $_SESSION['director_login'];
     include "director-datas/officer-db.php";
     include "director-datas/director-db.php";
-    $user = directorGetUserById($id, $conn);
+    $user = officerGetUserById($id, $conn);
     $director = getDirectorById($id, $conn);
 
     include "director-datas/student-db.php";
@@ -79,10 +80,10 @@ if (!isset($_SESSION['director_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Welcome Director!</h3>
+                                <h3 class="page-title">Director</h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="director-home.php">Home</a></li>
-                                    <li class="breadcrumb-item active">Director</li>
+                                    <li class="breadcrumb-item"><a href="admin-home.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Admin</li>
                                 </ul>
                             </div>
                         </div>

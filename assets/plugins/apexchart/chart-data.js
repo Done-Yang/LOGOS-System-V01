@@ -146,45 +146,160 @@ $(document).ready(function () {
   }
 
   if ($("#bar").length > 0) {
-    var optionsBar = {
-      chart: {
-        type: "bar",
-        height: 350,
-        width: "100%",
-        stacked: false,
-        toolbar: { show: false },
-      },
-      dataLabels: { enabled: false },
-      plotOptions: { bar: { columnWidth: "55%", endingShape: "rounded" } },
-      stroke: { show: true, width: 2, colors: ["transparent"] },
-      series: [
-        {
-          name: "Boys",
-          color: "#70C4CF",
-          data: [420, 532, 516, 575, 519, 517, 454, 392, 262, 383, 446, 551],
-        },
-        {
-          name: "Girls",
-          color: "#3D5EE1",
-          data: [336, 612, 344, 647, 345, 563, 256, 344, 323, 300, 455, 456],
-        },
-      ],
-      labels: [
-        2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020,
-      ],
-      xaxis: {
-        labels: { show: false },
-        axisBorder: { show: false },
-        axisTicks: { show: false },
-      },
-      yaxis: {
-        axisBorder: { show: false },
-        axisTicks: { show: false },
-        labels: { style: { colors: "#777" } },
-      },
-      title: { text: "", align: "left", style: { fontSize: "18px" } },
-    };
-    var chartBar = new ApexCharts(document.querySelector("#bar"), optionsBar);
-    chartBar.render();
+    $.post("student_bar_chart.php", function (students_data) {
+      $.post("season_for_chart.php", function (season_data) {
+        // console.log(students_data);
+        // console.log(season_data);
+        
+        let male = [];
+        let female = [];
+
+        for(let ss in season_data){
+          male[ss] = [];
+          female[ss] = [];
+          // console.log(male[i])
+        }
+
+        let season = [];
+
+        for(let std in students_data){
+          for(let ss in season_data){
+            // console.log(male)
+            if(students_data[std].season_curent == season_data[ss].season && students_data[std].gender == "Male"){
+              male[ss].push(students_data[std].std_id);
+              if(season.includes(season_data[ss].season)){
+              }else{
+                season.push(season_data[ss].season);
+              }
+            }
+            if(students_data[std].season_curent == season_data[ss].season && students_data[std].gender == "Female"){
+              female[ss].push(students_data[std].std_id);
+              if(season.includes(season_data[ss].season)){
+              }else{
+                season.push(season_data[ss].season);
+              }
+            }
+          }
+        }
+        let male_each = [];
+        let female_each = [];
+
+        for(let ss in season_data){
+          male_each.push(male[ss].length);
+          female_each.push(female[ss].length);
+          // console.log(male[i])
+        }
+
+        // console.log(male2022_2023);
+        console.log(season);
+
+        var optionsBar = {
+          chart: {
+            type: "bar",
+            height: 350,
+            width: "100%",
+            stacked: false,
+            toolbar: { show: false },
+          },
+          dataLabels: { enabled: false },
+          plotOptions: { bar: { columnWidth: "55%", endingShape: "rounded" } },
+          stroke: { show: true, width: 2, colors: ["transparent"] },
+          series: [
+            {
+              name: "Boys",
+              color: "#70C4CF",
+              data: male_each.map(m => m),
+            },
+            {
+              name: "Girls",
+              color: "#3D5EE1",
+              data: female_each.map(fm => fm),
+            },
+          ],
+          labels: season.map(ss => ss),
+          xaxis: {
+            labels: { show: false },
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+          },
+          yaxis: {
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+            labels: { style: { colors: "#777" } },
+          },
+          title: { text: "", align: "left", style: { fontSize: "18px" } },
+        };
+        var chartBar = new ApexCharts(document.querySelector("#bar"), optionsBar);
+        chartBar.render();
+        
+      });
+    });
+
+  //   var optionsBar = {
+  //   chart: {
+  //     type: "bar",
+  //     height: 350,
+  //     width: "100%",
+  //     stacked: false,
+  //     toolbar: { show: false },
+  //   },
+  //   dataLabels: { enabled: false },
+  //   plotOptions: { bar: { columnWidth: "55%", endingShape: "rounded" } },
+  //   stroke: { show: true, width: 2, colors: ["transparent"] },
+  //   series: [
+  //     {
+  //       name: "Boys",
+  //       color: "#70C4CF",
+  //       data: [420, 532, 516, 575, 519, 517, 454, 392, 262, 383, 446, 551],
+  //     },
+  //     {
+  //       name: "Girls",
+  //       color: "#3D5EE1",
+  //       data: [336, 612, 344, 647, 345, 563, 256, 344, 323, 300, 455, 456],
+  //     },
+  //   ],
+  //   labels: [
+  //     2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020,
+  //   ],
+  //   xaxis: {
+  //     labels: { show: false },
+  //     axisBorder: { show: false },
+  //     axisTicks: { show: false },
+  //   },
+  //   yaxis: {
+  //     axisBorder: { show: false },
+  //     axisTicks: { show: false },
+  //     labels: { style: { colors: "#777" } },
+  //   },
+  //   title: { text: "", align: "left", style: { fontSize: "18px" } },
+  // };
+  // var chartBar = new ApexCharts(document.querySelector("#bar"), optionsBar);
+  // chartBar.render();
+
   }
+
+  
 });
+
+// let gender = ['male', 'male', 'female'];
+// let season = ['2022-2023'];
+
+// for(let i in season){
+//   $i = i;
+//   $male.$i = [];
+//   $female.$i = [];
+// }
+
+// for(let i in gender){
+//   for(let n in season){
+//     if(season[n] == '2023-2024' && gender[i] == "male"){
+//       $n;
+//       $male.$n.push("y");
+//     }
+//     if(season[n] == '2023-2024' && gender[i] == "female"){
+//       $n;
+//       $female.$n.push("y");
+//     }
+    
+//   }
+// }

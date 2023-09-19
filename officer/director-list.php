@@ -137,7 +137,6 @@ if (!isset($_SESSION['officer_login'])) {
                                         <thead class="student-thread">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Director ID</th>
                                                 <th>Full Name</th>
                                                 <th>Tel</th>
                                                 <th>Email Address</th>
@@ -156,7 +155,6 @@ if (!isset($_SESSION['officer_login'])) {
 
                                             <tr>
                                                 <td><?php echo $i ?></td>
-                                                <td><?php echo $director['dir_id'] ?></td>
                                                 <td>
                                                     <h2 class="table-avatar">
                                                         <?php $director_image = $director['image'];
