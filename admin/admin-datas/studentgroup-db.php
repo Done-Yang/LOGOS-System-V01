@@ -2,7 +2,7 @@
 
 // Get Student By $program, $part, $season_start
 function getStudentGroupByPPSY($program, $part, $season_start, $conn) {
-    $sql = "SELECT * FROM students WHERE program=? AND part=? AND season_start=?";
+    $sql = "SELECT * FROM students WHERE program=? AND part=? AND season_curent=?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$program, $part, $season_start]);
 
