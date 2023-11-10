@@ -1,6 +1,8 @@
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 if (!isset($_SESSION['officer_login'])) {
     header('location: ../index.php');
@@ -12,26 +14,6 @@ if (!isset($_SESSION['officer_login'])) {
     
     include "officer-datas/group-db.php";
     $groups = getAllGroups($conn);
-
-    $search_by = '';
-
-    if (isset($_REQUEST['search'])) {
-        try {
-            $search_by = $_REQUEST['search_by'];
-            if (!empty($search_by)) {
-
-                $groups = $conn->prepare("SELECT * FROM groups WHERE group_id=:group_id OR program=:program OR part=:part OR season=:season OR year=:year");
-                $groups->bindParam(':group_id', $search_by);
-                $groups->bindParam(':program', $search_by);
-                $groups->bindParam(':part', $search_by);
-                $groups->bindParam(':season', $search_by);
-                $groups->bindParam(':year', $search_by);
-                $groups->execute();
-            }
-        } catch (PDOException $e) {
-            $e->getMessage();
-        }
-    }
 }
 
 ?>
@@ -76,11 +58,11 @@ if (!isset($_SESSION['officer_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Groups</h3>
+                                <h3 class="page-title"><?php echo $lang['group'] ?></h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="group-list.php">Group</a></li>
-                                    <li class="breadcrumb-item active">All Groups</li>
+                                    <li class="breadcrumb-item"><a href="group-list.php"><?php echo $lang['group'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['all_group'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -88,21 +70,28 @@ if (!isset($_SESSION['officer_login'])) {
                 </div>
 
                 <div class="student-group-form">
-                    <form action="" method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search here ..."
-                                        name="search_by" value="<?php echo $search_by ?>">
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
-                                </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="<?php echo $lang['search_byID'] ?>">
                             </div>
                         </div>
-                    </form>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="<?php echo $lang['search_byName'] ?>">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="<?php echo $lang['search_byPhone'] ?>">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="search-student-btn">
+                                <button type="btn" class="btn btn-primary"><?php echo $lang['search'] ?></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -121,11 +110,11 @@ if (!isset($_SESSION['officer_login'])) {
                                 <div class="page-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h3 class="page-title">group</h3>
+                                            <h3 class="page-title"><?php echo $lang['group'] ?></h3>
                                         </div>
-                                        <!-- <div class="col-auto text-end float-end ms-auto download-grp">
+                                        <div class="col-auto text-end float-end ms-auto download-grp">
                                             <a href="group-add.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
 
@@ -148,15 +137,15 @@ if (!isset($_SESSION['officer_login'])) {
                                     <table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                         <thead class="student-thread">
                                             <tr>
-                                                <th>No</th>
-                                                <th>Group</th>
-                                                <th>Program</th>
-                                                <th>Season</th>
-                                                <th>Part</th>
-                                                <th>Year</th>
-                                                <th>Create At</th>
-                                                <th>Last Update</th>
-                                                <!-- <th class="text-end">Action</th> -->
+                                                <th><?php echo $lang['no'] ?></th>
+                                                <th><?php echo $lang['group'] ?></th>
+                                                <th><?php echo $lang['program'] ?></th>
+                                                <th><?php echo $lang['season'] ?></th>
+                                                <th><?php echo $lang['part'] ?></th>
+                                                <th><?php echo $lang['years'] ?></th>
+                                                <th><?php echo $lang['createAt'] ?></th>
+                                                <th><?php echo $lang['updateAt'] ?></th>
+                                                <th class="text-end"><?php echo $lang['action'] ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -164,7 +153,7 @@ if (!isset($_SESSION['officer_login'])) {
                                             <?php $i = 0;
                                             if ($groups == "No Groups!") { ?>
                                                 <tr>
-                                                    <td>No Group!</td>
+                                                    <td><?php echo $lang['noGroup'] ?></td>
                                                 </tr>
                                                 <?php } else {
                                                 foreach ($groups as $group) {
@@ -179,13 +168,13 @@ if (!isset($_SESSION['officer_login'])) {
                                                         <td><?php echo $group['year'] ?></td>
                                                         <td><?php echo $group['created_at'] ?></td>
                                                         <td><?php echo $group['updated_at'] ?></td>
-                                                        <!-- <td class="text-end">
+                                                        <td class="text-end">
                                                             <div class="actions ">
                                                                 <a href="group-edit.php?id=<?= $group['group_id'] ?>" class="btn btn-sm bg-danger-light">
                                                                     <i class="feather-edit"></i>
                                                                 </a>
                                                             </div>
-                                                        </td> -->
+                                                        </td>
                                                     </tr>
 
                                             <?php }

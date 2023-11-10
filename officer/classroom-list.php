@@ -1,6 +1,8 @@
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 if (!isset($_SESSION['officer_login'])) {
     header('location: ../index.php');
@@ -74,11 +76,11 @@ if (!isset($_SESSION['officer_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Classroom</h3>
+                                <h3 class="page-title"><?php echo $lang['classroom'] ?></h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="classroom-list.php">Classroom</a></li>
-                                    <li class="breadcrumb-item active">All Classrooms</li>
+                                    <li class="breadcrumb-item"><a href="classroom-list.php"><?php echo $lang['classroom'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['all_classroom'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -90,13 +92,13 @@ if (!isset($_SESSION['officer_login'])) {
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search here ..."
+                                    <input type="text" class="form-control" placeholder="<?php echo $lang['search_here'] ?>"
                                         name="search_by" value="<?php echo $search_by ?>">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                    <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['search'] ?></button>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +121,7 @@ if (!isset($_SESSION['officer_login'])) {
                                 <div class="page-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h3 class="page-title">Classroom</h3>
+                                            <h3 class="page-title"><?php echo $lang['classroom'] ?></h3>
                                         </div>
                                         <div class="col-auto text-end float-end ms-auto download-grp">
                                             <a href="classroom-add.php" class="btn btn-primary"><i
@@ -148,11 +150,11 @@ if (!isset($_SESSION['officer_login'])) {
                                         class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                         <thead class="student-thread">
                                             <tr>
-                                                <th>No</th>
-                                                <th>Classroom</th>
-                                                <th>Created at</th>
-                                                <th>Updated at</th>
-                                                <!-- <th class="text-end">Action</th> -->
+                                                <th><?php echo $lang['no'] ?></th>
+                                                <th><?php echo $lang['classroom'] ?></th>
+                                                <th><?php echo $lang['createAt'] ?></th>
+                                                <th><?php echo $lang['updateAt'] ?></th>
+                                                <th class="text-end"><?php echo $lang['action'] ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -160,7 +162,7 @@ if (!isset($_SESSION['officer_login'])) {
                                             <?php $i = 0;
                                             if ($classrooms == "No Classroom!") { ?>
                                             <tr>
-                                                <td>No Classroom!</td>
+                                                <td><?php echo $lang['noClassroom'] ?></td>
                                             </tr>
                                             <?php } else {
                                                 foreach ($classrooms as $classroom) {
@@ -171,7 +173,7 @@ if (!isset($_SESSION['officer_login'])) {
                                                 <td><?php echo $classroom['classroom'] ?></td>
                                                 <td><?php echo $classroom['created_at'] ?></td>
                                                 <td><?php echo $classroom['updated_at'] ?></td>
-                                                <!-- <td class="text-end">
+                                                <td class="text-end">
                                                     <div class="actions ">
                                                         <a href="classroom-edit.php?id=<?= $classroom['id'] ?>"
                                                             class="btn btn-sm bg-danger-light">
@@ -183,7 +185,7 @@ if (!isset($_SESSION['officer_login'])) {
                                                             <i class="feather-delete"></i>
                                                         </a>
                                                     </div>
-                                                </td> -->
+                                                </td>
                                             </tr>
 
                                             <?php }

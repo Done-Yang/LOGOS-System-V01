@@ -77,11 +77,11 @@ if (!isset($_SESSION['director_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Director</h3>
+                                <h3 class="page-title"><?php echo $lang['director'] ?></h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="officer-list.php">Director</a></li>
-                                    <li class="breadcrumb-item active">All Directors</li>
+                                    <li class="breadcrumb-item"><a href="officer-list.php"><?php echo $lang['director'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['all_dir'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -99,7 +99,7 @@ if (!isset($_SESSION['director_login'])) {
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                    <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['search'] ?></button>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@ if (!isset($_SESSION['director_login'])) {
                                 <div class="page-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h3 class="page-title">Officer</h3>
+                                            <h3 class="page-title"><?php echo $lang['directors'] ?></h3>
                                         </div>
                                         <div class="col-auto text-end float-end ms-auto download-grp">
                                             <a href="director-add.php" class="btn btn-primary"><i
@@ -136,19 +136,19 @@ if (!isset($_SESSION['director_login'])) {
                                         class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                         <thead class="student-thread">
                                             <tr>
-                                                <th>No</th>
-                                                <th>Director ID</th>
-                                                <th>Full Name</th>
-                                                <th>Tel</th>
-                                                <th>Email Address</th>
-                                                <th class="text-end">Action</th>
+                                                <th><?php echo $lang['no'] ?></th>
+                                                <th><?php echo $lang['dir_id'] ?></th>
+                                                <th><?php echo $lang['full_name'] ?></th>
+                                                <th><?php echo $lang['tel'] ?></th>
+                                                <th><?php echo $lang['email'] ?></th>
+                                                <th class="text-end"><?php echo $lang['action'] ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $i = 0;
                                             if ($directors == "No Director!") {  ?>
                                             <tr>
-                                                <td>No Director!</td>
+                                                <td><?php echo $lang['no_dir'] ?></td>
                                             </tr>
                                             <?php } else {
                                                 foreach ($directors as $director) {
@@ -176,10 +176,10 @@ if (!isset($_SESSION['director_login'])) {
 
                                                         <?php
                                                                 if ($director['gender'] == 'Male') { ?>
-                                                        <a>Mr
+                                                        <a><?php echo $lang['mr'] ?>
                                                             <?php echo $director['fname_en'] . " " . $director['lname_en'] ?></a>
                                                         <?php } else { ?>
-                                                        <a>Miss
+                                                        <a><?php echo $lang['miss'] ?>
                                                             <?php echo $director['fname_en'] . " " . $director['lname_en'] ?></a>
                                                         <?php }
                                                                 ?>
@@ -198,8 +198,7 @@ if (!isset($_SESSION['director_login'])) {
                                                             <i class="feather-edit"></i>
                                                         </a>
                                                         <a href="director-delete.php?id=<?= $director['dir_id'] ?>"
-                                                            class="btn btn-sm bg-danger-light"
-                                                            onclick="return confirm('Do you want to delete this item?')">
+                                                            class="btn btn-sm bg-danger-light" onclick="return confirm('Do you want to delete this item?')">
                                                             <i class="feather-delete"></i>
                                                         </a>
                                                     </div>

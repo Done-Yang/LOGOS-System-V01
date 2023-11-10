@@ -1,6 +1,8 @@
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 if (!isset($_SESSION['officer_login'])) {
     header('location: ../index.php');
@@ -81,11 +83,11 @@ if (!isset($_SESSION['officer_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Groups</h3>
+                                <h3 class="page-title"><?php echo $lang['group01'] ?></h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="studentgroup-list.php">Group</a></li>
-                                    <li class="breadcrumb-item active">All Groups</li>
+                                    <li class="breadcrumb-item"><a href="studentgroup-list.php"><?php echo $lang['group01'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['all_group'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -97,13 +99,13 @@ if (!isset($_SESSION['officer_login'])) {
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search here ..."
+                                    <input type="text" class="form-control" placeholder=<?php echo $lang['search_here'] ?>
                                         name="search_by" value="<?php echo $search_by ?>">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                    <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['search'] ?></button>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +128,7 @@ if (!isset($_SESSION['officer_login'])) {
                                 <div class="page-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h3 class="page-title">group</h3>
+                                            <h3 class="page-title"><?php echo $lang['group01'] ?></h3>
                                         </div>
                                         <div class="col-auto text-end float-end ms-auto download-grp">
                                             <a href="studentgroup-add.php" class="btn btn-primary"><i
@@ -155,13 +157,13 @@ if (!isset($_SESSION['officer_login'])) {
                                         class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                         <thead class="student-thread">
                                             <tr>
-                                                <th>No</th>
-                                                <th>Group</th>
-                                                <th>Program</th>
-                                                <th>Season</th>
-                                                <th>Part</th>
-                                                <th>Year</th>
-                                                <th class="text-end">Action</th>
+                                                <th><?php echo $lang['no'] ?></th>
+                                                <th><?php echo $lang['Groups'] ?></th>
+                                                <th><?php echo $lang['program'] ?></th>
+                                                <th><?php echo $lang['Season'] ?></th>
+                                                <th><?php echo $lang['part'] ?></th>
+                                                <th><?php echo $lang['year'] ?></th>
+                                                <th class="text-end"><?php echo $lang['action'] ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -169,7 +171,7 @@ if (!isset($_SESSION['officer_login'])) {
                                             <?php $i = 0;
                                             if ($groups == "No Groups!") { ?>
                                             <tr>
-                                                <td>No Group!</td>
+                                                <td><?php echo $lang['no_Groups'] ?></td>
                                             </tr>
                                             <?php } else {
 

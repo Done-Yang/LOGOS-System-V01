@@ -1,8 +1,10 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 include "admin-datas/director-db.php";
 
 
@@ -448,10 +450,10 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row align-items-center">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Edit Director</h3>
+                                <h3 class="page-title"><?php echo $lang['edit_director'] ?> </h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="director-list.php">Directors</a></li>
-                                    <li class="breadcrumb-item active">Edit Director</li>
+                                    <li class="breadcrumb-item"><a href="director-list.php"><?php echo $lang['directors'] ?> </a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['edit_director'] ?> </li>
                                 </ul>
                             </div>
                         </div>
@@ -484,13 +486,13 @@ if (!isset($_SESSION['admin_login'])) {
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <h5 class="form-title student-info">Director Information <span><a
+                                            <h5 class="form-title student-info"><?php echo $lang['director_info'] ?>  <span><a
                                                         href="javascript:;"><i
                                                             class="feather-more-vertical"></i></a></span></h5>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>User ID <span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['u_id'] ?>  <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $u_id_red_border ?>" type="text"
                                                     name="u_id" value="<?php echo $dir_row['dir_id'] ?>" readonly>
                                                 <div class="error"><?php echo $u_id_err ?></div>
@@ -498,7 +500,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>First Name(English) <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['firstName'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $fname_en_red_border ?>"
                                                     type="text" name="fname_en"
                                                     value="<?php echo $dir_row['fname_en'] ?>">
@@ -507,7 +509,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Last Name(English) <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['lastName'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $lname_en_red_border ?>"
                                                     type="text" name="lname_en"
                                                     value="<?php echo $dir_row['lname_en'] ?>">
@@ -516,19 +518,19 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Gender <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['gender'] ?>  <span class="login-danger">*</span></label>
                                                 <select class="form-control select <?php echo $gender_red_border ?>"
                                                     name="gender">
                                                     <option><?php echo $dir_row['gender'] ?></option>
-                                                    <option>Female</option>
-                                                    <option>Male</option>
+                                                    <option><?php echo $lang['female'] ?> </option>
+                                                    <option><?php echo $lang['male'] ?> </option>
                                                 </select>
                                                 <div class="error"><?php echo $gender_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>First Name(Lao) <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['firstName01'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $fname_la_red_border ?>"
                                                     type="text" name="fname_la"
                                                     value="<?php echo $dir_row['fname_la'] ?>">
@@ -537,7 +539,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Last Name(Lao) <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['lastName01'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $lname_la_red_border ?>"
                                                     type="text" name="lname_la"
                                                     value="<?php echo $dir_row['lname_la'] ?>">
@@ -546,7 +548,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms calendar-icon">
-                                                <label>Date Of Birth <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['date_B'] ?> <span class="login-danger">*</span></label>
                                                 <input class="form-control datetimepicker <?php echo $dob_red_border ?>"
                                                     type="text" name="dob" value="<?php echo $dir_row['dob'] ?>">
                                                 <div class="error position-absolute"><?php echo $dob_err ?></div>
@@ -554,7 +556,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>First Name(Chines) <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['firstName02'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $fname_ch_red_border ?>"
                                                     type="text" name="fname_ch"
                                                     value="<?php echo $dir_row['fname_ch'] ?>">
@@ -563,7 +565,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Last Name(Chines) <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['lastName02'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $lname_ch_red_border ?>"
                                                     type="text" name="lname_ch"
                                                     value="<?php echo $dir_row['lname_ch'] ?>">
@@ -572,7 +574,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Nation <span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['nation'] ?>  <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $nation_red_border ?>" type="text"
                                                     name="nation" value="<?php echo $dir_row['nation'] ?>">
                                                 <div class="error"><?php echo $nation_err ?></div>
@@ -580,14 +582,14 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Religion<span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['religion'] ?> <span class="login-danger">*</span></label>
                                                 <select class="form-control select <?php echo $religion_red_border ?>"
                                                     name="religion">
-                                                    <option><?php echo $dir_row['religion'] ?></option>
-                                                    <option>Buddhism</option>
-                                                    <option>Christianity</option>
-                                                    <option>Islam</option>
-                                                    <option>Others</option>
+                                                    <option><?php echo $off_row['religion'] ?></option>
+                                                    <option><?php echo $lang['buddhism'] ?></option>
+                                                    <option><?php echo $lang['christianity'] ?></option>
+                                                    <option><?php echo $lang['islam'] ?></option>
+                                                    <option><?php echo $lang['other'] ?></option>
                                                 </select>
                                                 <div class="error"><?php echo $religion_err ?></div>
                                             </div>
@@ -595,7 +597,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Ethnicity <span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['ethnicity'] ?>  <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $ethnicity_red_border ?>"
                                                     type="text" name="ethnicity"
                                                     value="<?php echo $dir_row['ethnicity'] ?>">
@@ -604,15 +606,15 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Tel<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['tel'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $tel_red_border ?>" type="text"
                                                     name="tel" value="<?php echo $dir_row['tel'] ?>">
                                                 <div class="error"><?php echo $tel_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
-                                            <div class="form-group local-forms">
-                                                <label>WhatsApp <span class="login-danger">*</span> </label>
+                                        <div class="form-group local-forms">
+                                                <label><?php echo $lang['whatsapp'] ?>  <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $whatsapp_red_border ?>"
                                                     type="text" name="whatsapp"
                                                     value="<?php echo $dir_row['whatsapp'] ?>">
@@ -621,7 +623,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>E-Mail <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['email'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $email_red_border ?>" type="text"
                                                     name="email" value="<?php echo $dir_row['email'] ?>">
                                                 <div class="error"><?php echo $email_err ?></div>
@@ -630,7 +632,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Emergency contact Number </label>
+                                                <label><?php echo $lang['emergency'] ?>  </label>
                                                 <input class="form-control <?php echo $emergency_tel_red_border ?>"
                                                     type="text" name="emergency_tel"
                                                     value="<?php echo $dir_row['emergency_tel'] ?>">
@@ -640,7 +642,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Emergency contact Name </label>
+                                                <label><?php echo $lang['emergencyN'] ?> </label>
                                                 <input class="form-control <?php echo $emergency_name_red_border ?>"
                                                     type="text" name="emergency_name"
                                                     value="<?php echo $dir_row['emergency_name'] ?>">
@@ -650,7 +652,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Village Of Birth <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['villageE01'] ?> <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $village_birth_red_border ?>"
                                                     type="text" name="village_birth"
                                                     value="<?php echo $dir_row['village_birth'] ?>">
@@ -660,7 +662,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>District Of Birth <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['districtE01'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $district_birth_red_border ?>"
                                                     type="text" name="district_birth"
                                                     value="<?php echo $dir_row['district_birth'] ?>">
@@ -670,7 +672,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Province Of Birth <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['provinceE01'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $province_birth_red_border ?>"
                                                     type="text" name="province_birth"
                                                     value="<?php echo $dir_row['province_birth'] ?>">
@@ -679,7 +681,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Current Village <span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['village'] ?>  <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $village_current_red_border ?>"
                                                     type="text" name="village_current"
                                                     value="<?php echo $dir_row['village_current'] ?>">
@@ -688,7 +690,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Current District <span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['currentD'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $district_current_red_border ?>"
                                                     type="text" name="district_current"
                                                     value="<?php echo $dir_row['district_current'] ?>">
@@ -697,7 +699,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Current Province <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['currentD'] ?>  <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $province_current_red_border ?>"
                                                     type="text" name="province_current"
                                                     value="<?php echo $dir_row['province_current'] ?>">
@@ -707,7 +709,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>House Unit </label>
+                                                <label><?php echo $lang['houseU'] ?> </label>
                                                 <input class="form-control <?php echo $house_unit_red_border ?>"
                                                     type="text" name="house_unit"
                                                     value="<?php echo $dir_row['house_unit'] ?>">
@@ -717,7 +719,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>House No </label>
+                                                <label><?php echo $lang['house'] ?>  </label>
                                                 <input class="form-control <?php echo $house_no_red_border ?>"
                                                     type="text" name="house_no"
                                                     value="<?php echo $dir_row['house_no'] ?>">
@@ -728,19 +730,19 @@ if (!isset($_SESSION['admin_login'])) {
 
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Education Level<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['education'] ?> <span class="login-danger">*</span> </label>
                                                 <select class="form-control select <?php echo $edu_level1_red_border ?>"
                                                     name="edu_level1">
                                                     <option><?php echo $dir_row['edu_level1'] ?></option>
-                                                    <option>Deploma College</option>
-                                                    <option>Master University</option>
+                                                    <option><?php echo $lang['diplomaC'] ?> </option>
+                                                    <option><?php echo $lang['masterU'] ?> </option>
                                                 </select>
                                                 <div class="error"><?php echo $edu_level1_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Gratuation Branch<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['graduation'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $edu_branch1_red_border ?>"
                                                     type="text" name="edu_branch1"
                                                     value="<?php echo $dir_row['edu_branch1'] ?>">
@@ -749,7 +751,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>University Name<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['universityN'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $univ_name1_red_border ?>"
                                                     type="text" name="univ_name1"
                                                     value="<?php echo $dir_row['univ_name1'] ?>">
@@ -758,7 +760,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>University District<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['universityD'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $edu_district1_red_border ?>"
                                                     type="text" name="edu_district1"
                                                     value="<?php echo $dir_row['edu_district1'] ?>">
@@ -767,7 +769,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>University Province<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['universityP'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $edu_province1_red_border ?>"
                                                     type="text" name="edu_province1"
                                                     value="<?php echo $dir_row['edu_province1'] ?>">
@@ -776,7 +778,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Graduation Season<span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['graduateS'] ?> <span class="login-danger">*</span></label>
                                                 <input class="form-control <?php echo $edu_season1_red_border ?>"
                                                     type="text" name="edu_season1"
                                                     value="<?php echo $dir_row['edu_season1'] ?>">
@@ -785,17 +787,17 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Other Education Level</label>
+                                                <label><?php echo $lang['otherEducation'] ?> </label>
                                                 <select class="form-control select" name="edu_level2">
                                                     <option><?php echo $dir_row['edu_level2'] ?></option>
-                                                    <option>Deploma College</option>
-                                                    <option>Master Univercity</option>
+                                                    <option><?php echo $lang['diploma_college'] ?> </option>
+                                                    <option><?php echo $lang['masterU'] ?> </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Gratuation Branch</label>
+                                                <label><?php echo $lang['graduation'] ?> </label>
                                                 <input class="form-control" type="text" name="edu_branch2"
                                                     value="<?php echo $dir_row['edu_branch2'] ?>">
 
@@ -803,7 +805,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>University Name</label>
+                                                <label><?php echo $lang['universityN'] ?> </label>
                                                 <input class="form-control" type="text" name="univ_name2"
                                                     value="<?php echo $dir_row['univ_name2'] ?>">
 
@@ -811,7 +813,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>University District</label>
+                                                <label><?php echo $lang['universityD'] ?> </label>
                                                 <input class="form-control" type="text" name="edu_district2"
                                                     value="<?php echo $dir_row['edu_district2'] ?>">
 
@@ -819,7 +821,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>University Province</label>
+                                                <label><?php echo $lang['universityP'] ?> </label>
                                                 <input class="form-control" type="text" name="edu_province2"
                                                     value="<?php echo $dir_row['edu_province2'] ?>">
 
@@ -827,7 +829,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Graduation Season</label>
+                                                <label><?php echo $lang['graduateS'] ?> </label>
                                                 <input class="form-control" type="text" name="edu_season2"
                                                     value="<?php echo $dir_row['edu_season2'] ?>">
                                             </div>
@@ -835,7 +837,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Employment History</label>
+                                                <label><?php echo $lang['employeeH'] ?> </label>
                                                 <input class="form-control" type="text" name="employment_history"
                                                     value="<?php echo $dir_row['employment_history'] ?>">
                                             </div>
@@ -843,7 +845,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Language Proficiency </label>
+                                                <label><?php echo $lang['languageP'] ?>  </label>
                                                 <input class="form-control" type="text" name="language_proficiency"
                                                     value="<?php echo $dir_row['language_proficiency'] ?>">
                                             </div>
@@ -851,35 +853,35 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Talent </label>
+                                                <label><?php echo $lang['talent'] ?>  </label>
                                                 <input class="form-control" type="text" name="talent"
                                                     value="<?php echo $dir_row['talent'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Family Matters </label>
+                                                <label><?php echo $lang['familyM'] ?>  </label>
                                                 <input class="form-control" type="text" name="familymatters"
                                                     value="<?php echo $dir_row['familymatters'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Plans For Future </label>
+                                                <label><?php echo $lang['plans'] ?> </label>
                                                 <input class="form-control" type="text" name="plansforthefuture"
                                                     value="<?php echo $dir_row['plansforthefuture'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Password </label>
+                                                <label><?php echo $lang['password'] ?> </label>
                                                 <input class="form-control" type="text" name="password"
                                                     placeholder="*************">
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group students-up-files">
-                                                <label>Image Profile 3x4cm (<?php echo $dir_row['image'] ?>) <span
+                                                <label><?php echo $lang['imageProfile'] ?> (<?php echo $dir_row['image'] ?>) <span
                                                         class="login-danger">*</span> </label>
 
                                                 <?php $officerImage_file = $dir_row['image'];
@@ -891,7 +893,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                 <?php } ?>
 
                                                 <label class="file-upload image-upbtn mb-0 ml-2">
-                                                    Choose File <input type="file" name="txt_file"
+                                                <?php echo $lang['chooseFile'] ?>  <input type="file" name="txt_file"
                                                         value="<?php echo $dir_row['image'] ?>">
                                                 </label>
                                             </div>
@@ -899,7 +901,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12">
                                             <div class="student-submit">
                                                 <button type="submit" name="submit"
-                                                    class="btn btn-primary">Submit</button>
+                                                    class="btn btn-primary"><?php echo $lang['submit'] ?> </button>
                                             </div>
                                         </div>
                                     </div>
@@ -934,3 +936,24 @@ if (!isset($_SESSION['admin_login'])) {
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

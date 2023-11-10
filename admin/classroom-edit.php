@@ -126,10 +126,10 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row align-items-center">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Edit Classroom</h3>
+                                <h3 class="page-title"><?php echo $lang['editClassroom'] ?></h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="classroom-list.php">Classroom</a></li>
-                                    <li class="breadcrumb-item active">Edit Classroom</li>
+                                    <li class="breadcrumb-item"><a href="classroom-list.php"><?php echo $lang['classroom'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['editClassroom'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -160,13 +160,13 @@ if (!isset($_SESSION['admin_login'])) {
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <h5 class="form-title student-info">Classroom Information <span><a
+                                            <h5 class="form-title student-info"><?php echo $lang['classroomInfo'] ?> <span><a
                                                         href="javascript:;"><i
                                                             class="feather-more-vertical"></i></a></span></h5>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>classroom<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['classroom'] ?><span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $classroom_red_border ?>"
                                                     type="text" value="<?php echo $classroomID['classroom'] ?>"
                                                     name="classroom">
@@ -176,7 +176,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12">
                                             <div class="student-submit">
                                                 <button type="submit" name="submit"
-                                                    class="btn btn-primary">Update</button>
+                                                    class="btn btn-primary"><?php echo $lang['update'] ?></button>
                                             </div>
                                         </div>
                                     </div>

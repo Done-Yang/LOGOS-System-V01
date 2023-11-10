@@ -1,8 +1,10 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 if (!isset($_SESSION['admin_login'])) {
     header('location: ../index.php');
@@ -161,10 +163,10 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row align-items-center">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Update Group</h3>
+                                <h3 class="page-title"><?php echo $lang['updateGroup'] ?> </h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="group-list.php">Groups</a></li>
-                                    <li class="breadcrumb-item active">Update Group</li>
+                                    <li class="breadcrumb-item"><a href="group-list.php"><?php echo $lang['Groups'] ?> </a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['updateGroup'] ?> </li>
                                 </ul>
                             </div>
                         </div>
@@ -210,18 +212,18 @@ if (!isset($_SESSION['admin_login'])) {
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <h5 class="form-title student-info">Group Information <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+                                            <h5 class="form-title student-info"><?php echo $lang['Group_info'] ?>  <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Group ID<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['Group_id'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $group_id_red_border ?>" type="text" name="group_id" value="<?php echo $group['group_id'] ?>" readonly>
                                                 <div class="error"><?php echo $group_id_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Season <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['season'] ?>  <span class="login-danger">*</span></label>
                                                 <select class="form-control select <?php echo $season_red_border ?>" name="season">
                                                     <option><?php echo $group['season'] ?></option>
                                                     <?php $i = 0;
@@ -235,7 +237,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Program <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['program'] ?>  <span class="login-danger">*</span></label>
                                                 <select class="form-control select <?php echo $program_red_border ?>" name="program">
                                                     <option><?php echo $group['program'] ?></option>
                                                     <?php $i = 0;
@@ -249,19 +251,19 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Part <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['part'] ?>  <span class="login-danger">*</span></label>
                                                 <select class="form-control select <?php echo $part_red_border ?>" name="part">
                                                     <option><?php echo $group['part'] ?></option>
-                                                    <option>Morning</option>
-                                                    <option>Afternoon</option>
-                                                    <option>Evening</option>
+                                                    <option><?php echo $lang['part'] ?> </option>
+                                                    <option><?php echo $lang['afternoon'] ?> </option>
+                                                    <option><?php echo $lang['evening'] ?> </option>
                                                 </select>
                                                 <div class="error"><?php echo $part_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Year <span class="login-danger">*</span></label>
+                                                <label><?php echo $lang['year'] ?>  <span class="login-danger">*</span></label>
                                                 <select class="form-control select <?php echo $year_red_border ?>" name="year">
                                                     <option><?php echo $group['year'] ?></option>
                                                     <option>1</option>
@@ -275,7 +277,7 @@ if (!isset($_SESSION['admin_login'])) {
                                     </div>
                                     <div class="col-12">
                                         <div class="student-submit">
-                                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" name="submit" class="btn btn-primary"><?php echo $lang['submit'] ?> </button>
                                         </div>
                                     </div>
 

@@ -1,3 +1,14 @@
+<?php
+    require_once "config/language.php";
+
+    if(isset($_POST['en'])){
+        $_SESSION['lang'] = 'en';
+        header('Location: '.$_SERVER['REQUEST_URI']."?lang=en");
+    }elseif(isset($_POST['la'])){
+        $_SESSION['lang'] = 'la';
+        header('Location: '.$_SERVER['REQUEST_URI']."?lang=la");
+    }
+?>
 <div class="header">
 
     <div class="header-left">
@@ -27,14 +38,16 @@
     <ul class="nav user-menu">
         <li class="nav-item dropdown noti-dropdown language-drop me-2">
             <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                <img src="../assets/img/icons/header-icon-01.svg" alt="">
+                <img src="<?php echo $lang['img_path'] ?>" alt="">
             </a>
             <div class="dropdown-menu ">
                 <div class="noti-content">
                     <div>
-                        <a class="dropdown-item" href="javascript:;"><i class="flag flag-us me-2"></i>English</a>
-                        <a class="dropdown-item" href="javascript:;"><i class="flag flag-la me-2"></i>Laos</a>
-                        <a class="dropdown-item" href="javascript:;"><i class="flag flag-cn me-2"></i>Chines</a>
+                        <form method='post'>
+                            <button type="submit" name="en" class="dropdown-item"><i class="flag flag-gb me-2"></i>English</button>
+                            <button type="submit" name="la" class="dropdown-item"><i class="flag flag-la me-2"></i>Laos</button>
+                            <button type="submit" name="" class="dropdown-item"><i class="flag flag-cn me-2"></i>Chines</button>
+                        </form>
                     </div>
                 </div>
             </div>

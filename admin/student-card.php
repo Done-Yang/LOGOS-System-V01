@@ -9,7 +9,7 @@ if (!isset($_SESSION['admin_login'])) {
     include "admin-datas/officer-db.php";
     $user = officerGetUserById($id, $conn);
     $officer = getOfficerById($id, $conn);
-    
+
     if ($_GET['id']) {
         $id = $_GET['id'];
 

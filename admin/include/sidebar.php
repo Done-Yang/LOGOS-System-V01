@@ -208,7 +208,7 @@
                         <li><a href="#" class="<?php if (basename($_SERVER['PHP_SELF']) == "languages.php") {
                                                                             echo "active";
                                                                         } ?>"><?php echo $lang['language'] ?></a></li>
-                        <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+                        <li><a class="dropdown-item" href="../logout.php"><?php echo $lang['logout'] ?></a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,6 +1,8 @@
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 if (!isset($_SESSION['admin_login'])) {
     header('location: ../index.php');
@@ -140,8 +142,8 @@ if (!isset($_SESSION['admin_login'])) {
                                 <p class="text-muted mb-0"><?php echo $user['status'] ?></p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="admin-profile.php">My Profile</a>
-                        <a class="dropdown-item" href="../logout.php">Logout</a>
+                        <a class="dropdown-item" href="admin-profile.php"><?php echo $lang['profile'] ?> </a>
+                        <a class="dropdown-item" href="../logout.php"><?php echo $lang['logout'] ?> </a>
                     </div>
                 </li>
 
@@ -153,179 +155,179 @@ if (!isset($_SESSION['admin_login'])) {
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="menu-title">
-                            <span>Main Menu</span>
+                            <span><?php echo $lang['main_menu'] ?> </span>
                         </li>
                         <li class=" <?php if (basename($_SERVER['PHP_SELF']) == "admin-home.php") {
                                         echo "active";
-                                    } ?>"><a href="../admin/admin-home.php"> <i class="feather-grid"></i> <span>Dashboard</span></a></li>
+                                    } ?>"><a href="../admin/admin-home.php"> <i class="feather-grid"></i> <span><?php echo $lang['dashboard'] ?> </span></a></li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "director-list.php" || basename($_SERVER['PHP_SELF']) == "director-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-university"></i> <span> Directors</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-university"></i> <span><?php echo $lang['director'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/director-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "director-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">Director List</a></li>
+                                                                                } ?>"><?php echo $lang['director_list'] ?> </a></li>
                                 <li><a href="../admin/director-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "director-add.php") {
                                                                                     echo "active";
-                                                                                } ?>">Director Add</a></li>
+                                                                                } ?>"><?php echo $lang['director_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "officer-list.php" || basename($_SERVER['PHP_SELF']) == "officer-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-female"></i> <span> Officers</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-female"></i> <span> <?php echo $lang['officer'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/officer-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "officer-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">Officer List</a></li>
+                                                                                } ?>"><?php echo $lang['officer_list'] ?> </a></li>
                                 <li><a href="../admin/officer-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "officer-add.php") {
                                                                                     echo "active";
-                                                                                } ?>">Officer Add</a></li>
+                                                                                } ?>"><?php echo $lang['officer_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "teacher-list.php" || basename($_SERVER['PHP_SELF']) == "teacher-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span><?php echo $lang['professor'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/teacher-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "teacher-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">Teacher List</a></li>
+                                                                                } ?>"><?php echo $lang['professor_list'] ?> </a></li>
                                 <li><a href="../admin/teacher-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "teacher-add.php") {
                                                                                     echo "active";
-                                                                                } ?>">Teacher Add</a></li>
+                                                                                } ?>"><?php echo $lang['professor_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "student-list.php" || basename($_SERVER['PHP_SELF']) == "student-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-graduation-cap"></i> <span> Students</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-graduation-cap"></i> <span> <?php echo $lang['students'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/student-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "student-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">Student List</a></li>
+                                                                                } ?>"><?php echo $lang['student_list'] ?> </a></li>
                                 <li><a href="../admin/student-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "student-add.php") {
                                                                                     echo "active";
-                                                                                } ?>">Student Add</a></li>
+                                                                                } ?>"><?php echo $lang['student_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "studentgroup-list.php" || basename($_SERVER['PHP_SELF']) == "studentgroup-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-users"></i> <span>Student Groups</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-users"></i> <span><?php echo $lang['student_groups'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/studentgroup-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "studentgroup-list.php") {
                                                                                         echo "active";
-                                                                                    } ?>">Student Group List</a></li>
+                                                                                    } ?>"><?php echo $lang['student_group_list'] ?> </a></li>
                                 <li><a href="../admin/studentgroup-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "studentgroup-add.php") {
                                                                                         echo "active";
-                                                                                    } ?> ">Student Group Add</a></li>
+                                                                                    } ?> "><?php echo $lang['student_group_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "studentscore-list.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-book"></i> <span>Student Scores</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-book"></i> <span><?php echo $lang['student_scores'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/studentscore-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "studentscore-list.php") {
                                                                                         echo "active";
-                                                                                    } ?>">Student Score List</a></li>
+                                                                                    } ?>"><?php echo $lang['student_score_list'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "subject-list.php" || basename($_SERVER['PHP_SELF']) == "subject-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-book-reader"></i> <span> Subjects</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-book-reader"></i> <span> <?php echo $lang['subjects'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/subject-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "subject-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">Subject List</a></li>
+                                                                                } ?>"><?php echo $lang['subject_list'] ?> </a></li>
                                 <li><a href="../admin/subject-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "subject-add.php") {
                                                                                     echo "active";
-                                                                                } ?> ">Subject Add</a></li>
+                                                                                } ?> "><?php echo $lang['subject_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "classroom-list.php" || basename($_SERVER['PHP_SELF']) == "classroom-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-fax"></i> <span>Class Rooms</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-fax"></i> <span><?php echo $lang['class_rooms'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/classroom-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "classroom-list.php") {
                                                                                         echo "active";
-                                                                                    } ?>">Class Room List</a></li>
+                                                                                    } ?>"><?php echo $lang['class_room_list'] ?> </a></li>
                                 <li><a href="../admin/classroom-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "classroom-add.php") {
                                                                                     echo "active";
-                                                                                } ?> ">Class Room Add</a></li>
+                                                                                } ?> "><?php echo $lang['class_room_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "timetable-list.php" || basename($_SERVER['PHP_SELF']) == "timetable-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-table"></i> <span> Time Tables</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-table"></i> <span> <?php echo $lang['time_tables'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/timetable-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "timetable-list.php") {
                                                                                         echo "active";
-                                                                                    } ?>">Time Table List</a></li>
+                                                                                    } ?>"><?php echo $lang['time_table_list'] ?> </a></li>
                                 <li><a href="../admin/timetable-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "timetable-add.php") {
                                                                                     echo "active";
-                                                                                } ?> ">Time Table Add</a></li>
+                                                                                } ?> "><?php echo $lang['time_table_add '] ?> </a></li>
                             </ul>
                         </li>
                         <li class="menu-title">
-                            <span>Management</span>
+                            <span><?php echo $lang['management'] ?> </span>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "program-list.php" || basename($_SERVER['PHP_SELF']) == "program-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-sitemap"></i> <span> Programs</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-sitemap"></i> <span> <?php echo $lang['program'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/program-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "program-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">Programs List</a></li>
+                                                                                } ?>"><?php echo $lang['program_list'] ?> </a></li>
                                 <li><a href="../admin/program-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "program-add.php") {
                                                                                     echo "active";
-                                                                                } ?>">Programs Add</a></li>
+                                                                                } ?>"><?php echo $lang['program_list'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "season-list.php" || basename($_SERVER['PHP_SELF']) == "season-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-tasks"></i> <span> Seasons</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-tasks"></i> <span> <?php echo $lang['seasons'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/season-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "season-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">Season List</a></li>
+                                                                                } ?>"><?php echo $lang['season_list'] ?> </a></li>
                                 <li><a href="../admin/season-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "season-add.php") {
                                                                                     echo "active";
-                                                                                } ?>">Season Add</a></li>
+                                                                                } ?>"><?php echo $lang['season_add'] ?> </a></li>
                             </ul>
                         </li>
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "group-list.php" || basename($_SERVER['PHP_SELF']) == "group-add.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-building"></i> <span> Groups</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-building"></i> <span><?php echo $lang['groups'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/group-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "group-list.php") {
                                                                                     echo "active";
-                                                                                } ?>">group List</a></li>
+                                                                                } ?>"><?php echo $lang['group_list'] ?> </a></li>
                                 <li><a href="../admin/group-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "group-add.php") {
                                                                                 echo "active";
-                                                                            } ?>">group Add</a></li>
+                                                                            } ?>"><?php echo $lang['group_add'] ?> </a></li>
                             </ul>
                         </li>
 
                         <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "admin-profile.php" || basename($_SERVER['PHP_SELF']) == "languages.php") {
                                                 echo "active";
                                             } ?>">
-                            <a href="#"><i class="fas fa-cog"></i> <span> Settings</span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-cog"></i> <span> <?php echo $lang['setting'] ?> </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="../admin/admin-profile.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "admin-profile.php") {
                                                                                     echo "active";
-                                                                                } ?>">Profile</a></li>
+                                                                                } ?>"><?php echo $lang['profile'] ?> </a></li>
                                 <li><a href="#" class="<?php if (basename($_SERVER['PHP_SELF']) == "languages.php") {
                                                             echo "active";
-                                                        } ?>">Language</a></li>
+                                                        } ?>"><?php echo $lang['language'] ?> </a></li>
                             </ul>
                         </li>
                     </ul>
@@ -340,11 +342,11 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Student Score</h3>
+                                <h3 class="page-title"><?php echo $lang['student_scores'] ?> </h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="timetable-list.php">Student Score</a></li>
-                                    <li class="breadcrumb-item active">All Student Scores</li>
+                                    <li class="breadcrumb-item"><a href="timetable-list.php"><?php echo $lang['student_scores'] ?> </a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['all_studentScore'] ?> </li>
                                 </ul>
                             </div>
                         </div>
@@ -361,7 +363,7 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                    <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['search'] ?> </button>
                                 </div>
                             </div>
                         </div>
@@ -384,7 +386,7 @@ if (!isset($_SESSION['admin_login'])) {
                                 <div class="page-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h3 class="page-title">group</h3>
+                                            <h3 class="page-title"><?php echo $lang['groups'] ?> </h3>
                                         </div>
                                         <div class="col-auto text-end float-end ms-auto download-grp">
                                             <a href="timetable-add.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
@@ -411,13 +413,13 @@ if (!isset($_SESSION['admin_login'])) {
                                     <table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                         <thead class="student-thread">
                                             <tr>
-                                                <th>No</th>
-                                                <th>Group</th>
-                                                <th>Program</th>
-                                                <th>Season</th>
-                                                <th>Part</th>
-                                                <th>Year</th>
-                                                <th class="text-end">Action</th>
+                                                <th><?php echo $lang['no'] ?> </th>
+                                                <th><?php echo $lang['groups'] ?> </th>
+                                                <th><?php echo $lang['programs'] ?> </th>
+                                                <th><?php echo $lang['seasons'] ?> </th>
+                                                <th><?php echo $lang['part'] ?> </th>
+                                                <th><?php echo $lang['year'] ?> </th>
+                                                <th class="text-end"><?php echo $lang['action'] ?> </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -425,7 +427,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             <?php $i = 0;
                                             if ($groups == "No Groups!") { ?>
                                                 <tr>
-                                                    <td>No Group!</td>
+                                                    <td><?php echo $lang['no_Groups'] ?> </td>
                                                 </tr>
                                                 <?php } else {
                                                 foreach ($groups as $group) {

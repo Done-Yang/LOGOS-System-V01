@@ -1,8 +1,10 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 include "admin-datas/season-db.php";
 
 
@@ -46,12 +48,13 @@ if (!isset($_SESSION['admin_login'])) {
                         $stmt->bindParam(':id', $id);
                         $stmt->execute();
                         // $_SESSION['success'] = "Successfully Updated Season year!";
-
+                        $ss=$lang['ss'];
+                        $ss01=$lang['ss01'];
                         echo "<script>
                             $(document).ready(function() {
                                 Swal.fire({
-                                    title: 'Success',
-                                    text: 'Season Update Successfully!',
+                                    title: '$ss',
+                                    text: '$ss01',
                                     icon: 'success',
                                     timer: 5000,
                                     showConfirmButton: false
@@ -123,10 +126,10 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row align-items-center">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Edit Season</h3>
+                                <h3 class="page-title"><?php echo $lang['edit_season'] ?> </h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="season-list.php">Season</a></li>
-                                    <li class="breadcrumb-item active">Edit Season</li>
+                                    <li class="breadcrumb-item"><a href="season-list.php"><?php echo $lang['seasons'] ?> </a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['edit_season'] ?> </li>
                                 </ul>
                             </div>
                         </div>
@@ -157,18 +160,18 @@ if (!isset($_SESSION['admin_login'])) {
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <h5 class="form-title student-info">Season Information <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+                                            <h5 class="form-title student-info"><?php echo $lang['seasonInfo'] ?>  <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Season<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['seasons'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $season_red_border ?>" type="text" value="<?php echo $seasonID['season'] ?>" name="season">
                                                 <div class="error"><?php echo $season_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="student-submit">
-                                                <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                                                <button type="submit" name="submit" class="btn btn-primary"><?php echo $lang['update'] ?> </button>
                                             </div>
                                         </div>
                                     </div>

@@ -1,9 +1,10 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php  
-    require_once 'include/config/dbcon.php';
     session_start();
-    
+    require_once 'include/config/dbcon.php';
+    require_once 'include/config/language.php';
+
     if(!isset($_SESSION['admin_login'])) {
         header('location: ../index.php');
     } else {
@@ -12,13 +13,15 @@
             include "admin-datas/director-db.php";
             if (removeDirectorById($id, $conn)) {
                 // $_SESSION['success'] = "Successfully deleted!";
+                $ss=$lang['ss'];
+                $ss01=$lang['ss01'];
                 echo "<script>
                     $(document).ready(function() {
                         Swal.fire({
-                            title: 'Success',
-                            text: 'Director Delete Successfully!',
+                            title: '$ss',
+                            text: '$ss01',
                             icon: 'success',
-                            timer: 5000,
+                            timer: 200000000,
                             showConfirmButton: false
                         });
                     });

@@ -1,8 +1,10 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 include "admin-datas/program-db.php";
 
@@ -48,11 +50,13 @@ if (!isset($_SESSION['admin_login'])) {
                     $stmt->bindParam(':total_year', $total_year);
                     $stmt->execute();
                     // $_SESSION['success'] = "Successfully Updated Programd!";
+                    $ss=$lang['ss'];
+                    $ss01=$lang['ss01'];
                     echo "<script>
                         $(document).ready(function() {
                             Swal.fire({
-                                title: 'Success',
-                                text: 'Program Updated Successfully!',
+                                title: '$ss',
+                                text: '$ss01',
                                 icon: 'success',
                                 timer: 5000,
                                 showConfirmButton: false
@@ -122,10 +126,10 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row align-items-center">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Edit Program</h3>
+                                <h3 class="page-title"><?php echo $lang['edit_program'] ?> </h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="program-list.php">Program</a></li>
-                                    <li class="breadcrumb-item active">Edit Programs</li>
+                                    <li class="breadcrumb-item"><a href="program-list.php"><?php echo $lang['program'] ?> </a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['edit_program'] ?> </li>
                                 </ul>
                             </div>
                         </div>
@@ -156,25 +160,25 @@ if (!isset($_SESSION['admin_login'])) {
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <h5 class="form-title student-info">Program Information <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+                                            <h5 class="form-title student-info"><?php echo $lang['programInfo'] ?>  <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Program<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['program'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $program_red_border ?>" type="text" name="program" value="<?php echo $program['program'] ?>">
                                                 <div class="error"><?php echo $program_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Total Year<span class="login-danger">*</span> </label>
+                                                <label><?php echo $lang['total_year'] ?> <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $total_year_red_border ?>" type="text" name="total_year" value="<?php echo $program['total_year'] ?>">
                                                 <div class="error"><?php echo $total_year_err ?></div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="student-submit">
-                                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                                <button type="submit" name="submit" class="btn btn-primary"><?php echo $lang['submit'] ?> </button>
                                             </div>
                                         </div>
                                     </div>

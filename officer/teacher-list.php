@@ -78,11 +78,11 @@ if (!isset($_SESSION['officer_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Teachers</h3>
+                                <h3 class="page-title"><?php echo $lang['Professors'] ?></h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="teacher-list.php">Teachers</a></li>
-                                    <li class="breadcrumb-item active">All Teachers</li>
+                                    <li class="breadcrumb-item"><a href="teacher-list.php"><?php echo $lang['Professors'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['all_Professors'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -94,13 +94,13 @@ if (!isset($_SESSION['officer_login'])) {
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search here ..."
+                                    <input type="text" class="form-control" placeholder="<?php echo $lang['search_here'] ?>"
                                         name="search_by" value="<?php echo $search_by ?>">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                    <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['search'] ?></button>
                                 </div>
                             </div>
                         </div>
@@ -123,11 +123,11 @@ if (!isset($_SESSION['officer_login'])) {
                                 <div class="page-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h3 class="page-title">Teachers</h3>
+                                            <h3 class="page-title"><?php echo $lang['Professors'] ?></h3>
                                         </div>
                                         <div class="col-auto text-end float-end ms-auto download-grp">
-                                            <!-- <a href="teacher-add.php" class="btn btn-primary"><i
-                                                    class="fas fa-plus"></i></a> -->
+                                            <a href="teacher-add.php" class="btn btn-primary"><i
+                                                    class="fas fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -137,20 +137,20 @@ if (!isset($_SESSION['officer_login'])) {
                                         class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                         <thead class="student-thread">
                                             <tr>
-                                                <th>No</th>
-                                                <th>Teacher ID</th>
-                                                <th>Full Name</th>
-                                                <th>Teacher Type</th>
-                                                <th>Tel</th>
-                                                <th>Email Address</th>
-                                                <th class="text-end">Action</th>
+                                                <th><?php echo $lang['no'] ?></th>
+                                                <th><?php echo $lang['u_id01'] ?></th>
+                                                <th><?php echo $lang['full_name'] ?></th>
+                                                <th><?php echo $lang['teacher_type'] ?></th>
+                                                <th><?php echo $lang['tel'] ?></th>
+                                                <th><?php echo $lang['email'] ?></th>
+                                                <th class="text-end"><?php echo $lang['action'] ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $i = 0;
                                             if ($teachers == "No Teacher!") {  ?>
                                             <tr>
-                                                <td>No Student!</td>
+                                                <td><?php echo $lang['no_Professors'] ?></td>
                                             </tr>
                                             <?php } else {
                                                 foreach ($teachers as $teacher) {
@@ -179,10 +179,10 @@ if (!isset($_SESSION['officer_login'])) {
 
                                                         <?php
                                                                 if ($teacher['gender'] == 'Male') { ?>
-                                                        <a>Mr
+                                                        <a><?php echo $lang['mr'] ?>
                                                             <?php echo $teacher['fname_en'] . " " . $teacher['lname_en'] ?></a>
                                                         <?php } else { ?>
-                                                        <a>Miss
+                                                        <a><?php echo $lang['miss'] ?>
                                                             <?php echo $teacher['fname_en'] . " " . $teacher['lname_en'] ?></a>
                                                         <?php }
                                                                 ?>
@@ -197,7 +197,7 @@ if (!isset($_SESSION['officer_login'])) {
                                                             class="btn btn-sm bg-success-light me-2 ">
                                                             <i class="feather-eye"></i>
                                                         </a>
-                                                        <!-- <a href="teacher-edit.php?id=<?= $teacher['t_id'] ?>"
+                                                        <a href="teacher-edit.php?id=<?= $teacher['t_id'] ?>"
                                                             class="btn btn-sm bg-danger-light">
                                                             <i class="feather-edit"></i>
                                                         </a>
@@ -205,7 +205,7 @@ if (!isset($_SESSION['officer_login'])) {
                                                             class="btn btn-sm bg-danger-light"
                                                             onclick="return confirm('Do you want to delete this item?')">
                                                             <i class="feather-delete"></i>
-                                                        </a> -->
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
