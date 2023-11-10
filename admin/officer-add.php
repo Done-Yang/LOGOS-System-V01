@@ -114,7 +114,7 @@ if (!isset($_SESSION['admin_login'])) {
                 $email_red_border = 'red_border';
                 $email = $_REQUEST['email'];
             } elseif (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-                $email_err = "Invalid email format, please add @!";
+                $email_err = "Invalid email format, Please check your E-mail again!";
                 $email_red_border = 'red_border';
                 $email = $_REQUEST['email'];
             } else {
@@ -124,8 +124,8 @@ if (!isset($_SESSION['admin_login'])) {
             $status = 'Officer';
 
             if (
-                !empty($u_id) and !empty($fname_en) and !empty($lname_en) and !empty($gender) and !empty($fname_la) and !empty($lname_la) and
-                !empty($tel) and !empty($email)
+                empty($u_id_err) and !empty($fname_en) and !empty($lname_en) and !empty($gender) and !empty($fname_la) and !empty($lname_la) and
+                empty($tel_err) and empty($email_err)
             ) {
                 $passHash = password_hash($u_id, PASSWORD_DEFAULT);
 
@@ -157,7 +157,7 @@ if (!isset($_SESSION['admin_login'])) {
                 header("location: officer-bill-preview.php?id=$u_id");
                 exit;
             } else {
-                $_SESSION['error'] = "Exist empty cell, Pleas check your data again!";
+                $_SESSION['error'] = "Something when wrong with any cells, Pleas check your data again!";
             }
         } catch (PDOException $e) {
             $e->getMessage();

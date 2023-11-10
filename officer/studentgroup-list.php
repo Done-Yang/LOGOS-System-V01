@@ -131,8 +131,8 @@ if (!isset($_SESSION['officer_login'])) {
                                             <h3 class="page-title"><?php echo $lang['group01'] ?></h3>
                                         </div>
                                         <div class="col-auto text-end float-end ms-auto download-grp">
-                                            <a href="studentgroup-add.php" class="btn btn-primary"><i
-                                                    class="fas fa-plus"></i></a>
+                                            <!-- <a href="studentgroup-add.php" class="btn btn-primary"><i
+                                                    class="fas fa-plus"></i></a> -->
                                         </div>
                                     </div>
                                 </div>

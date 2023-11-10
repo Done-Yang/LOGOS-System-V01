@@ -137,12 +137,20 @@ if (!isset($_SESSION['officer_login'])) {
                                         class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                         <thead class="student-thread">
                                             <tr>
+<<<<<<< HEAD
                                                 <th><?php echo $lang['no'] ?></th>
                                                 <th><?php echo $lang['dir_id'] ?></th>
                                                 <th><?php echo $lang['full_name'] ?></th>
                                                 <th><?php echo $lang['tel'] ?></th>
                                                 <th><?php echo $lang['email'] ?></th>
                                                 <th class="text-end"><?php echo $lang['action'] ?></th>
+=======
+                                                <th>No</th>
+                                                <th>Full Name</th>
+                                                <th>Tel</th>
+                                                <th>Email Address</th>
+                                                <th class="text-end">Action</th>
+>>>>>>> 4eb65dde6afd0589b0f651abed6e9724282acada
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -157,7 +165,6 @@ if (!isset($_SESSION['officer_login'])) {
 
                                             <tr>
                                                 <td><?php echo $i ?></td>
-                                                <td><?php echo $director['dir_id'] ?></td>
                                                 <td>
                                                     <h2 class="table-avatar">
                                                         <?php $director_image = $director['image'];

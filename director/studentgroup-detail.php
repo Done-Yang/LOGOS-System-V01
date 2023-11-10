@@ -37,8 +37,9 @@ if (!isset($_SESSION['director_login'])) {
             try {
                 $delete_id = $_REQUEST['std_id'];
                 $group_id = $_REQUEST['group_status'];
+                $year = $_REQUEST['year'];
 
-                if (removeStudent($delete_id, $conn)) {
+                if (removeStudent($group_id, $delete_id, $year, $conn)) {
                     echo "<script>
                         $(document).ready(function() {
                             Swal.fire({
@@ -52,6 +53,7 @@ if (!isset($_SESSION['director_login'])) {
                     </script>";
 
                     // $_SESSION['success'] = "Successfully deleted student from student group!";
+                    // header("refresh:2; url=studentgroup-detail.php?id=$group_id");
                     header("refresh:2; url=studentgroup-detail.php?id=$group_id");
                     exit;
                 } else {
@@ -115,7 +117,15 @@ if (!isset($_SESSION['director_login'])) {
                 <div class="page-header">
                     <div class="card card-table comman-shadow">
                         <div class="card-body">
-
+                            
+                            <?php if (isset($_SESSION['error'])) { ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?php
+                                    echo $_SESSION['error'];
+                                    unset($_SESSION['error']);
+                                    ?>
+                            </div>
+                            <?php } ?>
                             <?php if (isset($_SESSION['success'])) { ?>
                             <div class="alert alert-success" role="alert">
                                 <?php
@@ -124,129 +134,125 @@ if (!isset($_SESSION['director_login'])) {
                                     ?>
                             </div>
                             <?php } ?>
-
-                            <div class="page-header">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <h3 class="page-title">Entire Student: <?php echo $count_std_resault ?>,
-                                            Program: <?php echo $std_group['program'] ?>, Year:
-                                            <?php echo $std_group['year'] ?>, Part: <?php echo $std_group['part'] ?>,
-                                            Class: <?php echo $std_group['group_id'] ?> </h3>
+                            <form method="post">
+                                <div class="page-header">
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <h3 class="page-title">Entire Student: <?php echo $count_std_resault ?>,
+                                                Program: <?php echo $std_group['program'] ?>, Year:
+                                                <?php echo $std_group['year'] ?>, Part: <?php echo $std_group['part'] ?>,
+                                                Class: <?php echo $std_group['group_id'] ?> </h3>
+                                        </div>
+                                        <?php if ($students->rowCount() > 0) { ?>
+                                        <div class="col-6 text-end float-end">
+                                            <a href="studentgroup-card-preview.php?id=<?= $std_group['group_id'] ?>" id="print-btn" class="btn btn-primary"><i class="fas fa-address-card"></i></a>
+                                            <a href="studentgroup-clone.php?std_g_id=<?= $std_group['group_id'] ?>" class="btn btn-primary ms-3" id="print-btn"><i class="fas fa-clone"></i></a>
+                                            <button onclick="window.print();" class="btn btn-primary ms-3" id="print-btn"><i class="fas fa-print"></i></button>
+                                            <a href="studentgroup-add.php?std_g_id=<?= $std_group['group_id'] ?>" class="btn btn-primary ms-3" id="print-btn"><i class="fas fa-plus"></i></a>
+                                        </div>
+                                        <?php } else { ?>
+                                        <div class="col-6 text-end float-end ms-auto download-grp">
+                                            <a href="studentgroup-add.php?" class="btn btn-primary"><i
+                                                    class="fas fa-plus"></i></a>
+                                        </div>
+                                        <?php } ?>
                                     </div>
-                                    <?php if ($students->rowCount() > 0) { ?>
-                                    <div class="col-6 text-end float-end">
-                                        <a href="studentgroup-card-preview.php?id=<?= $std_group['group_id'] ?>"
-                                            id="print-btn">>> Preview Student's Cards <<</a>
-                                                <button onclick="window.print();" class="btn btn-primary ms-5"
-                                                    id="print-btn"><i class="fas fa-print"></i></button>
-                                                <a href="studentgroup-add.php?std_g_id=<?= $std_group['group_id'] ?>"
-                                                    class="btn btn-primary ms-5" id="print-btn"><i
-                                                        class="fas fa-plus"></i></a>
-                                    </div>
-                                    <?php } else { ?>
-                                    <div class="col-6 text-end float-end ms-auto download-grp">
-                                        <a href="studentgroup-add.php?" class="btn btn-primary"><i
-                                                class="fas fa-plus"></i></a>
-                                    </div>
-                                    <?php } ?>
                                 </div>
-                            </div>
 
-                            <div class="table-responsive">
-                                <table
-                                    class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
-                                    <thead class="student-thread">
-                                        <tr>
-                                            <th>No</th>
-                                            <th id="print-btn">Student ID</th>
-                                            <th>Full Name</th>
-                                            <th id="print-btn">Study Program</th>
-                                            <th id="print-btn">Part</th>
-                                            <th id="print-btn">Year</th>
-                                            <th>Tel</th>
-                                            <th>Email Address</th>
-                                            <th>Status</th>
-                                            <th class="text-end" id="print-btn">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $i = 0;
-                                        if ($students == "No Student!") {  ?>
-                                        <tr>
-                                            <td>No Student!</td>
-                                        </tr>
-                                        <?php } else {
-                                            foreach ($students as $student) {
-                                                $i++; ?>
+                                <div class="table-responsive">
+                                    <table
+                                        class="table table-bordered star-student table-hover table-center mb-0 table-striped">
+                                        <thead class="student-thread">
+                                            <tr>
+                                                <th>No</th>
+                                                <th id="print-btn">Student ID</th>
+                                                <th>Full Name</th>
+                                                <th id="print-btn">Study Program</th>
+                                                <th id="print-btn">Part</th>
+                                                <th id="print-btn">Year</th>
+                                                <th>Tel</th>
+                                                <th>Email Address</th>
+                                                <th>Status</th>
+                                                <th class="text-end" id="print-btn">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i = 0;
+                                            if ($students == "No Student!") {  ?>
+                                            <tr>
+                                                <td>No Student!</td>
+                                            </tr>
+                                            <?php } else {
+                                                foreach ($students as $student) {
+                                                    $i++; ?>
+                                            <tr>
+                                                <td><?php echo $i ?></td>
+                                                <td id="print-btn"><?php echo $student['std_id'] ?></td>
+                                                <td>
+                                                    <h2 class="table-avatar">
+                                                        <?php
+                                                                $student_image = $student['image'];
 
-                                        <tr>
-                                            <td><?php echo $i ?></td>
-                                            <td id="print-btn"><?php echo $student['std_id'] ?></td>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <?php
-                                                            $student_image = $student['image'];
-
-                                                            if ($student_image == '') { ?>
-                                                    <a href="student-detail.php?id=<?= $student['std_id'] ?>"
-                                                        class="avatar avatar-sm me-2"><img
-                                                            class="avatar-img rounded-circle"
-                                                            src="<?php echo "../admin/upload/profile.png" ?>"
-                                                            alt="User Image"></a>
-                                                    <?php } else { ?>
-                                                    <a href="student-detail.php?id=<?= $student['std_id'] ?>"
-                                                        class="avatar avatar-sm me-2"><img
-                                                            class="avatar-img rounded-circle"
-                                                            src="<?php echo "../admin/upload/student_profile/$student_image" ?>"
-                                                            alt="User Image"></a>
-                                                    <?php } ?>
+                                                                if ($student_image == '') { ?>
+                                                        <a href="student-detail.php?id=<?= $student['std_id'] ?>"
+                                                            class="avatar avatar-sm me-2"><img
+                                                                class="avatar-img rounded-circle"
+                                                                src="<?php echo "../admin/upload/profile.png" ?>"
+                                                                alt="User Image"></a>
+                                                        <?php } else { ?>
+                                                        <a href="student-detail.php?id=<?= $student['std_id'] ?>"
+                                                            class="avatar avatar-sm me-2"><img
+                                                                class="avatar-img rounded-circle"
+                                                                src="<?php echo "../admin/upload/student_profile/$student_image" ?>"
+                                                                alt="User Image"></a>
+                                                        <?php } ?>
 
 
 
-                                                    <?php
-                                                            if ($student['gender'] == 'Male') { ?>
-                                                    <a>Mr
-                                                        <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
-                                                    <?php } else { ?>
-                                                    <a>Miss
-                                                        <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
-                                                    <?php }
-                                                            ?>
-                                                </h2>
-                                            </td>
-                                            <td id="print-btn"><?php echo $student['program'] ?></td>
-                                            <td id="print-btn"><?php echo $student['part'] ?></td>
-                                            <td id="print-btn"><?php echo $student['year'] ?></td>
-                                            <td><?php echo $student['tel'] ?></td>
-                                            <td><?php echo $student['email'] ?></td>
-                                            <td><?php echo $student['std_status'] ?></td>
+                                                        <?php
+                                                                if ($student['gender'] == 'Male') { ?>
+                                                        <a>Mr
+                                                            <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
+                                                        <?php } else { ?>
+                                                        <a>Miss
+                                                            <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
+                                                        <?php }
+                                                                ?>      
+                                                    </h2>
+                                                </td>
+                                                <td id="print-btn"><?php echo $student['program'] ?></td>
+                                                <td id="print-btn"><?php echo $student['part'] ?></td>
+                                                <td id="print-btn" name="year"><?php echo $student['year'] ?></td>
+                                                <input type="hidden" name="year" value="<?php echo $student['year'] ?>" >
+                                                <td><?php echo $student['tel'] ?></td>
+                                                <td><?php echo $student['email'] ?></td>
+                                                <td><?php echo $student['std_status'] ?></td>
 
-                                            <td class="text-end" id="print-btn">
-                                                <div class="actions ">
-                                                    <a href="student-detail.php?id=<?= $student['std_id'] ?>"
-                                                        class="btn btn-sm bg-success-light me-2 ">
-                                                        <i class="feather-eye"></i>
-                                                    </a>
-                                                    <form method="post" action="">
+                                                <td class="text-end" id="print-btn">
+                                                    <div class="actions ">
+                                                        <a href="student-detail.php?id=<?= $student['std_id'] ?>"
+                                                            class="btn btn-sm bg-success-light me-2 ">
+                                                            <i class="feather-eye"></i>
+                                                        </a>
                                                         <input type="text" value="<?php echo $student['std_id'] ?>"
                                                             name="std_id" hidden>
                                                         <input type="text"
-                                                            value="<?php echo $student['group_status'] ?>"
+                                                            value="<?php echo $student['group_id'] ?>"
                                                             name="group_status" hidden>
                                                         <button type="submit" name="submit"
                                                             class="btn btn-sm bg-danger-light"
                                                             onclick="return confirm('Do you want to delete this item?')">
                                                             <i class="feather-delete"></i>
                                                         </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <?php  }
-                                        } ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <?php  }
+                                            } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

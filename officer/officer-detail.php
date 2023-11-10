@@ -14,7 +14,7 @@ if (!isset($_SESSION['officer_login'])) {
         $id = $_GET['id'];
 
         $off = getOfficerById($id, $conn);
-        $user = officerGetUserById($id, $conn);
+        $u = officerGetUserById($id, $conn);
     }
 }
 
@@ -115,7 +115,7 @@ if (!isset($_SESSION['officer_login'])) {
                                             <?php }
                                         ?>
                                     </h4>
-                                    <h6 class="text-muted"><?php echo $users['status'] ?></h6>
+                                    <h6 class="text-muted"><?php echo $u['status'] ?></h6>
                                     <div class="user-Location"><i class="fas fa-map-marker-alt"></i> <?php echo $off['village_current'].', '.$off['district_current'].', '.$off['province_current'] ?></div>
                                 </div>
                             </div>
@@ -145,10 +145,6 @@ if (!isset($_SESSION['officer_login'])) {
                                             <p class="col-sm-9"><?php echo $off['fname_ch'] . ' ' . $off['lname_ch'] ?></p>
                                         </div>
                                         <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Date of Birth:</p>
-                                            <p class="col-sm-9"><?php echo $off['dob'] ?></p>
-                                        </div>
-                                        <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Tel:</p>
                                             <p class="col-sm-9"><?php echo $off['tel'] ?></p>
                                         </div>
@@ -173,20 +169,8 @@ if (!isset($_SESSION['officer_login'])) {
                                             <p class="col-sm-9"><?php echo $off['ethnicity'] ?></a></p>
                                         </div>
                                         <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Birth Adress:</p>
-                                            <div class="col-sm-9"><?php echo $off['village_birth'].', '.$off['district_birth'].', '.$off['province_birth'] ?></div>
-                                        </div>
-                                        <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Current Adress:</p>
                                             <div class="col-sm-9"><?php echo $off['village_current'].', '.$off['district_current'].', '.$off['province_current'] ?></div>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">House Unit:</p>
-                                            <div class="col-sm-9"><?php echo $off['house_unit'].', '.$off['district_current'].', '.$off['province_current'] ?></div>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">House No:</p>
-                                            <div class="col-sm-9"><?php echo $off['house_no'].', '.$off['district_current'].', '.$off['province_current'] ?></div>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Emergency Tel:</p>
@@ -244,18 +228,6 @@ if (!isset($_SESSION['officer_login'])) {
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Gradution Season:</p>
                                             <p class="col-sm-9"><?php echo $off['edu_season2'] ?></a></p>
                                         </div>
-                                        <!-- <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Employment History:</p>
-                                            <p class="col-sm-9"><?php echo $off['employment_history'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Language Proficiency:</p>
-                                            <p class="col-sm-9"><?php echo $off['language_proficiency'] ?></a></p>
-                                        </div> -->
-                                        <!-- <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Talent:</p>
-                                            <p class="col-sm-9"><?php echo $off['talent'] ?></a></p>
-                                        </div> -->
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Family Matters:</p>
                                             <p class="col-sm-9"><?php echo $off['familymatters'] ?></a></p>
@@ -263,14 +235,6 @@ if (!isset($_SESSION['officer_login'])) {
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Plan In The Future:</p>
                                             <p class="col-sm-9"><?php echo $off['plansforthefuture'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Creat At:</p>
-                                            <p class="col-sm-9"><?php echo $off['created_at'] ?></a></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Last Update:</p>
-                                            <p class="col-sm-9"><?php echo $off['updated_at'] ?></a></p>
                                         </div>
                                     </div>
                                 </div>

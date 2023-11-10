@@ -122,8 +122,8 @@ if (!isset($_SESSION['admin_login'])) {
             $status = 'Teacher';
 
             if (
-                !empty($u_id) and !empty($fname_en) and !empty($lname_en) and !empty($gender) and !empty($fname_la) and
-                !empty($lname_la) and !empty($t_type) and !empty($tel) and !empty($email)
+                empty($u_id_err) and !empty($fname_en) and !empty($lname_en) and !empty($gender) and !empty($fname_la) and
+                !empty($lname_la) and !empty($t_type) and empty($tel_err) and empty($email_err)
             ) {
 
                 $passHash = password_hash($u_id, PASSWORD_DEFAULT);
@@ -167,7 +167,7 @@ if (!isset($_SESSION['admin_login'])) {
                 header("refresh:2; url=teacher-bill-preview.php?id=$u_id");
                 exit;
             } else {
-                $_SESSION['error'] = "Exist empty cell, Pleas check your data again!";
+                $_SESSION['error'] = "Something when wrong with any cells, Pleas check your data again!";
             }
         } catch (PDOException $e) {
             $e->getMessage();

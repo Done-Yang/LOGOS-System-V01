@@ -125,12 +125,9 @@ if (!isset($_SESSION['officer_login'])) {
                                     </div>
                                     <?php if ($students->rowCount() > 0) { ?>
                                     <div class="col-4 text-end float-end" id="print-btn">
-                                        <a href="studentgroup-detail.php?id=<?= $std_group['group_id'] ?>">>> Preview
-                                            Student's Infomation <<</a>
-                                                <button onclick="window.print();" class="btn mb-2 btn-primary ms-5"><i
-                                                        class="fas fa-print"></i></button>
-                                                <!-- <a href="studentgroup-add.php?std_g_id=<?= $std_group['group_id'] ?>"
-                                                    class="btn btn-primary ms-5 mb-2"><i class="fas fa-plus "></i></a> -->
+                                        <a href="studentgroup-detail.php?id=<?= $std_group['group_id'] ?>"  class="btn btn-primary"><i class="fas fa-th-list"></i></a>
+                                        <button onclick="window.print();" class="btn btn-primary ms-5"><i class="fas fa-print"></i></button>
+                                       
                                     </div>
                                     <?php } else { ?>
                                     <div class="col-6 text-end float-end ms-auto download-grp">

@@ -108,13 +108,6 @@ if (!isset($_SESSION['officer_login'])) {
                                 <?php } else { ?>
                                     <img class="avatar-img rounded-circle" src="<?php echo "../admin/upload/student_profile/$student_image" ?>" alt="User Image">
                                 <?php } ?>
-
-                                <div class="col ms-md-n2 profile-user-info">
-                                    <h4 class="user-name mb-0"><?php echo $std['fname_en'] . ' ' . $std['lname_en'] ?></h4>
-                                    <h6 class="text-muted"><?php echo $std['std_status'] ?></h6>
-                                    <div class="user-Location"><i class="fas fa-map-marker-alt"></i><?php echo $std['village_birth'] . ', ' . $std['district_birth'] . ', ' . $std['province_birth'] ?></div>
-
-                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -152,14 +145,6 @@ if (!isset($_SESSION['officer_login'])) {
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Season Start:</p>
                                             <p class="col-sm-9"><?php echo $std['season_start'] ?></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Date of Birth:</p>
-                                            <p class="col-sm-9"><?php echo $std['dob'] ?></p>
-                                        </div>
-                                        <div class="row">
-                                            <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Birth Adress:</p>
-                                            <p class="col-sm-9"><?php echo $std['village_birth'] . ', ' . $std['district_birth'] . ', ' . $std['province_birth'] ?></p>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">National:</p>
