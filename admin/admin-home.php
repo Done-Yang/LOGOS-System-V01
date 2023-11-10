@@ -62,6 +62,7 @@ if (!isset($_SESSION['admin_login'])) {
     <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../assets/plugins/simple-calendar/simple-calendar.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
 </head>
@@ -204,6 +205,11 @@ if (!isset($_SESSION['admin_login'])) {
 
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="calendar-doctor" class="calendar-container"></div>
+                    </div>
+                </div>
 
                 <!-- <div class="row">
                     <div class="col-md-12 col-lg-6">
@@ -227,7 +233,6 @@ if (!isset($_SESSION['admin_login'])) {
                                 <div id="s-line"></div> 
                             </div>
                         </div>
-
                     </div>
                     <div class="col-md-12 col-lg-6">
 
@@ -361,6 +366,8 @@ if (!isset($_SESSION['admin_login'])) {
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
+    <script src="../assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+    <script src="../assets/js/calander.js"></script>
     <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="../assets/plugins/apexchart/apexcharts.min.js"></script>
     <script src="../assets/plugins/apexchart/chart-data.js"></script>
