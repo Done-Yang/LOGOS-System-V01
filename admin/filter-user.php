@@ -1,6 +1,8 @@
 <?php
-require_once 'admin/include/config/dbcon.php';
 session_start();
+require_once 'admin/include/config/dbcon.php';
+require_once 'admin/include/config/language.php';
+
 
 
 $u_id = $u_id_Err = $u_id_redborder = '';
@@ -91,7 +93,7 @@ if (isset($_REQUEST['submit'])) {
                         </div>
                         <div class="login-right">
                             <div class="login-right-wrap">
-                                <h2>Please Fill Your User Account!</h2>
+                                <h2><?php echo $lang['please'] ?> </h2>
 
                                 <?php if (isset($_SESSION['success'])) { ?>
                                     <div class="alert alert-success" role="alert">
@@ -112,13 +114,13 @@ if (isset($_REQUEST['submit'])) {
 
                                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label>User ID <span class="login-danger">*</span></label>
+                                        <label><?php echo $lang['u_id'] ?>  <span class="login-danger">*</span></label>
                                         <input class="form-control <?php echo $u_id_redborder ?>" type="text" name="u_id" value="<?php echo $u_id ?>">
                                         <span class="profile-views"><i class="fas fa-user-circle"></i></span>
                                         <div class="error position-absolute"><?php echo $u_id_Err ?></div>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-block" type="submit" name="submit">Login</button>
+                                        <button class="btn btn-primary btn-block" type="submit" name="submit"><?php echo $lang['login'] ?> </button>
                                     </div>
                                 </form>
 

@@ -40,8 +40,6 @@ if (!isset($_SESSION['admin_login'])) {
         $scores = $conn->prepare("SELECT DISTINCT std_id FROM scores WHERE group_id='$id'");
         $scores->execute();
 
-
-
         if (isset($_REQUEST['search'])) {
             try {
                 $search_by = $_REQUEST['search_by'];
@@ -144,7 +142,7 @@ if (!isset($_SESSION['admin_login'])) {
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="search-student-btn">
-                                        <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                        <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['search'] ?></button>
                                     </div>
                                 </div>
                             </div>
@@ -204,100 +202,137 @@ if (!isset($_SESSION['admin_login'])) {
                                     </thead>
                                     <tbody>
                                         <?php $i = 0;
-                                        if ($scores == "No Student!") {  ?>
+                                        if ($scores->rowCount() == 0) {  ?>
                                         <tr>
-                                            <td>No Student!</td>
+                                            <td><h6>No Student!</h6></td>
                                         </tr>
                                         <?php } else {
+                                            $max_total = array();
                                             foreach ($scores as $score) {
                                                 $i++; ?>
-                                        <tr>
-                                            <td ><?php echo $i ?></td>
-                                            <td id="print-btn"><?php echo $score['std_id'] ?></td>
-                                            <td>Demo Name</td>
-                                            <!-- <td>
-                                                <h2 class="table-avatar">
-                                                    <?php
-                                                            $student = getStudentById($score['std_id'], $conn);
-                                                            if ($student['gender'] == 'Male') { ?>
-                                                    <a>Mr
-                                                        <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
-                                                    <?php } else { ?>
-                                                    <a>Miss
-                                                        <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
-                                                    <?php }
-                                                            ?>
-                                                </h2>
-                                            </td> -->
-                                            <?php 
-                                            $cmg = 0;
-                                            $total = 0;
-                                            $sub_credit = 0;
-                                            foreach ($score_subs as $score_sub) {
-                                                $total_score = getToltalScoreOfEachSubject($_GET['id'], $score_sub['sub_id'], $score['std_id'], $conn);
-                                                $sub = getSubjectById($score_sub['sub_id'], $conn);
-                                                if ($total_score < 50) {
-                                                    $grade = 'F';
-                                                    $gpa = "0.00";
-                                                } elseif ($total_score < 55) {
-                                                    $grade = 'D';
-                                                    $gpa = "1.00";
-                                                } elseif ($total_score < 60) {
-                                                    $grade = 'D+';
-                                                    $gpa = "1.50";
-                                                } elseif ($total_score < 65) {
-                                                    $grade = 'C';
-                                                    $gpa = "2.00";
-                                                } elseif ($total_score < 70) {
-                                                    $grade = 'C+';
-                                                    $gpa = "2.50";
-                                                } elseif ($total_score <= 80) {
-                                                    $grade = 'B';
-                                                    $gpa = "3.00";
-                                                } elseif ($total_score <= 90) {
-                                                    $grade = 'B+';
-                                                    $gpa = " 3.50";
-                                                } elseif ($total_score <= 100) {
-                                                    $grade = 'A';
-                                                    $gpa = "4.00";
-                                                } else {
-                                                    $grade = 'No Given!';
-                                                    $gpa = 'No Given!';
-                                                };
-                                                $prepare_cmg = $gpa * $sub['credit'];
-                                                $cmg = $cmg + $prepare_cmg;
-                                                $sub_credit = $sub_credit + $sub['credit'];
-                                                $total = $total + $total_score;
-                                                ?>
+                                                <tr>
+                                                    <td ><?php echo $i ?></td>
+                                                    <td id="print-btn"><?php echo $score['std_id'] ?></td>
+                                                    <td>Demo Name</td>
+                                                    <!-- <td>
+                                                        <h2 class="table-avatar">
+                                                            <?php
+                                                                    $student = getStudentById($score['std_id'], $conn);
+                                                                    if ($student['gender'] == 'Male') { ?>
+                                                            <a>Mr
+                                                                <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
+                                                            <?php } else { ?>
+                                                            <a>Miss
+                                                                <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
+                                                            <?php }
+                                                                    ?>
+                                                        </h2>
+                                                    </td> -->
+                                                    <?php 
+                                                    $cmg = 0;
+                                                    $total = 0;
+                                                    $sub_credit = 0;
+                                                    foreach ($score_subs as $score_sub) {
+                                                        $total_score = getToltalScoreOfEachSubject($_GET['id'], $score_sub['sub_id'], $score['std_id'], $conn);
+                                                        $sub = getSubjectById($score_sub['sub_id'], $conn);
+                                                        if ($total_score < 50) {
+                                                            $grade = 'F';
+                                                            $gpa = "0.00";
+                                                        } elseif ($total_score < 55) {
+                                                            $grade = 'D';
+                                                            $gpa = "1.00";
+                                                        } elseif ($total_score < 60) {
+                                                            $grade = 'D+';
+                                                            $gpa = "1.50";
+                                                        } elseif ($total_score < 65) {
+                                                            $grade = 'C';
+                                                            $gpa = "2.00";
+                                                        } elseif ($total_score < 70) {
+                                                            $grade = 'C+';
+                                                            $gpa = "2.50";
+                                                        } elseif ($total_score <= 80) {
+                                                            $grade = 'B';
+                                                            $gpa = "3.00";
+                                                        } elseif ($total_score <= 90) {
+                                                            $grade = 'B+';
+                                                            $gpa = " 3.50";
+                                                        } elseif ($total_score <= 100) {
+                                                            $grade = 'A';
+                                                            $gpa = "4.00";
+                                                        } else {
+                                                            $grade = 'No Given!';
+                                                            $gpa = 'No Given!';
+                                                        };
+                                                        $prepare_cmg = $gpa * $sub['credit'];
+                                                        $cmg = $cmg + $prepare_cmg;
+                                                        $sub_credit = $sub_credit + $sub['credit'];
+                                                        $total = $total + $total_score;
 
-                                                <td><?php echo $total_score ?></td>
-                                                <td><?php echo $gpa ?></td>
-                                                <td><?php echo $grade ?></td>
-                                            <?php } 
-                                                $cgpa = $cmg / $sub_credit;
-                                                if ($cgpa >= 4) {
-                                                    $grade = 'A';
-                                                } elseif ($cgpa >= 3.5) {
-                                                    $grade = 'B+';
-                                                } elseif ($cgpa >= 3) {
-                                                    $grade = 'B';
-                                                } elseif ($cgpa >= 2.5) {
-                                                    $grade = 'C+';
-                                                } elseif ($cgpa >= 2) {
-                                                    $grade = 'C';
-                                                } elseif ($cgpa >= 1.5 ) {
-                                                    $grade = 'D+';
-                                                } elseif ($cgpa >= 1) {
-                                                    $grade = 'D';
-                                                } elseif ($cgpa < 1) {
-                                                    $grade = 'F';
-                                                };
-                                            ?>
-                                            <td><?php echo round($cgpa, 2) ?></td>
-                                            <td><?php echo $grade ?></td>
-                                            <td><?php echo $total ?></td>
-                                        </tr>
-                                        <?php  }
+                                                        ?>
+
+                                                        <td><?php echo $total_score ?></td>
+                                                        <td><?php echo $gpa ?></td>
+                                                        <td><?php echo $grade ?></td>
+                                                    <?php } 
+                                                        $cgpa = $cmg / $sub_credit;
+                                                        if ($cgpa >= 4) {
+                                                            $grade = 'A';
+                                                        } elseif ($cgpa >= 3.5) {
+                                                            $grade = 'B+';
+                                                        } elseif ($cgpa >= 3) {
+                                                            $grade = 'B';
+                                                        } elseif ($cgpa >= 2.5) {
+                                                            $grade = 'C+';
+                                                        } elseif ($cgpa >= 2) {
+                                                            $grade = 'C';
+                                                        } elseif ($cgpa >= 1.5 ) {
+                                                            $grade = 'D+';
+                                                        } elseif ($cgpa >= 1) {
+                                                            $grade = 'D';
+                                                        } elseif ($cgpa < 1) {
+                                                            $grade = 'F';
+                                                        };
+
+                                                        $s_id = $score['std_id'];
+                                                        $g_id = $_GET['id'];
+                                                        array_push($max_total, array("std_id" => "$s_id", "total" => "$total", "grade" => "$grade",  "group_id"=>"$g_id",));
+                                                        // echo $grade;
+                                                    ?>
+                                                    <td><?php echo round($cgpa, 2) ?></td>
+                                                    <td><?php echo $grade ?></td>
+                                                    <td><?php echo $total ?></td>
+                                                </tr>
+                                            <?php  }
+                                            if ($scores->rowCount() > 0){
+                                                // $a = [['a'=>1, 'b'=>'b'], ['a'=>4, 'b'=>'bb']];
+                                                // print($a[0]['b']);
+
+                                                $total_col = array_column($max_total, 'total');
+                                                $max_total_col = max($total_col);
+                                                $max_total_col_index = array_search($max_total_col, $total_col);
+
+                                                if($max_total_col){
+                                                    $gs = getGroupByID($max_total[$max_total_col_index]['group_id'], $conn);
+
+                                                    // print($gs['group_id']);
+                                                    $g = $gs['group_id'];
+                                                    $pg = $gs['program'];
+                                                    $st_id = $max_total[$max_total_col_index]['std_id'];
+                                                    $tt = $max_total[$max_total_col_index]['total'];
+                                                    $ss = $gs['season'];
+                                                    $y = $gs['year'];
+                                                    $gr = $max_total[$max_total_col_index]['grade'];
+                                                    // print_r($max_total[$max_total_col_index]['grade']);
+
+                                                    $check_star_std = $conn->prepare("SELECT * FROM star_students WHERE std_id='$st_id' and group_id='$g' ");
+                                                    $check_star_std->execute();
+    
+                                                    if($check_star_std->rowCount() <= 0){
+                                                        $stmt = $conn->prepare("INSERT INTO star_students(std_id, group_id, program, total_score, grade, season, year) VALUES('$st_id', '$g', '$pg', '$tt', '$gr', '$ss', '$y')");
+                                                        $stmt->execute();
+                                                    }
+                                                }
+                                            }
                                         } ?>
                                     </tbody>
                                 </table>

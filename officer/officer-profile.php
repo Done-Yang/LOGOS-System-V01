@@ -1,8 +1,10 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 if (!isset($_SESSION['officer_login'])) {
     header('location: ../index.php');
@@ -72,7 +74,7 @@ if (!isset($_SESSION['officer_login'])) {
                                     });
                                 });
                             </script>";
-                            header('refresh:2; url=officer-profile.php');
+                            header('refresh:2; url=admin-profile.php');
                             exit;
                         } else {
                             $new_pass_red_border = 'red_border';
@@ -136,10 +138,10 @@ if (!isset($_SESSION['officer_login'])) {
                 <div class="page-header">
                     <div class="row">
                         <div class="col">
-                            <h3 class="page-title">Profile</h3>
+                            <h3 class="page-title"><?php echo $lang['profile'] ?></h3>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="officer-home.php">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Profile</li>
+                                <li class="breadcrumb-item"><a href="admin-home.php"><?php echo $lang['dashboard'] ?></a></li>
+                                <li class="breadcrumb-item active"><?php echo $lang['profile'] ?></li>
 
                             </ul>
                         </div>
@@ -171,10 +173,10 @@ if (!isset($_SESSION['officer_login'])) {
                         <div class="profile-menu">
                             <ul class="nav nav-tabs nav-tabs-solid">
                                 <li class="nav-item">
-                                    <a class="nav-link <?php echo $active_about ?>" data-bs-toggle="tab" href="#per_details_tab">About</a>
+                                    <a class="nav-link <?php echo $active_about ?>" data-bs-toggle="tab" href="#per_details_tab"><?php echo $lang['about'] ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link <?php echo $active_password ?>" data-bs-toggle="tab" href="#password_tab">Password</a>
+                                    <a class="nav-link <?php echo $active_password ?>" data-bs-toggle="tab" href="#password_tab"><?php echo $lang['password'] ?></a>
                                 </li>
                             </ul>
                         </div>
@@ -187,28 +189,28 @@ if (!isset($_SESSION['officer_login'])) {
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title d-flex justify-content-between">
-                                                    <span>Personal Details</span>
-                                                    <!-- <a class="edit-link" data-bs-toggle="modal" href="#edit_personal_details"><i class="far fa-edit me-1"></i>Edit</a> -->
+                                                    <span><?php echo $lang['personal_details'] ?></span>
+                                                    <a class="edit-link" data-bs-toggle="modal" href="#edit_personal_details"><i class="far fa-edit me-1"></i><?php echo $lang['edit'] ?></a>
                                                 </h5>
                                                 <div class="row">
-                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Name</p>
+                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['name'] ?></p>
                                                     <p class="col-sm-9"><?php echo $officer['fname_en'] . ' ' . $officer['lname_en'] ?></p>
                                                 </div>
                                                 <div class="row">
-                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Date of Birth</p>
-                                                    <p class="col-sm-9"><?php echo $officer['dob'] ?></p>
+                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['date_B'] ?></p>
+                                                    <p class="col-sm-9"></p>
                                                 </div>
                                                 <div class="row">
-                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Email ID</p>
+                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['email01'] ?></p>
                                                     <p class="col-sm-9"><?php echo $officer['email'] ?></a></p>
                                                 </div>
                                                 <div class="row">
-                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Tel</p>
+                                                    <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['tell'] ?></p>
                                                     <p class="col-sm-9"><?php echo $officer['tel'] ?></p>
                                                 </div>
                                                 <div class="row">
-                                                    <p class="col-sm-3 text-muted text-sm-end mb-0">Address</p>
-                                                    <p class="col-sm-9 mb-0"><?php echo $officer['province_current'].', '.$officer['district_current'].', '.$officer['village_current'] ?></p>
+                                                    <p class="col-sm-3 text-muted text-sm-end mb-0"><?php echo $lang['address'] ?></p>
+                                                    <p class="col-sm-9 mb-0"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -217,13 +219,18 @@ if (!isset($_SESSION['officer_login'])) {
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title d-flex justify-content-between">
-                                                    <span>Skills </span>
-                                                    <!-- <a class="edit-link" href="#"><i class="far fa-edit me-1"></i> Edit</a> -->
+                                                    <span><?php echo $lang['skill'] ?> </span>
+                                                    <a class="edit-link" href="#"><i class="far fa-edit me-1"></i><?php echo $lang['edit'] ?></a>
                                                 </h5>
                                                 <div class="skill-tags">
-                                                    <span><?php echo $officer['employment_history'] ?></span>
-                                                    <span><?php echo $officer['language_proficiency'] ?></span>
-                                                    <span><?php echo $officer['talent'] ?></span>
+                                                    <span>Html5</span>
+                                                    <span>CSS3</span>
+                                                    <span>WordPress</span>
+                                                    <span>Javascript</span>
+                                                    <span>Android</span>
+                                                    <span>iOS</span>
+                                                    <span>Angular</span>
+                                                    <span>PHP</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -253,26 +260,26 @@ if (!isset($_SESSION['officer_login'])) {
                                             ?>
                                         </div>
                                     <?php } ?>
-                                        <h5 class="card-title">Change Password</h5>
+                                        <h5 class="card-title"><?php echo $lang['changeP'] ?></h5>
                                         <div class="row">
                                             <div class="col-md-10 col-lg-6">
                                                 <form>
                                                     <div class="form-group">
-                                                        <label>Old Password</label>
+                                                        <label><?php echo $lang['oldP'] ?></label>
                                                         <input type="password" class="form-control <?php echo $old_pass_red_border ?>" name="old_pass" value="<?php echo $old_pass ?>">
                                                         <div class="error"><?php echo $old_pass_err ?></div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>New Password</label>
+                                                        <label><?php echo $lang['newP'] ?></label>
                                                         <input type="password" class="form-control <?php echo $new_pass_red_border ?>" name="new_pass" value="<?php echo $new_pass ?>">
                                                         <div class="error"><?php echo $new_pass_err ?></div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Confirm Password</label>
+                                                        <label><?php echo $lang['confirmP'] ?></label>
                                                         <input type="password" class="form-control <?php echo $re_new_pass_red_border ?>" name="re_new_pass" value="<?php echo $re_new_pass ?>">
                                                         <div class="error"><?php echo $re_new_pass_err ?></div>
                                                     </div>
-                                                    <button class="btn btn-primary" type="submit" name="change_pass">Save Changes</button>
+                                                    <button class="btn btn-primary" type="submit" name="change_pass"><?php echo $lang['saveChange'] ?></button>
                                                 </form>
                                             </div>
                                         </div>

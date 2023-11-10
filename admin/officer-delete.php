@@ -1,10 +1,10 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php  
-
-require_once 'include/config/dbcon.php';
 session_start();
-    
+require_once 'include/config/dbcon.php';
+require_once 'include/language/dbcon.php';
+
     if(!isset($_SESSION['admin_login'])) {
         header('location: ../index.php');
     } else {
@@ -13,11 +13,13 @@ session_start();
             include "admin-datas/officer-db.php";
             if (removeOfficerById($id, $conn)) {
                 $_SESSION['success'] = "Successfully deleted!";
+                $ss=$lang['ss'];
+                $ss01=$lang['ss01'];
                 echo "<script>
                     $(document).ready(function() {
                         Swal.fire({
-                            title: 'Success',
-                            text: 'Officer Delete Successfully!',
+                            title: '$ss',
+                            text: '$ss01',
                             icon: 'success',
                             timer: 5000,
                             showConfirmButton: false

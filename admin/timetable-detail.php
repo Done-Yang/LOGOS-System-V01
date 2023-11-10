@@ -48,11 +48,13 @@ if (!isset($_SESSION['admin_login'])) {
 
         if(isset($_POST['delete'])) {
             if (removeTimetableBbGroupID($group_id, $conn)) {
+                $ss = $lang['ss'];
+                $ss01 = $lang['ss01'];
                 echo "<script>
                     $(document).ready(function() {
                         Swal.fire({
-                            title: 'Success',
-                            text: 'Delete Time Table From Student Group Successfully!',
+                            title: '$ss',
+                            text: '$ss01',
                             icon: 'success',
                             timer: 5000,
                             showConfirmButton: false
@@ -149,10 +151,10 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Time Teble List</h3>
+                                <h3 class="page-title"><?php echo $lang['time_table_list'] ?></h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="timetable-list.php">Time Tebles</a></li>
-                                    <li class="breadcrumb-item active">Time Teble List</li>
+                                    <li class="breadcrumb-item"><a href="timetable-list.php"><?php echo $lang['time_tables'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['time_table_list'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -183,7 +185,7 @@ if (!isset($_SESSION['admin_login'])) {
                                 <div class="page-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h3 class="page-title">Time Tables</h3>
+                                            <h3 class="page-title"><?php echo $lang['time_tables'] ?></h3>
                                         </div>
                                         <div id="print-btn" class="col-auto text-end float-end ms-auto download-grp">
                                             <button onclick="window.print();" class="btn btn-primary ms-5"><i
@@ -210,21 +212,20 @@ if (!isset($_SESSION['admin_login'])) {
                                     foreach ($datas as $data) { ?>
                                 <div class="table-responsive">
                                     <div class="container">
-                                        <p class="text-center"><b><?php echo $data['program'] ?>'s Learning Schedule
+                                        <p class="text-center"><b><?php echo $data['program'] ?><?php echo $lang['schedule'] ?>
                                                 (<?php echo $data['part'] ?>)</b></p>
-                                        <p class="text-center">For class: <?php echo $data['group_id'] ?>,
-                                            <?php echo $data['year'] ?>st, Semester <?php echo $data['semester'] ?>, in
-                                            Academic year <?php echo $data['season'] ?></p>
+                                        <p class="text-center"><?php echo $lang['forClass'] ?> <?php echo $data['group_id'] ?>,
+                                            <?php echo $data['year'] ?><?php echo $lang['studyingSemester'] ?> <?php echo $data['semester'] ?>,<?php echo $lang['inA'] ?><?php echo $data['season'] ?></p>
                                         <div class="table-responsive">
                                             <table class="table table-bordered text-center ttb-print-style">
                                                 <thead>
                                                     <tr class="bg-light-gray">
-                                                        <th class="text-uppercase">Time</th>
-                                                        <th class="text-uppercase">Monday</th>
-                                                        <th class="text-uppercase">Tuesday</th>
-                                                        <th class="text-uppercase">Wednesday</th>
-                                                        <th class="text-uppercase">Thursday</th>
-                                                        <th class="text-uppercase">Friday</th>
+                                                        <th class="text-uppercase"><?php echo $lang['time'] ?></th>
+                                                        <th class="text-uppercase"><?php echo $lang['monday'] ?></th>
+                                                        <th class="text-uppercase"><?php echo $lang['tuesday'] ?></th>
+                                                        <th class="text-uppercase"><?php echo $lang['wednesday'] ?></th>
+                                                        <th class="text-uppercase"><?php echo $lang['thursday'] ?></th>
+                                                        <th class="text-uppercase"><?php echo $lang['friday'] ?></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -236,7 +237,6 @@ if (!isset($_SESSION['admin_login'])) {
                                                         </td>
 
                                                         <?php foreach ($timetables1 as $timetable) {
-                                                                    
                                                                     if($timetable['sub1_id'] != ''){
                                                                         $subject = getSubjectById($timetable['sub1_id'], $conn);
                                                                         $subject1 = $subject['name'];
@@ -253,55 +253,55 @@ if (!isset($_SESSION['admin_login'])) {
                                                                     if ($timetable['days'] == 'Monday') { ?>
                                                         <td>
                                                             <span><?php echo $subject1 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book1'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class1'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher1 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Tuesday') { ?>
                                                         <td>
                                                             <span><?php echo $subject1 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book1'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class1'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher1 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Wednesday') { ?>
                                                         <td>
                                                             <span><?php echo $subject1 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book1'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class1'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher1 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Thursday') { ?>
                                                         <td>
                                                             <span><?php echo $subject1 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book1'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class1'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher1 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Friday') { ?>
                                                         <td>
                                                             <span><?php echo $subject1 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book1'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class1'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher1 ?> )</div>
                                                         </td>
                                                         <?php }
@@ -329,55 +329,55 @@ if (!isset($_SESSION['admin_login'])) {
                                                                     if ($timetable['days'] == 'Monday') { ?>
                                                         <td>
                                                             <span><?php echo $subject2 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book2'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class2'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher2 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Tuesday') { ?>
                                                         <td>
                                                             <span><?php echo $subject2 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book2'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class2'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher2 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Wednesday') { ?>
                                                         <td>
                                                             <span><?php echo $subject2 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book2'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class2'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $teacher2 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Thursday') { ?>
                                                         <td>
                                                             <span><?php echo $subject2 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book0001'] ?>
                                                                 <?php echo $timetable['book2'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class2'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher2 ?> )</div>
                                                         </td>
                                                         <?php }
                                                                     if ($timetable['days'] == 'Friday') { ?>
                                                         <td>
                                                             <span><?php echo $subject2 ?></span>
-                                                            <div class="small text-secondary">(Book id:
+                                                            <div class="small text-secondary">(<?php echo $lang['book001'] ?>
                                                                 <?php echo $timetable['book2'] ?>)</div>
-                                                            <div class="small text-secondary">(Room:
+                                                            <div class="small text-secondary">(<?php echo $lang['room001'] ?>
                                                                 <?php echo $timetable['class2'] ?>)</div>
-                                                            <div class="small text-secondary">(Prf:
+                                                            <div class="small text-secondary">(<?php echo $lang['pro001'] ?>
                                                                 <?php echo $teacher2 ?> )</div>
                                                         </td>
                                                         <?php }
@@ -387,10 +387,10 @@ if (!isset($_SESSION['admin_login'])) {
                                                 </tbody>
                                             </table>
                                         </div><br><br>
-                                        <p><i><b>Remark: </b></i></p>
-                                        <p><i>1. Google Meet Link will be post on Google Classroom.</i></p>
-                                        <p><i>2. Join your online class as scheduled everyday.</i></p>
-                                        <p><i>3. Don't be LATE! Attendance will be taken!</i></p>
+                                        <p><i><b><?php echo $lang['remark'] ?> </b></i></p>
+                                        <p><i><?php echo $lang['g1'] ?></i></p>
+                                        <p><i><?php echo $lang['j2'] ?></i></p>
+                                        <p><i><?php echo $lang['d3'] ?></i></p>
                                     </div>
                                 </div>
                                 <?php

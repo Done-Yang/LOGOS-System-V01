@@ -1,6 +1,8 @@
 <?php
-require_once 'admin/include/config/dbcon.php';
 session_start();
+require_once 'admin/include/config/dbcon.php';
+require_once 'admin/include/config/language.php';
+
 include "admin/admin-datas/director-db.php";
 
 
@@ -381,71 +383,71 @@ if (isset($_REQUEST['submit'])) {
 
                                 <div class="row">
                                     <div class="col-12">
-                                        <h5 class="form-title student-info">Director Register <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+                                        <h5 class="form-title student-info"><?php echo $lang['director_register'] ?> <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>User ID <span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['u_id'] ?>  <span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $u_id_red_border ?>" type="text" name="u_id" value="<?php echo $director_row['director_id'] ?>" readonly>
                                             <div class="error"><?php echo $u_id_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>First Name(English) <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['firstName'] ?>  <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $fname_en_red_border ?>" type="text" name="fname_en" value="<?php echo $director_row['fname_en'] ?>">
                                             <div class="error"><?php echo $fname_en_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Last Name(English) <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['lastName'] ?>  <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $lname_en_red_border ?>" type="text" name="lname_en" value="<?php echo $director_row['lname_en'] ?>">
                                             <div class="error"><?php echo $lname_en_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Gender <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['gender'] ?>  <span class="login-danger">*</span></label>
                                             <select class="form-control select <?php echo $gender_red_border ?>" name="gender">
                                                 <option><?php echo $director_row['gender'] ?></option>
-                                                <option>Female</option>
-                                                <option>Male</option>
+                                                <option><?php echo $lang['female'] ?> </option>
+                                                <option><?php echo $lang['male'] ?> </option>
                                             </select>
                                             <div class="error"><?php echo $gender_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>First Name(Lao) <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['firstName01'] ?>  <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $fname_la_red_border ?>" type="text" name="fname_la" value="<?php echo $director_row['fname_la'] ?>">
                                             <div class="error"><?php echo $fname_la_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Last Name(Lao) <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['lastName02'] ?> <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $lname_la_red_border ?>" type="text" name="lname_la" value="<?php echo $director_row['lname_la'] ?>">
                                             <div class="error"><?php echo $lname_la_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms calendar-icon">
-                                            <label>Date Of Birth <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['date_B'] ?> <span class="login-danger">*</span></label>
                                             <input class="form-control datetimepicker <?php echo $dob_red_border ?>" type="text" name="dob" value="<?php echo $dob ?>">
                                             <div class="error position-absolute"><?php echo $dob_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>First Name(Chines) <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['firstName02'] ?>  <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $fname_ch_red_border ?>" type="text" name="fname_ch" value="<?php echo $fname_ch ?>">
                                             <div class="error"><?php echo $fname_ch_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Last Name(Chines) <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['lastName02'] ?>  <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $lname_ch_red_border ?>" type="text" name="lname_ch" value="<?php echo $lname_ch ?>">
                                             <div class="error"><?php echo $lname_ch_err ?></div>
                                         </div>
@@ -453,144 +455,144 @@ if (isset($_REQUEST['submit'])) {
                                     
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Nation <span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['nation'] ?>  <span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $nation_red_border ?>" type="text" name="nation" value="<?php echo $nation ?>">
                                             <div class="error"><?php echo $nation_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Religion<span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['religion'] ?> <span class="login-danger">*</span></label>
                                             <select class="form-control select <?php echo $religion_red_border ?>" name="religion">
                                                 <option><?php echo $religion ?></option>
-                                                <option>Buddhism</option>
-                                                <option>Christianity</option>
-                                                <option>Islam</option>
-                                                <option>Others</option>
+                                                <option><?php echo $lang['buddhism'] ?> </option>
+                                                <option><?php echo $lang['christianity'] ?> </option>
+                                                <option><?php echo $lang['islam'] ?> /option>
+                                                <option><?php echo $lang['others'] ?> </option>
                                             </select>
                                             <div class="error"><?php echo $religion_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4"> <!--New element -->
                                         <div class="form-group local-forms">
-                                            <label>Ethnicity <span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['ethnicity'] ?>  <span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $ethnicity_red_border ?>" type="text" name="ethnicity" value="<?php echo $ethnicity ?>">
                                             <div class="error"><?php echo $ethnicity_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4"> <!--New element -->
                                         <div class="form-group local-forms">
-                                            <label>Village <span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['village'] ?><span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $village_red_border ?>" type="text" name="village" value="<?php echo $village ?>">
                                             <div class="error"><?php echo $village_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4"> <!--New element -->
                                         <div class="form-group local-forms">
-                                            <label>District <span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['district'] ?> <span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $district_red_border ?>" type="text" name="district" value="<?php echo $district ?>">
                                             <div class="error"><?php echo $district_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4"> <!--New element -->
                                         <div class="form-group local-forms">
-                                            <label>Province <span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['province'] ?>  <span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $province_red_border ?>" type="text" name="province" value="<?php echo $province ?>">
                                             <div class="error"><?php echo $province_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Tel<span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['tel'] ?> <span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $tel_red_border ?>" type="text" name="tel" value="<?php echo $user['tel'] ?>">
                                             <div class="error"><?php echo $tel_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>WhatsApp <span class="login-danger">*</span> </label>
+                                            <label><?php echo $lang['whatsapp'] ?> <span class="login-danger">*</span> </label>
                                             <input class="form-control <?php echo $whatsapp_red_border ?>" type="text" name="whatsapp" value="<?php echo $whatsapp ?>">
                                             <div class="error"><?php echo $whatsapp_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>E-Mail <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['email'] ?>  <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $email_red_border ?>" type="text" name="email" value="<?php echo $user['email'] ?>">
                                             <div class="error"><?php echo $email_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Deploma Amount <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['diploma_amount'] ?> <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $deploma_amount_red_border ?>" type="number" name="deploma_amount" value="<?php echo $deploma_amount ?>">
                                             <div class="error"><?php echo $deploma_amount_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Deploma College <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['diploma_college'] ?> <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $deploma_college_red_border ?>" type="text" name="deploma_college" value="<?php echo $deploma_college ?>">
                                             <div class="error"><?php echo $deploma_college_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Undergraduate Amount <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['undergraduate_amount'] ?><span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $undergraduate_amount_red_border ?>" type="number" name="undergraduate_amount" value="<?php echo $undergraduate_amount ?>">
                                             <div class="error"><?php echo $undergraduate_amount_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Undergraduate University <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['undergraduate_university'] ?> <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $undergraduate_university_red_border ?>" type="text" name="undergraduate_university" value="<?php echo $undergraduate_university ?>">
                                             <div class="error"><?php echo $undergraduate_university_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Master University <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['masterU'] ?> <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $master_university_red_border ?>" type="text" name="master_university" value="<?php echo $master_university ?>">
                                             <div class="error"><?php echo $master_university_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Doctorate University <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['drU'] ?> <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $doctorate_university_red_border ?>" type="text" name="doctorate_university" value="<?php echo $doctorate_university ?>">
                                             <div class="error"><?php echo $doctorate_university_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Graduation Year <span class="login-danger">*</span></label>
+                                            <label><?php echo $lang['graduationYear'] ?>  <span class="login-danger">*</span></label>
                                             <input class="form-control <?php echo $graduation_year_red_border ?>" type="text" name="graduation_year" value="<?php echo $graduation_year ?>">
                                             <div class="error"><?php echo $graduation_year_err ?></div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Employment History</label>
+                                            <label><?php echo $lang['employeeH'] ?> </label>
                                             <input class="form-control" type="text" name="employment_history" value="<?php echo $employment_history ?>">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Language Proficiency </label>
+                                            <label><?php echo $lang['languageP'] ?>  </label>
                                             <input class="form-control" type="text" name="language_proficiency" value="<?php echo $language_proficiency ?>">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Password </label>
+                                            <label><?php echo $lang['password'] ?>  </label>
                                             <input class="form-control" type="text" name="password" placeholder="*************" value="<?php echo $password ?>">
                                         </div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <div class="student-submit">
-                                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" name="submit" class="btn btn-primary"><?php echo $lang['submit'] ?> </button>
                                         </div>
                                     </div>
                                 </div>

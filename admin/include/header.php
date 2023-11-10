@@ -9,7 +9,6 @@
         header('Location: '.$_SERVER['REQUEST_URI']."?lang=la");
     }
 ?>
-
 <div class="header">
 
     <div class="header-left">
@@ -109,7 +108,7 @@
                     </div>
                 </div>
                 <a class="dropdown-item" href="admin-profile.php"><?php echo $lang['profile'] ?></a>
-                <a class="dropdown-item" href="../logout.php">Logout</a>
+                <a class="dropdown-item" href="../logout.php"><?php echo $lang['logout'] ?></a>
             </div>
         </li>
 

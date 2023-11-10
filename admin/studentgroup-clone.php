@@ -61,7 +61,7 @@ if (!isset($_SESSION['admin_login'])) {
                         VALUES ('$group_id', '$t_id', '$studentID', '$program', '$season', '$year')");
 
                         // For Student group's status
-                        mysqli_query($sql, "UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                        mysqli_query($sql, "UPDATE students SET group_status='$group_id', season_curent='$season' WHERE std_id='$studentID'");
                     }else{
                         $_SESSION['error'] = 'This student group is already exsist!';
                         echo "<script>

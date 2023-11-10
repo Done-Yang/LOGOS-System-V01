@@ -1,6 +1,8 @@
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+require_once 'include/config/language.php';
+
 
 include "admin-datas/program-db.php";
 
@@ -10,7 +12,9 @@ if (!isset($_SESSION['admin_login'])) {
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
         if (removeProgramByID($id, $conn)) {
-            $_SESSION['success'] = "Successfully deleted!";
+            $ss=$lang['ss'];
+            $ss01=$lang['ss01'];
+            $_SESSION['success'] = "$ss01";
             header('location: program-list.php');
             exit;
         } else {

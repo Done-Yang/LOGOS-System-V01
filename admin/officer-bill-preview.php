@@ -1,15 +1,18 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/sweetalert2.js"></script>
 <?php
-    require_once 'include/config/dbcon.php';
     session_start();
+    require_once 'include/config/dbcon.php';
+    require_once 'include/config/language.php';
 
     if (isset($_GET['submit'])) {
+        $ss=$lang['ss'];
+        $ss01=$lang['ss01'];
         echo "<script>
                 $(document).ready(function() {
                     Swal.fire({
-                        title: 'Success',
-                        text: 'Officer Add Successfully!',
+                        title: '$ss',
+                        text: '$ss01',
                         icon: 'success',
                         timer: 5000,
                         showConfirmButton: false
@@ -79,22 +82,22 @@
                         <?php } ?>
 
                         <div class="card-title d-flex justify-content-between col-12">
-                            <span>Preview Officer Bill</span>
+                            <span><?php echo $lang['Prf_bill'] ?></span>
                             <button onclick="window.print();" class="btn btn-primary" id="print-btn"><i class="fas fa-print"></i></button>
                         </div>
                         <div class="row print-bill">
                             <div class="col-lg-8 bill-lelft">
                                 <div class="row">
-                                    <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3">Officer ID:</p>
+                                    <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['u_id'] ?></p>
                                     <p class="col-sm-8"><?php echo $off['off_id'] ?></p>
                                 </div>
                                 <div class="row">
                                     <?php 
                                         if ($off['gender'] == 'Male') { ?>
-                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3">English Name:</p>
+                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['EngName'] ?>:</p>
                                             <p class="col-sm-8">Mr <?php echo $off['fname_en'] . " " . $off['lname_en'] ?></p>
                                         <?php } else { ?>
-                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3">English Name:</p>
+                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['EngName'] ?>:</p>
                                             <p class="col-sm-8">Miss <?php echo $off['fname_en'] . " " . $off['lname_en'] ?></p>
                                         <?php }
                                     ?>
@@ -102,20 +105,20 @@
                                 <div class="row">
                                     <?php 
                                         if ($off['gender'] == 'Male') { ?>
-                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3">Laos Name:</p>
+                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['LaName'] ?></p>
                                             <p class="col-sm-8">ທ <?php echo $off['fname_la'] . " " . $off['lname_la'] ?></p>
                                         <?php } else { ?>
-                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3">Laos Name:</p>
+                                            <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['LaName'] ?></p>
                                             <p class="col-sm-8">ນ <?php echo $off['fname_la'] . " " . $off['lname_la'] ?></p>
                                         <?php }
                                     ?>
                                 </div>
                                 <div class="row">
-                                    <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3">Tel:</p>
+                                    <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['tel01'] ?></p>
                                     <p class="col-sm-8"><?php echo $off['tel'] ?></p>
                                 </div>
                                 <div class="row">
-                                    <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3">E-mail:</p>
+                                    <p class="col-sm-4 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['email01'] ?></p>
                                     <p class="col-sm-8"><?php echo $off['email'] ?></p>
                                 </div>
                             </div>
@@ -124,13 +127,13 @@
                                     <img class="img-fluid-bill-qr" src="../assets/img/filter-user.png" alt="Logo">
                                 </div>
                                 <div class="row ms-5 ps-3 text-start">
-                                    <p>Scan Me</p>
+                                    <p><?php echo $lang['scan'] ?></p>
                                 </div>
                             </div>
                         </div>
                         <div class="card-title text-center col-12">
                             <form method="GET">
-                                <button type="submit" name="submit" class="btn btn-success" id="print-btn">Done</button>
+                                <button type="submit" name="submit" class="btn btn-success" id="print-btn"><?php echo $lang['done'] ?></button>
                             </form>
                         </div>
                     </div>

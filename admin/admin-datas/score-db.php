@@ -1,5 +1,4 @@
 <?php
-
     function getToltalScoreOfEachSubject($group_id, $sub_id, $std_id, $conn){
         $sc = $conn->prepare("SELECT * FROM scores WHERE group_id=? and sub_id=? and std_id=?");
         $sc->execute([$group_id, $sub_id, $std_id]);
@@ -12,5 +11,4 @@
             return 0;
         }
     }
-
 ?>

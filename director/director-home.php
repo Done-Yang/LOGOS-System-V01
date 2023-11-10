@@ -1,6 +1,7 @@
 <?php
-require_once 'include/config/dbcon.php';
 session_start();
+require_once 'include/config/dbcon.php';
+// require_once 'include/config/language.php';
 
 if (!isset($_SESSION['director_login'])) {
     // $_SESSION['error'] = 'Please login!';
@@ -9,7 +10,7 @@ if (!isset($_SESSION['director_login'])) {
     $id = $_SESSION['director_login'];
     include "director-datas/officer-db.php";
     include "director-datas/director-db.php";
-    $user = directorGetUserById($id, $conn);
+    $user = officerGetUserById($id, $conn);
     $director = getDirectorById($id, $conn);
 
     include "director-datas/student-db.php";
@@ -79,10 +80,17 @@ if (!isset($_SESSION['director_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">Welcome Director!</h3>
+<<<<<<< HEAD
+                                <h3 class="page-title"><?php echo $lang['welcome_adm'] ?></h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="director-home.php">Home</a></li>
-                                    <li class="breadcrumb-item active">Director</li>
+                                    <li class="breadcrumb-item"><a href="admin-home.php"><?php echo $lang['home'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['admin'] ?></li>
+=======
+                                <h3 class="page-title">Director</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="admin-home.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Admin</li>
+>>>>>>> 4eb65dde6afd0589b0f651abed6e9724282acada
                                 </ul>
                             </div>
                         </div>
@@ -96,7 +104,7 @@ if (!isset($_SESSION['director_login'])) {
                             <div class="card-body">
                                 <div class="db-widgets d-flex justify-content-between align-items-center">
                                     <div class="db-info">
-                                        <h6>Officers</h6>
+                                        <h6><?php echo $lang['off01'] ?></h6>
                                         <h3><?php echo $allOfficers ?></h3>
                                     </div>
                                     <div class="db-icon">
@@ -111,7 +119,7 @@ if (!isset($_SESSION['director_login'])) {
                             <div class="card-body">
                                 <div class="db-widgets d-flex justify-content-between align-items-center">
                                     <div class="db-info">
-                                        <h6>Teacher</h6>
+                                        <h6><?php echo $lang['prof01'] ?></h6>
                                         <h3><?php echo $allTeachers ?></h3>
                                     </div>
                                     <div class="db-icon">
@@ -126,7 +134,7 @@ if (!isset($_SESSION['director_login'])) {
                             <div class="card-body">
                                 <div class="db-widgets d-flex justify-content-between align-items-center">
                                     <div class="db-info">
-                                        <h6>Students</h6>
+                                        <h6><?php echo $lang['std01'] ?></h6>
                                         <h3><?php echo $allStudents ?></h3>
                                     </div>
                                     <div class="db-icon">
@@ -141,7 +149,7 @@ if (!isset($_SESSION['director_login'])) {
                             <div class="card-body">
                                 <div class="db-widgets d-flex justify-content-between align-items-center">
                                     <div class="db-info">
-                                        <h6>Subject</h6>
+                                        <h6><?php echo $lang['sub01'] ?></h6>
                                         <h3><?php echo $allSubjects ?></h3>
                                     </div>
                                     <div class="db-icon">
@@ -160,12 +168,12 @@ if (!isset($_SESSION['director_login'])) {
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col-6">
-                                        <h5 class="card-title">Number of Students</h5>
+                                        <h5 class="card-title"><?php echo $lang['num_std01'] ?></h5>
                                     </div>
                                     <div class="col-6">
                                         <ul class="chart-list-out">
-                                            <li><span class="circle-blue"></span>Bachelor</li>
-                                            <li><span class="circle-green"></span>Diploma</li>
+                                            <li><span class="circle-blue"></span><?php echo $lang['bachelor'] ?></li>
+                                            <li><span class="circle-green"></span><?php echo $lang['diploma'] ?></li>
                                             <li class="star-menus"><a href="javascript:;"><i
                                                         class="fas fa-ellipsis-v"></i></a></li>
                                         </ul>
@@ -184,7 +192,7 @@ if (!isset($_SESSION['director_login'])) {
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col-6">
-                                        <h5 class="card-title">Overview</h5>
+                                        <h5 class="card-title"><?php echo $lang['overview'] ?></h5>
                                         <!-- <h5 class="card-title">Top 3 student's grade in 2022-2023</h5> -->
                                     </div>
                                     <div class="col-6">

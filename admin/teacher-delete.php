@@ -17,11 +17,13 @@ if (!isset($_SESSION['admin_login'])) {
         $id = $_GET['id'];
         include "admin-datas/teacher-db.php";
         if (removeTeacherById($id, $conn)) {
+            $ss=$lang['ss'];
+            $ss01=$lang['ss01'];
             echo "<script>
                     $(document).ready(function() {
                         Swal.fire({
-                            title: 'Success',
-                            text: 'Teacher Delete Successfully!',
+                            title: '$ss',
+                            text: '$ss01',
                             icon: 'success',
                             timer: 5000,
                             showConfirmButton: false
