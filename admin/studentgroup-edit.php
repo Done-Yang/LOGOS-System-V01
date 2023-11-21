@@ -73,18 +73,18 @@ if (!isset($_SESSION['admin_login'])) {
             if (empty($group_id_err) and !empty($teacher) and !empty($year) and !empty($season) and !empty($program)) {
 
                 try {
-                    $sql = mysqli_connect("localhost", "iater01", "iATER2024", "iater01");
-
                     for ($i = 1; $i <= $amount; $i++) {
 
                         $studentID = $_REQUEST[$i . 'studentID'];
 
                         // For Group student's class
-                        mysqli_query($sql, "UPDATE studentgroups SET group_id='$group_id', t_id='$teacher', std_id='$studentID', program='$program',
+                        $stmt1 = $conn->prepare("UPDATE studentgroups SET group_id='$group_id', t_id='$teacher', std_id='$studentID', program='$program',
                                                                      season='$season', year='$year' WHERE group_id='$group_id'");
+                        $stmt1->execute();
 
                         // For Student group's status
-                        mysqli_query($sql, "UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                        $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                        $stmt2->execute();
                     }
                     // $_SESSION['success'] = 'Success!' . $season . $program . $part . $group_id . $teacher . $year . $amount;
                     echo "<script>

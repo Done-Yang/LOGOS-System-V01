@@ -54,9 +54,7 @@ if (!isset($_SESSION['director_login'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../assets/img/logo_logos.png">
     <title>Logos Institute of Foreign Language</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
     <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
@@ -80,23 +78,14 @@ if (!isset($_SESSION['director_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-<<<<<<< HEAD
                                 <h3 class="page-title"><?php echo $lang['welcome_adm'] ?></h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="admin-home.php"><?php echo $lang['home'] ?></a></li>
-                                    <li class="breadcrumb-item active"><?php echo $lang['admin'] ?></li>
-=======
-                                <h3 class="page-title">Director</h3>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="admin-home.php">Home</a></li>
-                                    <li class="breadcrumb-item active">Admin</li>
->>>>>>> 4eb65dde6afd0589b0f651abed6e9724282acada
-                                </ul>
+                                    <li class="breadcrumb-item"><a href="director-home.php"><?php echo $lang['home'] ?></a></li>
+                                    <li class="breadcrumb-item active"><?php echo $lang['director'] ?></li>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="row">
                     <div class="col-xl-3 col-sm-6 col-12 d-flex">

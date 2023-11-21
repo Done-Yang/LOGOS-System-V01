@@ -21,7 +21,7 @@ if (!isset($_SESSION['admin_login'])) {
     include "admin-datas/season-db.php";
 
     $programs = getAllPrograms($conn);
-    $seasons = getLastSeason($conn);
+    $seasons = getAllSeasons($conn);
 
     if (isset($_POST['search'])) {
         if (empty($_REQUEST['program'])) {
@@ -44,7 +44,7 @@ if (!isset($_SESSION['admin_login'])) {
         }
 
 
-        if (!empty($program) and !empty($season) and !empty($part) and !empty($season)) {
+        if (!empty($program) and !empty($season) and !empty($part)) {
 
             include "admin-datas/studentgroup-db.php";
             $students = getStudentGroupByPPSY($program, $part, $season, $conn);
@@ -114,17 +114,19 @@ if (!isset($_SESSION['admin_login'])) {
 
 
         if (!empty($group_id) and !empty($teacher) and !empty($year) and !empty($amount)) {
-            if ($count_std_resault <= 13) {
+            if ($count_std_resault <= 60) {
                 try {
-                    $sql = mysqli_connect("localhost", "root", "", "iater01");
+                    // $sql = mysqli_connect("localhost", "iater01", "iATER2024", "iater01");
                     for ($i = 1; $i <= $amount; $i++) {
                         $studentID = $_REQUEST[$i . 'studentID'];
                         // For Group student's class
-                        mysqli_query($sql, "INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year)
-                                    VALUES ('$group_id', '$teacher', '$studentID', '$program', '$season', '$year')");
+                        $stmt1 = $conn->prepare("INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year, part)
+                                    VALUES ('$group_id', '$teacher', '$studentID', '$program', '$season', '$year', '$part')");
+                        $stmt1->execute();
 
                         // For Student group's status
-                        mysqli_query($sql, "UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                        $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                        $stmt2->execute();
                     }
                     // $_SESSION['success'] = 'Success!' . $season . $program . $part . $group_id . $teacher . $year . $amount;
                     echo "<script>
@@ -138,7 +140,7 @@ if (!isset($_SESSION['admin_login'])) {
                             });
                         });
                     </script>";
-                    header('refresh:2; url=studentgroup-add.php');
+                    header("refresh:2; url=studentgroup-detail.php?id=$group_id");
                     exit;
                 } catch (PDOException $e) {
                     $e->getMessage();
@@ -227,11 +229,11 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title"><?php echo $lang['Groups'] ?></h3>
+                                <h3 class="page-title">Group</h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="studentgroup-list.php"><?php echo $lang['Groups'] ?></a></li>
-                                    <li class="breadcrumb-item active"><?php echo $lang['all_Groups'] ?></li>
+                                    <li class="breadcrumb-item"><a href="studentgroup-list.php">Groups</a></li>
+                                    <li class="breadcrumb-item active">All Groups</li>
                                 </ul>
                             </div>
                         </div>
@@ -245,7 +247,7 @@ if (!isset($_SESSION['admin_login'])) {
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['season']?> <span class="login-danger">*</span></label>
+                                    <label>Season <span class="login-danger">*</span></label>
                                     <input class="form-control select <?php echo $season_red_border ?>" type="text"
                                         name="season" value="<?php echo $std_groups['season'] ?>" readonly>
                                     <div class="error"><?php echo $season_err ?></div>
@@ -253,7 +255,7 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['Program'] ?> <span class="login-danger">*</span></label>
+                                    <label>Program <span class="login-danger">*</span></label>
                                     <input class="form-control select <?php echo $program_red_border ?>" type="text"
                                         name="program" value="<?php echo $std_groups['program'] ?>" readonly>
                                     <div class="error"><?php echo $program_err ?></div>
@@ -261,7 +263,7 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['part'] ?>t <span class="login-danger">*</span></label>
+                                    <label>Part <span class="login-danger">*</span></label>
                                     <input class="form-control select <?php echo $part_red_border ?>" type="text"
                                         name="part" value="<?php echo $group_by_id['part'] ?>" readonly>
                                     <div class="error"><?php echo $part_err ?></div>
@@ -269,7 +271,7 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button name="search" class="btn btn-primary" disabled><?php echo $lang['search'] ?></button>
+                                    <button name="search" class="btn btn-primary" disabled>Search</button>
                                 </div>
                             </div>
                         </div>
@@ -278,13 +280,13 @@ if (!isset($_SESSION['admin_login'])) {
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['search'] ?><span class="login-danger">*</span></label>
+                                    <label>Season <span class="login-danger">*</span></label>
                                     <select class="form-control select <?php echo $season_red_border ?>" name="season">
+                                        <option><?php echo $season ?></option>
                                         <?php $i = 0;
                                             foreach ($seasons as $season) {
                                                 $i++; ?>
-                                        <option value="<?php echo $season['season'] ?>"> <?php echo $season['season'] ?>
-                                        </option>
+                                                <option value="<?php echo $season['season'] ?>"> <?php echo $season['season'] ?></option>
                                         <?php } ?>
                                     </select>
                                     <div class="error"><?php echo $season_err ?></div>
@@ -292,7 +294,7 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['program'] ?> <span class="login-danger">*</span></label>
+                                    <label>Program <span class="login-danger">*</span></label>
                                     <select class="form-control select <?php echo $program_red_border ?>"
                                         name="program">
                                         <option><?php echo $program ?></option>
@@ -307,19 +309,19 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-4 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['part'] ?> <span class="login-danger">*</span></label>
+                                    <label>Part <span class="login-danger">*</span></label>
                                     <select class="form-control select <?php echo $part_red_border ?>" name="part">
                                         <option><?php echo $part ?></option>
-                                        <option><?php echo $lang['morning'] ?></option>
-                                        <option><?php echo $lang['afternoon'] ?></option>
-                                        <option><?php echo $lang['evening'] ?></option>
+                                        <option>Morning</option>
+                                        <option>Afternoon</option>
+                                        <option>Evening</option>
                                     </select>
                                     <div class="error"><?php echo $part_err ?></div>
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['search'] ?></button>
+                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -344,7 +346,7 @@ if (!isset($_SESSION['admin_login'])) {
                                     <div class="page-header">
                                         <div class="row align-items-center">
                                             <div class="col">
-                                                <h3 class="page-title"><?php echo $lang['all_Students'] ?></h3>
+                                                <h3 class="page-title">All Students</h3>
                                             </div>
                                             <div class="col-auto text-end float-end ms-auto download-grp">
                                                 <!-- <a href="student-add.php" class="btn btn-primary"><i class="fas fa-plus"></i></a> -->
@@ -359,11 +361,11 @@ if (!isset($_SESSION['admin_login'])) {
 
                                         <div class="row">
                                             <div class="col-12">
-                                                <h5 class="form-title student-info"><?php echo $lang['Group_info'] ?></h5>
+                                                <h5 class="form-title student-info">Group Informations:</h5>
                                             </div>
                                             <div class="col-lg-2 col-md-6">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['Group_id'] ?> <span class="login-danger">*</span></label>
+                                                    <label>Group ID <span class="login-danger">*</span></label>
                                                     <select
                                                         class="form-control select <?php echo $group_id_red_border ?>"
                                                         name="group_id">
@@ -380,7 +382,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             </div>
                                             <div class="col-lg-3 col-md-6">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['pro'] ?> <span class="login-danger">*</span></label>
+                                                    <label>Teacher <span class="login-danger">*</span></label>
                                                     <select
                                                         class="form-control select <?php echo $teacher_red_border ?>"
                                                         name="teacher">
@@ -398,7 +400,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             <div class="col-lg-2 col-md-6">
                                                 <!-- New element -->
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['years'] ?> <span class="login-danger">*</span></label>
+                                                    <label>Year <span class="login-danger">*</span></label>
                                                     <select class="form-control select <?php echo $year_red_border ?>"
                                                         name="year">
                                                         <option><?php echo $year ?></option>
@@ -412,7 +414,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             </div>
                                             <div class="col-lg-2 col-md-6">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['amount'] ?><span class="login-danger">*</span></label>
+                                                    <label>Amount<span class="login-danger">*</span></label>
                                                     <input class="form-control select <?php echo $amount_red_border ?>"
                                                         type="text" name="amount" value="<?php echo $amount ?>">
                                                     <div class="error"><?php echo $amount_err ?></div>
@@ -421,7 +423,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             <div class="col-lg-2">
                                                 <div class="search-student-btn">
                                                     <button type="submit" name="submit"
-                                                        class="btn btn-primary"><?php echo $lang['Groups'] ?></button>
+                                                        class="btn btn-primary">Group</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -433,18 +435,19 @@ if (!isset($_SESSION['admin_login'])) {
                                             class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                             <thead class="student-thread">
                                                 <tr>
-                                                    <th><?php echo $lang['no'] ?></th>
-                                                    <th><?php echo $lang['std_id'] ?></th>
-                                                    <th><?php echo $lang['full_name'] ?></th>
-                                                    <th><?php echo $lang['program'] ?></th>
-                                                    <th><?php echo $lang['part'] ?></th>
+                                                    <th></th>
+                                                    <th>No</th>
+                                                    <th>Student ID</th>
+                                                    <th>Full Name</th>
+                                                    <th>Study Program</th>
+                                                    <th>Part</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $i = 0;
                                                         if ($students == "No Student!") {  ?>
                                                 <tr>
-                                                    <td><?php echo $lang['no_Groups'] ?></td>
+                                                    <td>No Student!</td>
                                                 </tr>
                                                 <?php } else {
                                                             foreach ($students as $student) {
@@ -452,6 +455,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                                     $i++; ?>
 
                                                 <tr>
+                                                    <td><input type="check"></td>
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $student['std_id'] ?></td>
                                                     <input type="hidden" name="<?php echo $i . 'studentID' ?>"
@@ -462,13 +466,13 @@ if (!isset($_SESSION['admin_login'])) {
                                                                                 $student_image = $student['image'];
 
                                                                                 if ($student_image == '') { ?>
-                                                            <a href="student-detail.php?id=<?= $student['std_id'] ?>"
+                                                            <a href="student-detail.php?$id=<? $student['id'] ?>"
                                                                 class="avatar avatar-sm me-2"><img
                                                                     class="avatar-img rounded-circle"
                                                                     src="<?php echo "upload/profile.png" ?>"
                                                                     alt="User Image"></a>
                                                             <?php } else { ?>
-                                                            <a href="student-detail.php?id=<?= $student['std_id'] ?>"
+                                                            <a href="student-detail.php?$id=<? $student['id'] ?>"
                                                                 class="avatar avatar-sm me-2"><img
                                                                     class="avatar-img rounded-circle"
                                                                     src="<?php echo "upload/student_profile/$student_image" ?>"
@@ -479,10 +483,10 @@ if (!isset($_SESSION['admin_login'])) {
 
                                                             <?php
                                                                                 if ($student['gender'] == 'Male') { ?>
-                                                            <a><?php echo $lang['mr'] ?>
+                                                            <a>Mr
                                                                 <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
                                                             <?php } else { ?>
-                                                            <a><?php echo $lang['miss'] ?>
+                                                            <a>Miss
                                                                 <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
                                                             <?php } ?>
                                                         </h2>
@@ -502,11 +506,11 @@ if (!isset($_SESSION['admin_login'])) {
 
                                         <div class="row">
                                             <div class="col-12">
-                                                <h5 class="form-title student-info"><?php echo $lang['Group_info'] ?></h5>
+                                                <h5 class="form-title student-info">Group Informations:</h5>
                                             </div>
                                             <div class="col-lg-2 col-md-6">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['Group_id'] ?> <span class="login-danger">*</span></label>
+                                                    <label>Group ID <span class="login-danger">*</span></label>
                                                     <input
                                                         class="form-control select <?php echo $group_id_red_border ?>"
                                                         type="text" name="group_id"
@@ -516,7 +520,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             </div>
                                             <div class="col-lg-3 col-md-6">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['pro_id'] ?><span class="login-danger">*</span></label>
+                                                    <label>Teacher ID<span class="login-danger">*</span></label>
                                                     <input class="form-control select <?php echo $teacher_red_border ?>"
                                                         type="text" name="teacher"
                                                         value="<?php echo $std_groups['t_id'] ?>" readonly>
@@ -526,7 +530,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             <div class="col-lg-2 col-md-6">
                                                 <!-- New element -->
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['years'] ?> <span class="login-danger">*</span></label>
+                                                    <label>Year <span class="login-danger">*</span></label>
                                                     <input class="form-control select <?php echo $year_red_border ?>"
                                                         type="text" name="year"
                                                         value="<?php echo $std_groups['year'] ?>" readonly>
@@ -535,7 +539,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             </div>
                                             <div class="col-lg-2 col-md-6">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['amount'] ?><span class="login-danger">*</span></label>
+                                                    <label>Amount<span class="login-danger">*</span></label>
                                                     <input class="form-control select <?php echo $amount_red_border ?>"
                                                         type="text" name="amount" value="<?php echo $amount ?>">
                                                     <div class="error"><?php echo $amount_err ?></div>
@@ -544,7 +548,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             <div class="col-lg-2">
                                                 <div class="search-student-btn">
                                                     <button type="submit" name="submit"
-                                                        class="btn btn-primary"><?php echo $lang['Groups'] ?></button>
+                                                        class="btn btn-primary">Group</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -556,18 +560,18 @@ if (!isset($_SESSION['admin_login'])) {
                                             class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                             <thead class="student-thread">
                                                 <tr>
-                                                    <th><?php echo $lang['no'] ?></th>
-                                                    <th><?php echo $lang['std_id'] ?></th>
-                                                    <th><?php echo $lang['full_name'] ?></th>
-                                                    <th><?php echo $lang['program'] ?></th>
-                                                    <th><?php echo $lang['part'] ?></th>
+                                                    <th>No</th>
+                                                    <th>Student ID</th>
+                                                    <th>Full Name</th>
+                                                    <th>Study Program</th>
+                                                    <th>Part</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $i = 0;
                                                     if ($students == "No Student!") {  ?>
                                                 <tr>
-                                                    <td><?php echo $lang['no_Students'] ?></td>
+                                                    <td>No Student!</td>
                                                 </tr>
 
                                                 <?php } else {
@@ -603,10 +607,10 @@ if (!isset($_SESSION['admin_login'])) {
 
                                                             <?php
                                                                             if ($student['gender'] == 'Male') { ?>
-                                                            <a><?php echo $lang['mr'] ?>
+                                                            <a>Mr
                                                                 <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
                                                             <?php } else { ?>
-                                                            <a><?php echo $lang['miss'] ?>
+                                                            <a>Miss
                                                                 <?php echo $student['fname_en'] . " " . $student['lname_en'] ?></a>
                                                             <?php }
                                                                             ?>

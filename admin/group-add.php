@@ -19,7 +19,7 @@ if (!isset($_SESSION['admin_login'])) {
     include "admin-datas/program-db.php";
     include "admin-datas/season-db.php";
     $programs = getAllPrograms($conn);
-    $seasons = getLastSeason($conn);
+    $seasons = getAllSeasons($conn);
 
 
     if (isset($_POST['submit'])) {
@@ -69,11 +69,12 @@ if (!isset($_SESSION['admin_login'])) {
             try {
 
 
-                $sql = mysqli_connect("localhost", "root", "", "iater01");
+                // $sql = mysqli_connect("localhost", "root", "", "iater01");
 
                 // For Group student's class
-                mysqli_query($sql, "INSERT INTO groups (group_id, program, part, season, year)
+                $stmt  = $conn->prepare("INSERT INTO groups (group_id, program, part, season, year)
                 VALUES ('$group_id', '$program', '$part', '$season', '$year')");
+                $stmt->execute();
 
                 echo "<script>
                     $(document).ready(function() {

@@ -77,12 +77,12 @@ if (!isset($_SESSION['admin_login'])) {
                 try {
 
                     // For Group student's class
-                    $stmt = $conn->prepare("UPDATE groups SET program=:program, part=:part, season=:season, year=:year WHERE group_id = :group_id");
+                    $stmt = $conn->prepare("UPDATE groups SET program=:program, part=:part, season=:season, year=:year, group_id='$group_id' WHERE group_id = :group_id_this");
                     $stmt->bindParam(":program", $program);
                     $stmt->bindParam(":part", $part);
                     $stmt->bindParam(":season", $season);
                     $stmt->bindParam(":year", $year);
-                    $stmt->bindParam(":group_id", $group_id);
+                    $stmt->bindParam(":group_id_this", $group['group_id']);
 
                     $stmt->execute();
 
@@ -217,7 +217,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
                                                 <label><?php echo $lang['Group_id'] ?> <span class="login-danger">*</span> </label>
-                                                <input class="form-control <?php echo $group_id_red_border ?>" type="text" name="group_id" value="<?php echo $group['group_id'] ?>" readonly>
+                                                <input class="form-control <?php echo $group_id_red_border ?>" type="text" name="group_id" value="<?php echo $group['group_id'] ?>" >
                                                 <div class="error"><?php echo $group_id_err ?></div>
                                             </div>
                                         </div>

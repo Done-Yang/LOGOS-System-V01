@@ -35,7 +35,6 @@ if (!isset($_SESSION['admin_login'])) {
         
         if ($count_stds <= 45) {
             try {
-                $sql = mysqli_connect("localhost", "root", "", "iater01");
                 for ($i = 1; $i <= $amount; $i++) {
                     $studentID = $_REQUEST[$i . 'studentID'];
                     $year = $_REQUEST['year'];
@@ -57,11 +56,13 @@ if (!isset($_SESSION['admin_login'])) {
                     
                     if(empty($std_id_err)){
                         // For Group student's class
-                        mysqli_query($sql, "INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year)
+                        $stmt1 = $conn->prepare("INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year)
                         VALUES ('$group_id', '$t_id', '$studentID', '$program', '$season', '$year')");
+                        $stmt1->execute();
 
                         // For Student group's status
-                        mysqli_query($sql, "UPDATE students SET group_status='$group_id', season_curent='$season' WHERE std_id='$studentID'");
+                        $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id', season_curent='$season' WHERE std_id='$studentID'");
+                        $stmt2->execute();
                     }else{
                         $_SESSION['error'] = 'This student group is already exsist!';
                         echo "<script>

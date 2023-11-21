@@ -13,6 +13,25 @@ if (!isset($_SESSION['director_login'])) {
     
     include "director-datas/group-db.php";
     $groups = getAllGroups($conn);
+    $search_by = '';
+
+    if (isset($_REQUEST['search'])) {
+        try {
+            $search_by = $_REQUEST['search_by'];
+            if (!empty($search_by)) {
+
+                $groups = $conn->prepare("SELECT * FROM groups WHERE group_id=:group_id OR program=:program OR part=:part OR season=:season OR year=:year");
+                $groups->bindParam(':group_id', $search_by);
+                $groups->bindParam(':program', $search_by);
+                $groups->bindParam(':part', $search_by);
+                $groups->bindParam(':season', $search_by);
+                $groups->bindParam(':year', $search_by);
+                $groups->execute();
+            }
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
 }
 
 ?>
@@ -69,28 +88,21 @@ if (!isset($_SESSION['director_login'])) {
                 </div>
 
                 <div class="student-group-form">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search by ID ...">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search here ..."
+                                        name="search_by" value="<?php echo $search_by ?>">
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="search-student-btn">
+                                    <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search by Name ...">
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search by Phone ...">
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="search-student-btn">
-                                <button type="btn" class="btn btn-primary">Search</button>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">

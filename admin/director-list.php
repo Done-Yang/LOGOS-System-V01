@@ -125,13 +125,12 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col">
                                             <h3 class="page-title"><?php echo $lang['off01'] ?></h3>
                                         </div>
-                                        <div class="col-auto text-end float-end ms-auto download-grp">
+                                        <!-- <div class="col-auto text-end float-end ms-auto download-grp">
                                             <a href="director-add.php" class="btn btn-primary"><i
                                                     class="fas fa-plus"></i></a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
-
                                 <div class="table-responsive">
                                     <table
                                         class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
@@ -194,14 +193,14 @@ if (!isset($_SESSION['admin_login'])) {
                                                             class="btn btn-sm bg-success-light me-2 ">
                                                             <i class="feather-eye"></i>
                                                         </a>
-                                                        <a href="director-edit.php?id=<?= $director['dir_id'] ?>"
+                                                        <!-- <a href="director-edit.php?id=<?= $director['dir_id'] ?>"
                                                             class="btn btn-sm bg-danger-light">
                                                             <i class="feather-edit"></i>
                                                         </a>
                                                         <a href="director-delete.php?id=<?= $director['dir_id'] ?>"
                                                             class="btn btn-sm bg-danger-light" onclick="return confirm('Do you want to delete this item?')">
                                                             <i class="feather-delete"></i>
-                                                        </a>
+                                                        </a> -->
                                                     </div>
                                                 </td>
                                             </tr>

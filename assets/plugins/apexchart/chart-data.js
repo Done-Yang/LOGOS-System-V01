@@ -217,6 +217,7 @@ $(document).ready(function () {
             },
           ],
           labels: season.map(ss => ss),
+          // labels: ['2023', '2024' , '2025'],
           xaxis: {
             labels: { show: false },
             axisBorder: { show: false },

@@ -137,8 +137,8 @@ if (!isset($_SESSION['admin_login'])) {
                                     <div class="card-body">
                                         <h5 class="card-title d-flex justify-content-between">
                                             <span><?php echo $lang['personal_Details'] ?></span>
-                                            <a class="edit-link" href="director-edit.php?id=<?= $dir['dir_id'] ?>"><i
-                                                    class="far fa-edit me-1"></i><?php echo $lang['edit'] ?></a>
+                                            <!-- <a class="edit-link" href="director-edit.php?id=<?= $dir['dir_id'] ?>"><i
+                                                    class="far fa-edit me-1"></i><?php echo $lang['edit'] ?></a> -->
                                         </h5>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3"><?php echo $lang['u_id'] ?></p>

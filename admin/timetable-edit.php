@@ -43,7 +43,6 @@ if (!isset($_SESSION['admin_login'])) {
         if (isset($_POST['submit'])) {
 
             try {
-                $sql = mysqli_connect("localhost", "root", "", "iater01");
                 
                 $i = 1;
                 foreach($timetables1 as $timetable){
@@ -64,18 +63,17 @@ if (!isset($_SESSION['admin_login'])) {
                     $classroom2 = $_REQUEST[$i . 'classroom2'];
                     $semester = $_REQUEST['semester'];
                     $days = $_REQUEST[$i . 'days'];
-                    mysqli_query($sql, "UPDATE timetables SET sub1_id='$subject1', sub2_id='$subject2', book1='$book1', book2='$book2', teacher1_id='$teacher1', teacher2_id='$teacher2', class1='$classroom1', class2='$classroom2',
+                    $stmt = $conn->prepare("UPDATE timetables SET sub1_id='$subject1', sub2_id='$subject2', book1='$book1', book2='$book2', teacher1_id='$teacher1', teacher2_id='$teacher2', class1='$classroom1', class2='$classroom2',
                                                               times1= '$times1', times2='$times2' WHERE group_id='$id' and days='$days' ");
+                    $stmt->execute();
                     $i++;
                     
                 }
-                $ss=$lang['ss'];
-                $ss01=$lang['ss01'];
                 echo "<script>
                     $(document).ready(function() {
                         Swal.fire({
-                            title: '$ss',
-                            text: '$ss01',
+                            title: 'Success',
+                            text: 'Update time table sucessfully!',
                             icon: 'success',
                             timer: 5000,
                             showConfirmButton: false
@@ -124,6 +122,7 @@ if (!isset($_SESSION['admin_login'])) {
     <link rel="stylesheet" href="../assets/css/style.css">
 
     <link rel="stylesheet" href="../assets/css/validate-form.css">
+	
 </head>
 
 <body>
@@ -140,11 +139,11 @@ if (!isset($_SESSION['admin_login'])) {
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="page-sub-header">
-                            <h3 class="page-title"><?php echo $lang['editT'] ?></h3>
+                            <h3 class="page-title">Edit Time Table</h3>
 
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="timetable-list.php"><?php echo $lang['time_tables'] ?></a></li>
-                                <li class="breadcrumb-item active"><?php echo $lang['editT'] ?></li>
+                                <li class="breadcrumb-item"><a href="timetable-list.php">Time Tables</a></li>
+                                <li class="breadcrumb-item active">Edit Time Table</li>
                             </ul>
                         </div>
                     </div>
@@ -162,7 +161,7 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row">
                         <div class="col-lg-2 col-md-6">
                             <div class="form-group local-forms">
-                                <label><?php echo $lang['season'] ?> <span class="login-danger">*</span></label>
+                                <label>Season <span class="login-danger">*</span></label>
                                 <select class="form-control select" name="season" disabled>
                                     <option><?php echo $data['season'] ?></option>
                                     <?php $i = 0;
@@ -177,7 +176,7 @@ if (!isset($_SESSION['admin_login'])) {
                         </div>
                         <div class="col-lg-2 col-md-6">
                             <div class="form-group local-forms">
-                                <label><?php echo $lang['program'] ?> <span class="login-danger">*</span></label>
+                                <label>Program <span class="login-danger">*</span></label>
                                 <select class="form-control select" name="program" disabled>
                                     <option><?php echo $data['program'] ?></option>
                                     <?php $i = 0;
@@ -192,27 +191,27 @@ if (!isset($_SESSION['admin_login'])) {
                         </div>
                         <div class="col-lg-2 col-md-6">
                             <div class="form-group local-forms">
-                                <label><?php echo $lang['part'] ?> <span class="login-danger">*</span></label>
+                                <label>Part <span class="login-danger">*</span></label>
                                 <select class="form-control select" name="part" disabled>
                                     <?php if($data['part'] == 'Morning'){?>
                                         <option><?php echo $data['part'] ?></option>
-                                        <option><?php echo $lang['evening'] ?></option>
-                                        <option><?php echo $lang['afternoon'] ?></option>
+                                        <option>Evening</option>
+                                        <option>Afternoon</option>
                                     <?php }elseif ($data['part'] == 'Evening') {?>
                                         <option><?php echo $data['part'] ?></option>
-                                        <option><?php echo $lang['morning'] ?></option>
-                                        <option><?php echo $lang['afternoon'] ?></option>
+                                        <option>Morning</option>
+                                        <option>Afternoon</option>
                                     <?php }elseif ($data['part'] == 'Afternoon') {?>
                                         <option><?php echo $data['part'] ?></option>
-                                        <option><?php echo $lang['morning'] ?></option>
-                                        <option><?php echo $lang['evening'] ?></option>
+                                        <option>Morning</option>
+                                        <option>Evening</option>
                                     <?php } ?>
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-6">
                             <div class="form-group local-forms">
-                                <label><?php echo $lang['years'] ?> <span class="login-danger">*</span></label>
+                                <label>Year <span class="login-danger">*</span></label>
                                 <select class="form-control select" name="year" disabled>
                                     <option><?php echo $data['year']?></option>
                                 </select>
@@ -220,7 +219,7 @@ if (!isset($_SESSION['admin_login'])) {
                         </div>
                         <div class="col-lg-2">
                             <div class="search-student-btn">
-                                <button type="submit" name="search" class="btn btn-primary" disabled><?php echo $lang['set'] ?></button>
+                                <button type="submit" name="search" class="btn btn-primary" disabled>Set</button>
                             </div>
                         </div>
                     </div>
@@ -260,11 +259,11 @@ if (!isset($_SESSION['admin_login'])) {
 
                                         <div class="row">
                                             <div class="col-12">
-                                                <h5 class="form-title student-info"><?php echo $lang['timetableInfo'] ?> <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+                                                <h5 class="form-title student-info">Time Tebles Information: <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
                                             </div>
                                             <div class="col-12 col-sm-3">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['student_groupID'] ?> <span class="login-danger">*</span></label>
+                                                    <label>Student Group ID <span class="login-danger">*</span></label>
                                                     <select class="form-control select" name="group_id" disabled>
                                                         <option><?php echo $data['group_id']?></option>
                                                         <?php $i = 0;
@@ -279,8 +278,8 @@ if (!isset($_SESSION['admin_login'])) {
                                             </div>
                                             <div class="col-12 col-sm-3">
                                                 <div class="form-group local-forms">
-                                                    <label><?php echo $lang['semester'] ?> <span class="login-danger">*</span></label>
-                                                    <select class="form-control select" name="semester" disabled>
+                                                    <label>Semester <span class="login-danger">*</span></label>
+                                                    <select class="form-control select" name="semester" disabled> 
                                                         <option><?php echo $data['semester'] ?></option>
                                                         <?php $semester = array(1,2);
                                                         foreach($semester as $smt){
@@ -293,7 +292,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             </div>
                                             <div class="col-12 col-sm-2">
                                                 <div class="search-student-btn">
-                                                    <button type="submit" name="submit" class="btn btn-primary" onclick="$comfirm_submit_alert"><?php echo $lang['update'] ?></button>
+                                                    <button type="submit" name="submit" class="btn btn-primary" onclick="$comfirm_submit_alert">Update</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -303,12 +302,12 @@ if (!isset($_SESSION['admin_login'])) {
                                                 <table class="table table-bordered table-sm">
                                                     <thead class="student-thread">
                                                         <tr>
-                                                            <th><?php echo $lang['day'] ?></th>
-                                                            <th><?php echo $lang['subjects'] ?></th>
-                                                            <th><?php echo $lang['book'] ?></th>
-                                                            <th><?php echo $lang['professors'] ?></th>
-                                                            <th><?php echo $lang['time'] ?></th>
-                                                            <th><?php echo $lang['class'] ?></th>
+                                                            <th>Day</th>
+                                                            <th>Subject</th>
+                                                            <th>Book ID</th>
+                                                            <th>Teacher</th>
+                                                            <th>Time</th>
+                                                            <th>Class</th>
                                                         </tr>
                                                     </thead>
 
@@ -391,7 +390,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                                         <?php
                                                                         $k = 0; // For loop subjects
                                                                         foreach ($subjects as $subject) {
-
+                                                                            
                                                                             // if ($subject['season'] == $_REQUEST['season'] && $subject['semester'] == $_REQUEST['semester']) {
                                                                             if ($subject['season'] == $timetable['season']) {
                                                                                 $k++; ?>
@@ -452,6 +451,9 @@ if (!isset($_SESSION['admin_login'])) {
             
         </div>
     </div>
+    <footer>
+        <p>Copyright © Logos Institute of Foreign Language.</p>
+    </footer>
 
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
 

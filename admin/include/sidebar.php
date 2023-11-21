@@ -22,9 +22,9 @@
                         <li><a href="../admin/director-list.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "director-list.php") {
                                                                                 echo "active";
                                                                             } ?>"><?php echo $lang['director_list'] ?></a></li>
-                        <li><a href="../admin/director-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "director-add.php") {
+                        <!-- <li><a href="../admin/director-add.php" class="<?php if (basename($_SERVER['PHP_SELF']) == "director-add.php") {
                                                                                 echo "active";
-                                                                            } ?>"><?php echo $lang['director_add'] ?></a></li>
+                                                                            } ?>"><?php echo $lang['director_add'] ?></a></li> -->
                     </ul>
                 </li>
                 <li class="submenu <?php if (basename($_SERVER['PHP_SELF']) == "officer-list.php" || basename($_SERVER['PHP_SELF']) == "officer-add.php" || basename($_SERVER['PHP_SELF']) == "officer-edit.php" || basename($_SERVER['PHP_SELF']) == "officer-detail.php") {

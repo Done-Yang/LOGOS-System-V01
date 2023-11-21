@@ -20,7 +20,7 @@ if (!isset($_SESSION['admin_login'])) {
     include "admin-datas/program-db.php";
     include "admin-datas/season-db.php";
     $programs = getAllPrograms($conn);
-    $seasons = getLastSeason($conn);
+    $seasons = getAllSeasons($conn);
 
     if (isset($_POST['search'])) {
         if (empty($_REQUEST['program'])) {
@@ -98,7 +98,6 @@ if (!isset($_SESSION['admin_login'])) {
         if (!empty($program) and !empty($season) and !empty($part) and !empty($year) and !empty($group_id) and !empty($semester)) {
 
             try {
-                $sql = mysqli_connect("localhost", "root", "", "iater01");
 
                 for ($i = 1; $i <= 5; $i++) {
                     $subject1 = $_REQUEST[$i . 'subject1'];
@@ -112,16 +111,15 @@ if (!isset($_SESSION['admin_login'])) {
                     $classroom1 = $_REQUEST[$i . 'classroom1'];
                     $classroom2 = $_REQUEST[$i . 'classroom2'];
                     $days = $_REQUEST[$i . 'days'];
-                    mysqli_query($sql, "INSERT INTO timetables (sub1_id, sub2_id, book1, book2, teacher1_id, teacher2_id, group_id, class1, class2, season, times1, times2, program, part, year, semester, days)
+                    $stmt = $conn->prepare("INSERT INTO timetables (sub1_id, sub2_id, book1, book2, teacher1_id, teacher2_id, group_id, class1, class2, season, times1, times2, program, part, year, semester, days)
                                 VALUES('$subject1', '$subject2', '$book1', '$book2', '$teacher1', '$teacher2', '$group_id', '$classroom1', '$classroom2', '$season', '$times1', '$times2', '$program', '$part', '$year', '$semester', '$days')");
+                    $stmt->execute();
                 }
-                $ss=$lang['success'];
-                $ss01=$lang['success01'];
                 echo "<script>
                     $(document).ready(function() {
                         Swal.fire({
-                            title: '$ss',
-                            text: '$ss01',
+                            title: 'Success',
+                            text: 'Time Table Add Successfully!',
                             icon: 'success',
                             timer: 5000,
                             showConfirmButton: false
@@ -202,11 +200,11 @@ if (!isset($_SESSION['admin_login'])) {
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title"><?php echo $lang['add_timetable'] ?></h3>
+                                <h3 class="page-title">Add Time Table</h3>
 
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="timetable-list.php"><?php echo $lang['timetable'] ?></a></li>
-                                    <li class="breadcrumb-item active"><?php echo $lang['all_timetable'] ?></li>
+                                    <li class="breadcrumb-item"><a href="timetable-list.php">Time Tables</a></li>
+                                    <li class="breadcrumb-item active">Add Time Table</li>
                                 </ul>
                             </div>
                         </div>
@@ -218,8 +216,9 @@ if (!isset($_SESSION['admin_login'])) {
                         <div class="row">
                             <div class="col-lg-2 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['season'] ?> <span class="login-danger">*</span></label>
+                                    <label>Season <span class="login-danger">*</span></label>
                                     <select class="form-control select <?php echo $season_red_border ?>" name="season">
+                                        <option value="<?php echo $season ?>"><?php echo $season ?></option>
                                         <?php $i = 0;
                                         foreach ($seasons as $season) {
                                             $i++; ?>
@@ -232,9 +231,8 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-2 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['program'] ?> <span class="login-danger">*</span></label>
-                                    <select class="form-control select <?php echo $program_red_border ?>"
-                                        name="program">
+                                    <label>Program <span class="login-danger">*</span></label>
+                                    <select class="form-control select <?php echo $program_red_border ?>" name="program">
                                         <option><?php echo $program ?></option>
                                         <?php $i = 0;
                                         foreach ($programs as $program) {
@@ -247,12 +245,12 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-2 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['part'] ?> <span class="login-danger">*</span></label>
+                                    <label>Part <span class="login-danger">*</span></label>
                                     <select class="form-control select <?php echo $part_red_border ?>" name="part">
                                         <option><?php echo $part ?></option>
-                                        <option><?php echo $lang['morning'] ?></option>
-                                        <option><?php echo $lang['afternoon'] ?></option>
-                                        <option><?php echo $lang['evening'] ?></option>
+                                        <option>Morning</option>
+                                        <option>Afternoon</option>
+                                        <option>Evening</option>
                                     </select>
                                     <div class="error"><?php echo $part_err ?></div>
                                 </div>
@@ -260,7 +258,7 @@ if (!isset($_SESSION['admin_login'])) {
                             <div class="col-lg-2 col-md-6">
                                 <!-- New element -->
                                 <div class="form-group local-forms">
-                                    <label><?php echo $lang['years'] ?> <span class="login-danger">*</span></label>
+                                    <label>Year <span class="login-danger">*</span></label>
                                     <select class="form-control select <?php echo $year_red_border ?>" name="year">
                                         <option><?php echo $year ?></option>
                                         <option>1</option>
@@ -273,7 +271,7 @@ if (!isset($_SESSION['admin_login'])) {
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-student-btn">
-                                    <button type="submit" name="search" class="btn btn-primary"><?php echo $lang['set'] ?></button>
+                                    <button type="submit" name="search" class="btn btn-primary">Set</button>
                                 </div>
                             </div>
                         </div>
@@ -326,15 +324,13 @@ if (!isset($_SESSION['admin_login'])) {
 
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <h5 class="form-title student-info"><?php echo $lang['timetableInfo'] ?>
-                                                        <span><a href="javascript:;"><i
-                                                                    class="feather-more-vertical"></i></a></span>
-                                                    </h5>
+                                                    <h5 class="form-title student-info">Time Tebles Information: <span><a
+                                                                href="javascript:;"><i
+                                                                    class="feather-more-vertical"></i></a></span></h5>
                                                 </div>
                                                 <div class="col-12 col-sm-3">
                                                     <div class="form-group local-forms">
-                                                        <label><?php echo $lang['student_groupID'] ?><span
-                                                                class="login-danger">*</span></label>
+                                                        <label>Student Group ID <span class="login-danger">*</span></label>
                                                         <select
                                                             class="form-control select <?php echo $group_id_red_border ?>"
                                                             name="group_id">
@@ -352,7 +348,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                 <div class="col-12 col-sm-3">
                                                     <!-- New element -->
                                                     <div class="form-group local-forms">
-                                                        <label><?php echo $lang['semester'] ?> <span class="login-danger">*</span></label>
+                                                        <label>Semester <span class="login-danger">*</span></label>
                                                         <select
                                                             class="form-control select <?php echo $semester_red_border ?>"
                                                             name="semester">
@@ -366,7 +362,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                 <div class="col-12 col-sm-2">
                                                     <div class="search-student-btn">
                                                         <button type="submit" name="submit" class="btn btn-primary"
-                                                            onclick="$comfirm_submit_alert"><?php echo $lang['submit'] ?></button>
+                                                            onclick="$comfirm_submit_alert">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -376,39 +372,36 @@ if (!isset($_SESSION['admin_login'])) {
                                                     <table class="table table-bordered table-sm">
                                                         <thead class="student-thread">
                                                             <tr>
-                                                                <th><?php echo $lang['day'] ?></th>
-                                                                <th><?php echo $lang['subjects'] ?></th>
-                                                                <th><?php echo $lang['bookID'] ?></th> <!-- New element -->
-                                                                <th><?php echo $lang['professors'] ?></th>
-                                                                <th><?php echo $lang['time'] ?></th> <!-- New element -->
-                                                                <th><?php echo $lang['class'] ?></th>
+                                                                <th>Day</th>
+                                                                <th>Subject</th>
+                                                                <th>Book ID</th> <!-- New element -->
+                                                                <th>Teacher</th>
+                                                                <th>Time</th> <!-- New element -->
+                                                                <th>Class</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <?php
                                                                     $j = 0; // For loop arrays
                                                                     $addLoop = 1; // For loop add subjects
-                                                                    $days = array($lang['monday'],$lang['tuesday'], $lang['wednesday'],$lang['thursday'], $lang['friday']);
+                                                                    $days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
                                                                     while ($j <= 4) { ?>
                                                             <tr>
                                                                 <td  rowspan="2">
                                                                     <?php echo $days[$j] ?>
-                                                                    <input type="hidden"
-                                                                        name="<?php echo $addLoop . 'days' ?>"
-                                                                        value="<?php echo $days[$j] ?>">
+                                                                    <input type="hidden" name="<?php echo $addLoop . 'days' ?>" value="<?php echo $days[$j] ?>">
                                                                 </td>
-                                                                <td class="col-12 col-sm-2">
+                                                                <td>
                                                                     <select class="form-control select"
                                                                         name="<?php echo $addLoop . 'subject1' ?>">
-                                                                        <option><?php $subject1 ?></option>
+                                                                        <option value="<?php echo $subject1 ?>"></option>
                                                                         <?php
                                                                                     $k = 0; // For loop subjects
                                                                                     foreach ($subjects as $subject) {
                                                                                         // if ($subject['season'] == $_REQUEST['season'] && $subject['semester'] == $_REQUEST['semester']) {
                                                                                         if ($subject['season'] == $_REQUEST['season']) {
                                                                                             $k++; ?>
-                                                                        <option
-                                                                            value="<?php echo $subject['sub_id'] ?>">
+                                                                        <option value="<?php echo $subject['sub_id'] ?>">
                                                                             <?php echo $subject['name'] ?> </option>
                                                                         <?php }
                                                                                     } ?>
@@ -450,8 +443,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                                                         $i++; ?>
                                                                         <option
                                                                             value="<?php echo $classroom['classroom'] ?>">
-                                                                            <?php echo $classroom['classroom'] ?>
-                                                                        </option>
+                                                                            <?php echo $classroom['classroom'] ?> </option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </td>
@@ -470,8 +462,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                                                         // if ($subject['season'] == $_REQUEST['season'] && $subject['semester'] == $_REQUEST['semester']) {
                                                                                         if ($subject['season'] == $_REQUEST['season']) {
                                                                                             $k++; ?>
-                                                                        <option
-                                                                            value="<?php echo $subject['sub_id'] ?>">
+                                                                        <option value="<?php echo $subject['sub_id'] ?>">
                                                                             <?php echo $subject['name'] ?> </option>
                                                                         <?php }
                                                                                     } ?>
@@ -511,8 +502,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                                                         $i++; ?>
                                                                         <option
                                                                             value="<?php echo $classroom['classroom'] ?>">
-                                                                            <?php echo $classroom['classroom'] ?>
-                                                                        </option>
+                                                                            <?php echo $classroom['classroom'] ?> </option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </td>
@@ -534,12 +524,12 @@ if (!isset($_SESSION['admin_login'])) {
             <?php }
                                     }  ?>
         </div>
-    </div>
-    </div>
-    </div>
-    </form>
-    </div>
-    </div>
+        </div>
+        </div>
+        </div>
+        </form>
+        </div>
+        </div>
 
     </div>
 

@@ -8,7 +8,7 @@ include "admin-datas/season-db.php";
 include "admin-datas/teacher-db.php";
 include "admin-datas/program-db.php";
 
-$seasons = getLastSeason($conn);
+$seasons = getAllSeasons($conn);
 $teachers = getAllTeachers($conn);
 $programs = getAllPrograms($conn);
 
@@ -80,7 +80,7 @@ if (!isset($_SESSION['admin_login'])) {
                 try {
 
                     // Update Subject
-                    $sql = "UPDATE subjects SET name=:name, program=:program, season=:season, semester=:semester, credit=:credit WHERE sub_id=:sub_id";
+                    $sql = "UPDATE subjects SET name=:name, program=:program, season=:season, semester=:semester, credit=:credit, sub_id='$sub_id' WHERE sub_id=:sub_id";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':sub_id', $id);
                     $stmt->bindParam(':name', $name);
@@ -203,7 +203,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             <div class="form-group local-forms">
                                                 <label>Subject ID <span class="login-danger">*</span> </label>
                                                 <input class="form-control <?php echo $sub_id_red_border ?>" type="text"
-                                                    name="sub_id" value="<?php echo $subject['sub_id'] ?>" readonly>
+                                                    name="sub_id" value="<?php echo $subject['sub_id'] ?>">
                                                 <div class="error"><?php echo $sub_id_err ?></div>
                                             </div>
                                         </div>
