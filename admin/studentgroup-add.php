@@ -49,6 +49,17 @@ if (!isset($_SESSION['admin_login'])) {
             include "admin-datas/studentgroup-db.php";
             $students = getStudentGroupByPPSY($program, $part, $season, $conn);
 
+            $student_amount_query = $conn->prepare("SELECT COUNT(*) as count FROM students WHERE program=:program and part=:part and season_curent=:season");
+            $student_amount_query->bindParam(':program', $program);
+            $student_amount_query->bindParam(':part', $part);
+            $student_amount_query->bindParam(':season', $season);
+            $student_amount_query->execute();
+            $students_amount = $student_amount_query->fetch(PDO::FETCH_ASSOC)['count'];
+
+            // echo $students_amount;
+
+            
+
             include "admin-datas/group-db.php";
             $groups = getAllGroupByPPS($program, $part, $season, $conn);
             // $groups = getAllGroups($conn);
@@ -113,52 +124,56 @@ if (!isset($_SESSION['admin_login'])) {
 
 
 
-        if (!empty($group_id) and !empty($teacher) and !empty($year) and !empty($amount)) {
-            if ($count_std_resault <= 60) {
-                try {
-                    // $sql = mysqli_connect("localhost", "iater01", "iATER2024", "iater01");
-                    for ($i = 1; $i <= $amount; $i++) {
-                        $studentID = $_REQUEST[$i . 'studentID'];
-                        // For Group student's class
-                        $stmt1 = $conn->prepare("INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year, part)
-                                    VALUES ('$group_id', '$teacher', '$studentID', '$program', '$season', '$year', '$part')");
-                        $stmt1->execute();
-
-                        // For Student group's status
-                        $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
-                        $stmt2->execute();
+        if (!empty($group_id) and !empty($teacher) and !empty($year)) {
+            // if(and $students_amount > 0){
+                if ($count_std_resault <= 60) {
+                    try {
+                        // $sql = mysqli_connect("localhost", "iater01", "iATER2024", "iater01");
+                        for ($i = 1; $i <= $students_amount; $i++) {
+                            $studentID = $_REQUEST[$i . 'studentID'];
+                            // For Group student's class
+                            $stmt1 = $conn->prepare("INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year, part)
+                                        VALUES ('$group_id', '$teacher', '$studentID', '$program', '$season', '$year', '$part')");
+                            $stmt1->execute();
+    
+                            // For Student group's status
+                            $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                            $stmt2->execute();
+                        }
+                        // $_SESSION['success'] = 'Success!' . $season . $program . $part . $group_id . $teacher . $year . $amount;
+                        echo "<script>
+                            $(document).ready(function() {
+                                Swal.fire({
+                                    title: 'Success',
+                                    text: 'Student Group Add Successfully!',
+                                    icon: 'success',
+                                    timer: 5000,
+                                    showConfirmButton: false
+                                });
+                            });
+                        </script>";
+                        header("refresh:2; url=studentgroup-detail.php?id=$group_id");
+                        exit;
+                    } catch (PDOException $e) {
+                        $e->getMessage();
                     }
-                    // $_SESSION['success'] = 'Success!' . $season . $program . $part . $group_id . $teacher . $year . $amount;
+                } else {
                     echo "<script>
                         $(document).ready(function() {
                             Swal.fire({
-                                title: 'Success',
-                                text: 'Student Group Add Successfully!',
-                                icon: 'success',
-                                timer: 5000,
+                                icon: 'error',
+                                title: 'Fail..!',
+                                text: 'Student Was Full, Pleas Chose Another Group!',
                                 showConfirmButton: false
                             });
                         });
                     </script>";
-                    header("refresh:2; url=studentgroup-detail.php?id=$group_id");
+                    header("refresh:3");
                     exit;
-                } catch (PDOException $e) {
-                    $e->getMessage();
                 }
-            } else {
-                echo "<script>
-                    $(document).ready(function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Fail..!',
-                            text: 'Student Was Full, Pleas Chose Another Group!',
-                            showConfirmButton: false
-                        });
-                    });
-                </script>";
-                header("refresh:3");
-                exit;
-            }
+            // }else{
+            //     $_SESSION['error'] = "Stundent not found!";
+            // }
         } else {
             $_SESSION['error'] = "Exist empty cell, Pleas check your data again!";
         }
@@ -416,7 +431,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                 <div class="form-group local-forms">
                                                     <label>Amount<span class="login-danger">*</span></label>
                                                     <input class="form-control select <?php echo $amount_red_border ?>"
-                                                        type="text" name="amount" value="<?php echo $amount ?>">
+                                                        type="text" name="amount" id="checkedCount" readonly>
                                                     <div class="error"><?php echo $amount_err ?></div>
                                                 </div>
                                             </div>
@@ -435,7 +450,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                             <thead class="student-thread">
                                                 <tr>
-                                                    <th></th>
+                                                    <th>Select</th>
                                                     <th>No</th>
                                                     <th>Student ID</th>
                                                     <th>Full Name</th>
@@ -455,7 +470,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                                     $i++; ?>
 
                                                 <tr>
-                                                    <td><input type="check"></td>
+                                                    <td><input type="checkbox" name="check" value='true' class="checkbox" onchange="updateCheckedCount()"></td>
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $student['std_id'] ?></td>
                                                     <input type="hidden" name="<?php echo $i . 'studentID' ?>"
@@ -501,6 +516,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </table>
                                     </div>
                                     <?php } ?>
+                                    <!-- When you edd member by cliked in group will process here -->
                                     <?php } elseif (isset($_GET['std_g_id'])) { ?>
                                     <div class="student-group-form">
 
@@ -528,7 +544,6 @@ if (!isset($_SESSION['admin_login'])) {
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-md-6">
-                                                <!-- New element -->
                                                 <div class="form-group local-forms">
                                                     <label>Year <span class="login-danger">*</span></label>
                                                     <input class="form-control select <?php echo $year_red_border ?>"
@@ -560,6 +575,7 @@ if (!isset($_SESSION['admin_login'])) {
                                             class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                             <thead class="student-thread">
                                                 <tr>
+                                                    <th>Select</th>
                                                     <th>No</th>
                                                     <th>Student ID</th>
                                                     <th>Full Name</th>
@@ -580,6 +596,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                                 $i++; ?>
 
                                                 <tr>
+                                                <td><input type="checkbox" name="check" value='true' class="checkbox" onchange="updateCheckedCount()"></td>
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $student['std_id'] ?></td>
                                                     <input type="hidden" name="<?php echo $i . 'studentID' ?>"
@@ -651,6 +668,20 @@ if (!isset($_SESSION['admin_login'])) {
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
 
     <script src="../assets/js/script.js"></script>
+    <script>
+        function updateCheckedCount() {
+            var checkboxes = document.querySelectorAll('.checkbox');
+            var checkedCount = 0;
+
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    checkedCount++;
+                }
+            });
+
+            document.getElementById("checkedCount").value = checkedCount;
+        }
+    </script>
 
 
 </body>
