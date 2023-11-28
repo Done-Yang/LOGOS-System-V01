@@ -37,8 +37,9 @@ if (!isset($_SESSION['admin_login'])) {
     
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
+        $student = getStudentById($id, $conn);
         $std_row = getStudentById($id, $conn);
-        $u = studentGetUserById($id, $conn);
+        $user = studentGetUserById($id, $conn);
         $seasons = getAllSeasons($conn);
         $programs = getAllPrograms($conn);
 
@@ -46,19 +47,19 @@ if (!isset($_SESSION['admin_login'])) {
             try {
                 // Select The E-mail in Database For Check
                 $check_email = $conn->prepare("SELECT email FROM users WHERE email = :email AND email != :this_email");
-                $check_email->bindParam(":this_email", $u['email']);
+                $check_email->bindParam(":this_email", $user['email']);
                 $check_email->bindParam(":email", $_REQUEST['email']);
                 $check_email->execute();
 
 
                 // Select Teacher data in Database For Check
                 $check_tel = $conn->prepare("SELECT tel FROM users WHERE tel = :tel AND tel != :this_tel");
-                $check_tel->bindParam(":this_tel", $u['tel']);
+                $check_tel->bindParam(":this_tel", $user['tel']);
                 $check_tel->bindParam(":tel", $_REQUEST['tel']);
                 $check_tel->execute();
 
                 $check_whatsapp = $conn->prepare("SELECT whatsapp FROM students WHERE whatsapp = :whatsapp AND whatsapp != :this_whatsapp");
-                $check_whatsapp->bindParam(":this_whatsapp", $std_row['whatsapp']);
+                $check_whatsapp->bindParam(":this_whatsapp", $student['whatsapp']);
                 $check_whatsapp->bindParam(":whatsapp", $_REQUEST['whatsapp']);
                 $check_whatsapp->execute();
 
@@ -111,28 +112,9 @@ if (!isset($_SESSION['admin_login'])) {
                     $study_program = $_REQUEST['study_program'];
                 }
 
-                // if (empty($_REQUEST["fname_ch"])) {
-                //     $fname_ch_err = 'First name in Chiness is required!';
-                //     $fname_ch_red_border = 'red_border';
-                // } else {
-                //     $fname_ch = $_REQUEST['fname_ch'];
-                // }
                 $fname_ch = $_REQUEST['fname_ch'];
-
-                // if (empty($_REQUEST["lname_ch"])) {
-                //     $lname_ch_err = 'Last asrname in Chiness is required!';
-                //     $lname_ch_red_border = 'red_border';
-                // } else {
-                //     $lname_ch = $_REQUEST['lname_ch'];
-                // }
                 $lname_ch = $_REQUEST['lname_ch'];
-
-                if (empty($_REQUEST["dob"])) {
-                    $dob_err = 'Date of birth is required!';
-                    $dob_red_border = 'red_border';
-                } else {
-                    $dob = $_REQUEST['dob'];
-                }
+                $dob = $_REQUEST['dob'];
 
                 if (empty($_REQUEST["part"])) {
                     $part_err = 'Part is required!';
@@ -140,184 +122,65 @@ if (!isset($_SESSION['admin_login'])) {
                 } else {
                     $part = $_REQUEST['part'];
                 }
-
-                // if (empty($_REQUEST["nation"])) {
-                //     $nation_err = 'Nation is required!';
-                //     $nation_red_border = 'red_border';
-                // } else {
-                //     $nation = $_REQUEST['nation'];
-                // }
                 $nation = $_REQUEST['nation'];
-
-                // if (empty($_REQUEST["religion"])) {
-                //     $religion_err = 'Religion is required!';
-                //     $religion_red_border = 'red_border';
-                // } else {
-                //     $religion = $_REQUEST['religion'];
-                // }
                 $religion = $_REQUEST['religion'];
-
-                // if (empty($_REQUEST["ethnicity"])) {
-                //     $ethnicity_err = 'Ethnicity is required!';
-                //     $ethnicity_red_border = 'red_border';
-                // } else {
-                //     $ethnicity = $_REQUEST['ethnicity'];
-                // }
                 $ethnicity = $_REQUEST['ethnicity'];
 
-                // if (empty($_REQUEST["tel"])) {
-                //     $tel_err = 'Phone number is required!';
-                //     $tel_red_border = 'red_border';
-                // } elseif ($check_tel->rowCount() > 0) {
-                //     $tel_err = 'Phone number is writen already exist!';
-                //     $tel_red_border = 'red_border';
-                // } else {
-                //     $tel = $_REQUEST['tel'];
-                // }
-                if(empty($tel)){
-                    $tel = '';
-                }else{
-                    if ($check_tel->rowCount() > 0) {
-                        $tel_err = 'Phone number is writen already exist!';
-                        $tel_red_border = 'red_border';
-                    } else {
-                        $tel = $_REQUEST['tel'];
-                    }
+                if (empty($_REQUEST["tel"])) {
+                    $tel_err = 'Phone number is required!';
+                    $tel_red_border = 'red_border';
+                } elseif ($check_tel->rowCount() > 0) {
+                    $tel_err = 'Phone number is writen already exist!';
+                    $tel_red_border = 'red_border';
+                } else {
+                    $tel = $_REQUEST['tel'];
                 }
 
-                // if (empty($_REQUEST["whatsapp"])) {
-                //     $whatsapp_err = 'Whatsapp namber is required!';
-                //     $whatsapp_red_border = 'red_border';
-                // } elseif ($check_whatsapp->rowCount() > 0) {
-                //     $whatsapp_err = 'Whatsapp namber is writen already exist!';
-                //     $whatsapp_red_border = 'red_border';
-                // } else {
-                //     $whatsapp = $_REQUEST['whatsapp'];
-                // }
-                if(empty($whatsapp)){
-                    $whatsapp = '';
-                }else{
-                    if ($check_whatsapp->rowCount() > 0) {
-                        $whatsapp_err = 'Whatsapp namber is writen already exist!';
-                        $whatsapp_red_border = 'red_border';
-                    } else {
-                        $whatsapp = $_REQUEST['whatsapp'];
-                    }
+                if (empty($_REQUEST["whatsapp"])) {
+                    $whatsapp_err = 'Whatsapp namber is required!';
+                    $whatsapp_red_border = 'red_border';
+                } elseif ($check_whatsapp->rowCount() > 0) {
+                    $whatsapp_err = 'Whatsapp namber is writen already exist!';
+                    $whatsapp_red_border = 'red_border';
+                } else {
+                    $whatsapp = $_REQUEST['whatsapp'];
                 }
+                    
 
-                // if (empty($_REQUEST["email"])) {
-                //     $email_err = 'E-mail is required!';
-                //     $email_red_border = 'red_border';
-                // } elseif ($check_email->rowCount() > 0) {
-                //     $email_err = "E-mail is writen already exist!";
-                //     $email_red_border = 'red_border';
-                // } elseif (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-                //     $email_err = "Invalid email format, please add @!";
-                //     $email_red_border = 'red_border';
-                // } else {
-                //     $email = $_REQUEST['email'];
-                // }
-                if(empty($email)){
-                    $email = '';
-                }else{
-                    if ($check_email->rowCount() > 0) {
-                        $email_err = "E-mail is writen already exist!";
-                        $email_red_border = 'red_border';
-                    } elseif (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-                        $email_err = "Invalid email format, please check your email again!";
-                        $email_red_border = 'red_border';
-                    } else {
-                        $email = $_REQUEST['email'];
-                    }
+                if (empty($_REQUEST["email"])) {
+                    $email_err = 'E-mail is required!';
+                    $email_red_border = 'red_border';
+                } elseif ($check_email->rowCount() > 0) {
+                    $email_err = "E-mail is writen already exist!";
+                    $email_red_border = 'red_border';
+                } elseif (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
+                    $email_err = "Invalid email format!";
+                    $email_red_border = 'red_border';
+                } else {
+                    $email = $_REQUEST['email'];
                 }
-
-                // if (empty($_REQUEST["guardian_tel"])) {
-                //     $guardian_tel_err = "Guadian's phone number is required!";
-                //     $guardian_tel_red_border = 'red_border';
-                // } else {
-                //     $guardian_tel = $_REQUEST['guardian_tel'];
-                // }
                 $guardian_tel = $_REQUEST['guardian_tel'];
 
-                // if (empty($_REQUEST["village_birth"])) {
-                //     $village_birth_err = 'Village of birth is required!';
-                //     $village_birth_red_border = 'red_border';
-                // } else {
-                //     $village_birth = $_REQUEST['village_birth'];
-                // }
                 $village_birth = $_REQUEST['village_birth'];
-
-                // if (empty($_REQUEST["district_birth"])) {
-                //     $district_birth_err = 'District of birth is required!';
-                //     $district_birth_red_border = 'red_border';
-                // } else {
-                //     $district_birth = $_REQUEST['district_birth'];
-                // }
                 $district_birth = $_REQUEST['district_birth'];
-
-                // if (empty($_REQUEST["province_birth"])) {
-                //     $province_birth_err = 'Province of birth is required!';
-                //     $province_birth_red_border = 'red_border';
-                // } else {
-                //     $province_birth = $_REQUEST['province_birth'];
-                // }
+                
                 $province_birth = $_REQUEST['province_birth'];
-
-                // if (empty($_REQUEST["village_current"])) {
-                //     $village_current_err = 'Current village is required!';
-                //     $village_current_red_border = 'red_border';
-                // } else {
-                //     $village_current = $_REQUEST['village_current'];
-                // }
+                
                 $village_current = $_REQUEST['village_current'];
-
-                // if (empty($_REQUEST["district_current"])) {
-                //     $district_current_err = 'Current district is required!';
-                //     $district_current_red_border = 'red_border';
-                // } else {
-                //     $district_current = $_REQUEST['district_current'];
-                // }
+                
                 $district_current = $_REQUEST['district_current'];
-
-                // if (empty($_REQUEST["province_current"])) {
-                //     $province_current_err = 'Current province is required!';
-                //     $province_current_red_border = 'red_border';
-                // } else {
-                //     $province_current = $_REQUEST['province_current'];
-                // }
+                
                 $province_current = $_REQUEST['province_current'];
-
-                // if (empty($_REQUEST["highschool"])) {
-                //     $highschool_err = 'Highschool is required!';
-                //     $highschool_red_border = 'red_border';
-                // } else {
-                //     $highschool = $_REQUEST['highschool'];
-                // }
+                
                 $highschool = $_REQUEST['highschool'];
+                
 
-                // if (empty($_REQUEST["season_hsc"])) {
-                //     $season_hsc_err = 'High school season is required!';
-                //     $season_hsc_red_border = 'red_border';
-                // } else {
-                //     $season_hsc = $_REQUEST['season_hsc'];
-                // }
                 $season_hsc = $_REQUEST['season_hsc'];
-
-                // if (empty($_REQUEST["district_study"])) {
-                //     $district_study_err = 'District study is required!';
-                //     $district_study_red_border = 'red_border';
-                // } else {
-                //     $district_study = $_REQUEST['district_study'];
-                // }
+                
                 $district_study = $_REQUEST['district_study'];
-
-                // if (empty($_REQUEST["province_study"])) {
-                //     $province_study_err = 'Province study is required!';
-                //     $province_study_red_border = 'red_border';
-                // } else {
-                //     $province_study = $_REQUEST['province_study'];
-                // }
+                
                 $province_study = $_REQUEST['province_study'];
+                
 
                 $house_no = $_REQUEST['house_no'];
                 $house_unit = $_REQUEST['house_unit'];
@@ -326,23 +189,21 @@ if (!isset($_SESSION['admin_login'])) {
                 $talent = $_REQUEST['talent'];
                 $familymatters = $_REQUEST['familymatters'];
                 $plansforthefuture = $_REQUEST['plansforthefuture'];
+                $std_status = $_REQUEST['std_status'];
 
                 // For image profile
                 $image_file = $_FILES['txt_file']['name'];
                 $type = $_FILES['txt_file']['type'];
                 $size = $_FILES['txt_file']['size'];
                 $temp = $_FILES['txt_file']['tmp_name'];
-                
-                
+
                 if (
-                    empty($u_id_err) and empty($fname_en_err) and empty($lname_en_err) and !empty($gender) and !empty($fname_la) and !empty($lname_la) and !empty($study_program) and
-                    !empty($dob) and !empty($part) and empty($email_err) and empty($tel_err) and empty($whatsapp_err) ) {
-
-                    echo("here");
-
+                    !empty($u_id) and !empty($fname_en) and !empty($lname_en) and !empty($gender) and !empty($fname_la) and !empty($lname_la) and !empty($study_program)  and
+                    empty($tel_err) and empty($whatsapp_err) and empty($email_err) 
+                ) {
                     $path = "upload/student_profile/" . $image_file; // set upload folder path
                     move_uploaded_file($temp, 'upload/student_profile/' . $image_file); // move upload file temperory directory to your upload folder
-                    
+
                     $password = $_REQUEST['password'];
                     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -352,7 +213,7 @@ if (!isset($_SESSION['admin_login'])) {
                     $stmt1->bindParam(':u_id', $id);
                     $stmt1->bindParam(':email', $email);
                     if (empty($password)) {
-                        $stmt1->bindParam(':u_pass', $u['u_pass']);
+                        $stmt1->bindParam(':u_pass', $user['u_pass']);
                     } else {
                         $stmt1->bindParam(':u_pass', $passwordHash);
                     }
@@ -362,7 +223,7 @@ if (!isset($_SESSION['admin_login'])) {
                     dob=:dob, part=:part, nation=:nation, religion=:religion, ethnicity=:ethnicity, tel=:tel, whatsapp=:whatsapp, email=:email, guardian_tel=:guardian_tel, village_birth=:village_birth, district_birth=:district_birth, province_birth=:province_birth, 
                     village_current=:village_current, district_current=:district_current, province_current=:province_current, house_unit=:house_unit, house_no=:house_no, highschool=:highschool, season_hsc=:season_hsc,
                     district_study=:district_study, province_study=:province_study, employment_history=:employment_history, language_proficiency=:language_proficiency, 
-                    talent=:talent, familymatters=:familymatters, plansforthefuture=:plansforthefuture, image=:image WHERE std_id=:std_id";
+                    talent=:talent, familymatters=:familymatters, plansforthefuture=:plansforthefuture, std_status =:std_status, image=:image WHERE std_id=:std_id";
                     $stmt2 = $conn->prepare($sql2);
                     $stmt2->bindParam(':std_id', $id);
                     $stmt2->bindParam(':fname_en', $fname_en);
@@ -399,14 +260,42 @@ if (!isset($_SESSION['admin_login'])) {
                     $stmt2->bindParam(':talent', $talent);
                     $stmt2->bindParam(':familymatters', $familymatters);
                     $stmt2->bindParam(':plansforthefuture', $plansforthefuture);
+                    $stmt2->bindParam(':std_status', $std_status);
                     if (empty($image_file)) {
                         $stmt2->bindParam(':image', $student['image']);
                     } else {
                         $stmt2->bindParam(':image', $image_file);
                     }
+                    
+                    // }catch (PDOException $e) {
+                    //     $e->getMessage();
+                    // }
+                    
+                    try {
+                        $stmt1->execute();
+                        $stmt2->execute();
+                    } catch (PDOException $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                    
+                    // $check_u_id = $conn->prepare("SELECT u_id FROM users WHERE u_id = :u_id");
+                    // $check_u_id->bindParam(":u_id", $guardian_tel);
+                    // $check_u_id->execute();
+                    
+                    // if($check_u_id->rowCount() == 0 and !empty($guardian_tel)){
+                    //     $gd_email = "";
+                    //     $gd_status = "Guardian";
+                    //     $gd_pass_hash = password_hash($guardian_tel, PASSWORD_DEFAULT);
+                    //     $add_guardian_as_user = $conn->prepare("INSERT INTO users(u_id, email, tel, u_pass, status) VALUES(:u_id, :email, :tel, :u_pass, :status)");
+                    //     $add_guardian_as_user->bindParam(":u_id", $guardian_tel);
+                    //     $add_guardian_as_user->bindParam(":email", $gd_email);
+                    //     $add_guardian_as_user->bindParam(":tel", $guardian_tel);
+                    //     $add_guardian_as_user->bindParam(":u_pass", $gd_pass_hash);
+                    //     $add_guardian_as_user->bindParam(":status", $gd_status);
+                    //     $add_guardian_as_user->execute();
+                    //     $_SESSION['success'] = 'Complate';
+                    // }
 
-                    $stmt1->execute();
-                    $stmt2->execute();
                     echo "<script>
                         $(document).ready(function() {
                             Swal.fire({
@@ -423,7 +312,7 @@ if (!isset($_SESSION['admin_login'])) {
                     header('refresh:2; url=student-list.php');
                     exit;
                 } else {
-                    $_SESSION['error'] = "Something when wrong with any cell, Pleas check your data again!";
+                    $_SESSION['error'] = "Exist empty cell, Pleas check your data again!";
                 }
             } catch (PDOException $e) {
                 $e->getMessage();
@@ -471,10 +360,9 @@ if (!isset($_SESSION['admin_login'])) {
     <div class="main-wrapper">
 
         <?php
-            // include "include/header.php";
-            // include "include/sidebar.php";
+            include "include/header.php";
+            include "include/sidebar.php";
         ?>
-
 
         <div class="page-wrapper">
             <div class="content container-fluid">
@@ -500,17 +388,19 @@ if (!isset($_SESSION['admin_login'])) {
 
                                 <form method="post" action="" enctype="multipart/form-data">
 
-                                    <?php if (isset($errorMsg)) { ?>
-                                    <div class="alert alert-danger" role="alert">
+                                    <?php if (isset($_SESSION['success'])) { ?>
+                                    <div class="alert alert-success" role="alert">
                                         <?php
-                                            echo $errorMsg;
+                                            echo $_SESSION['success'];
+                                            unset($_SESSION['success']);
                                             ?>
                                     </div>
                                     <?php } ?>
-                                    <?php if (isset($successMsg)) { ?>
+                                    <?php if (isset($_SESSION['error'])) { ?>
                                     <div class="alert alert-danger" role="alert">
                                         <?php
-                                            echo $successMsg;
+                                            echo $_SESSION['error'];
+                                            unset($_SESSION['error']);
                                             ?>
                                     </div>
                                     <?php } ?>
@@ -580,7 +470,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--  New element -->
                                             <div class="form-group local-forms">
-                                                <label>Program Of Studying <span class="login-danger">*</span></label>
+                                                <label>Program Of Studying <span class="login-danger"></span></label>
                                                 <select
                                                     class="form-control select <?php echo $study_program_red_border ?>"
                                                     name="study_program">
@@ -597,7 +487,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>First Name(Chines) <span class="login-danger">*</span></label>
+                                                <label>First Name(Chines) <span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $fname_ch_red_border ?>"
                                                     type="text" name="fname_ch"
                                                     value="<?php echo $std_row['fname_ch'] ?>">
@@ -606,7 +496,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Last Name(Chines) <span class="login-danger">*</span></label>
+                                                <label>Last Name(Chines) <span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $lname_ch_red_border ?>"
                                                     type="text" name="lname_ch"
                                                     value="<?php echo $std_row['lname_ch'] ?>">
@@ -615,7 +505,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms calendar-icon">
-                                                <label>Date Of Birth <span class="login-danger">*</span></label>
+                                                <label>Date Of Birth <span class="login-danger"></span></label>
                                                 <input class="form-control datetimepicker <?php echo $dob_red_border ?>"
                                                     type="text" name="dob" value="<?php echo $std_row['dob'] ?>">
                                                 <div class="error position-absolute"><?php echo $dob_err ?></div>
@@ -636,7 +526,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Nation <span class="login-danger">*</span> </label>
+                                                <label>Nation <span class="login-danger"></span> </label>
                                                 <input class="form-control <?php echo $nation_red_border ?>" type="text"
                                                     name="nation" value="<?php echo $std_row['nation'] ?>">
                                                 <div class="error"><?php echo $nation_err ?></div>
@@ -644,7 +534,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Religion<span class="login-danger">*</span></label>
+                                                <label>Religion<span class="login-danger"></span></label>
                                                 <select class="form-control select <?php echo $religion_red_border ?>"
                                                     name="religion">
                                                     <option><?php echo $std_row['religion'] ?></option>
@@ -659,7 +549,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Ethnicity <span class="login-danger">*</span> </label>
+                                                <label>Ethnicity <span class="login-danger"></span> </label>
                                                 <input class="form-control <?php echo $ethnicity_red_border ?>"
                                                     type="text" name="ethnicity"
                                                     value="<?php echo $std_row['ethnicity'] ?>">
@@ -668,7 +558,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Tel<span class="login-danger">*</span> </label>
+                                                <label>Tel<span class="login-danger"></span> </label>
                                                 <input class="form-control <?php echo $tel_red_border ?>" type="text"
                                                     name="tel" value="<?php echo $std_row['tel'] ?>">
                                                 <div class="error"><?php echo $tel_err ?></div>
@@ -676,7 +566,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>WhatsApp <span class="login-danger">*</span> </label>
+                                                <label>WhatsApp <span class="login-danger"></span> </label>
                                                 <input class="form-control <?php echo $whatsapp_red_border ?>"
                                                     type="text" name="whatsapp"
                                                     value="<?php echo $std_row['whatsapp'] ?>">
@@ -704,7 +594,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Village Of Birth <span class="login-danger">*</span></label>
+                                                <label>Village Of Birth <span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $village_birth_red_border ?>"
                                                     type="text" name="village_birth"
                                                     value="<?php echo $std_row['village_birth'] ?>">
@@ -714,7 +604,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>District Of Birth <span class="login-danger">*</span></label>
+                                                <label>District Of Birth <span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $district_birth_red_border ?>"
                                                     type="text" name="district_birth"
                                                     value="<?php echo $std_row['district_birth'] ?>">
@@ -724,7 +614,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Province Of Birth <span class="login-danger">*</span></label>
+                                                <label>Province Of Birth <span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $province_birth_red_border ?>"
                                                     type="text" name="province_birth"
                                                     value="<?php echo $std_row['province_birth'] ?>">
@@ -733,7 +623,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Current Village <span class="login-danger">*</span> </label>
+                                                <label>Current Village <span class="login-danger"></span> </label>
                                                 <input class="form-control <?php echo $village_current_red_border ?>"
                                                     type="text" name="village_current"
                                                     value="<?php echo $std_row['village_current'] ?>">
@@ -742,7 +632,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Current District <span class="login-danger">*</span> </label>
+                                                <label>Current District <span class="login-danger"></span> </label>
                                                 <input class="form-control <?php echo $district_current_red_border ?>"
                                                     type="text" name="district_current"
                                                     value="<?php echo $std_row['district_current'] ?>">
@@ -751,7 +641,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Current Province <span class="login-danger">*</span></label>
+                                                <label>Current Province <span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $province_current_red_border ?>"
                                                     type="text" name="province_current"
                                                     value="<?php echo $std_row['province_current'] ?>">
@@ -780,7 +670,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Heigh School <span class="login-danger">*</span> </label>
+                                                <label>Heigh School <span class="login-danger"></span> </label>
                                                 <input class="form-control <?php echo $highschool_red_border ?>"
                                                     type="text" name="highschool"
                                                     value="<?php echo $std_row['highschool'] ?>">
@@ -789,7 +679,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
-                                                <label>Graduation Season<span class="login-danger">*</span></label>
+                                                <label>Graduation Season<span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $season_hsc_red_border ?>"
                                                     type="text" name="season_hsc"
                                                     value="<?php echo $std_row['season_hsc'] ?>">
@@ -799,7 +689,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Districts High School<span class="login-danger">*</span></label>
+                                                <label>Districts High School<span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $district_study_red_border ?>"
                                                     type="text" name="district_study"
                                                     value="<?php echo $std_row['district_study'] ?>">
@@ -809,7 +699,7 @@ if (!isset($_SESSION['admin_login'])) {
                                         <div class="col-12 col-sm-4">
                                             <!--New element -->
                                             <div class="form-group local-forms">
-                                                <label>Provinces High School<span class="login-danger">*</span></label>
+                                                <label>Provinces High School<span class="login-danger"></span></label>
                                                 <input class="form-control <?php echo $province_study_red_border ?>"
                                                     type="text" name="province_study"
                                                     value="<?php echo $std_row['province_study'] ?>">
@@ -856,15 +746,33 @@ if (!isset($_SESSION['admin_login'])) {
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
+                                                <label>Status <span class="login-danger"></span></label>
+                                                <select class="form-control select"
+                                                    name="std_status">
+                                                    <?php
+                                                        if($std_row['std_status'] == 'Studying'){?>
+                                                            <option><?php echo $std_row['std_status'] ?></option>
+                                                            <option>Dropped</option>
+                                                        <?php }else if($std_row['std_status'] == 'Dropped'){?>
+                                                            <option>Studying</option>
+                                                        <?php }else{?>
+                                                            <option>Studying</option>
+                                                            <option>Dropped</option>
+                                                        <?php }?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-4">
+                                            <div class="form-group local-forms">
                                                 <label>Password </label>
                                                 <input class="form-control" type="text" name="password"
-                                                    placeholder="*************">
+                                                    placeholder="************">
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group students-up-files">
                                                 <label>Image Profile 3x4cm (<?php echo $std_row['image'] ?>) <span
-                                                        class="login-danger">*</span> </label>
+                                                        class="login-danger"></span> </label>
 
                                                 <?php
                                                 $studentImage_file = $std_row['image'];

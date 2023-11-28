@@ -10,7 +10,7 @@ include "admin-datas/program-db.php";
 include "admin-datas/student-db.php";
 
 
-$seasons = getLastSeason($conn);
+$seasons = getAllSeasons($conn);
 $programs = getAllPrograms($conn);
 
 // For Student Details

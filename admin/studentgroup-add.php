@@ -49,12 +49,7 @@ if (!isset($_SESSION['admin_login'])) {
             include "admin-datas/studentgroup-db.php";
             $students = getStudentGroupByPPSY($program, $part, $season, $conn);
 
-            $student_amount_query = $conn->prepare("SELECT COUNT(*) as count FROM students WHERE program=:program and part=:part and season_curent=:season");
-            $student_amount_query->bindParam(':program', $program);
-            $student_amount_query->bindParam(':part', $part);
-            $student_amount_query->bindParam(':season', $season);
-            $student_amount_query->execute();
-            $students_amount = $student_amount_query->fetch(PDO::FETCH_ASSOC)['count'];
+            
 
             // echo $students_amount;
 
@@ -129,16 +124,43 @@ if (!isset($_SESSION['admin_login'])) {
                 if ($count_std_resault <= 60) {
                     try {
                         // $sql = mysqli_connect("localhost", "iater01", "iATER2024", "iater01");
+
+                        $student_amount_query = $conn->prepare("SELECT COUNT(*) as count FROM students WHERE program=:program and part=:part and season_curent=:season");
+                        $student_amount_query->bindParam(':program', $program);
+                        $student_amount_query->bindParam(':part', $part);
+                        $student_amount_query->bindParam(':season', $season);
+                        $student_amount_query->execute();
+                        $students_amount = $student_amount_query->fetch(PDO::FETCH_ASSOC)['count'];
                         for ($i = 1; $i <= $students_amount; $i++) {
-                            $studentID = $_REQUEST[$i . 'studentID'];
-                            // For Group student's class
-                            $stmt1 = $conn->prepare("INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year, part)
-                                        VALUES ('$group_id', '$teacher', '$studentID', '$program', '$season', '$year', '$part')");
-                            $stmt1->execute();
-    
-                            // For Student group's status
-                            $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
-                            $stmt2->execute();
+                            $checked = $_REQUEST['check'.$i];
+                            if(isset($checked)){
+                                $studentID = $_REQUEST[$i . 'studentID'];
+                                $check_u_id = $conn->prepare("SELECT std_id FROM studentgroups WHERE std_id = :std_id");
+                                $check_u_id->bindParam(":std_id", $studentID);
+                                $check_u_id->execute();
+                                try{
+                                    if($check_u_id->rowCount() > 0){
+                                        // For Group student's class
+                                        $stmt1 = $conn->prepare("UPDATE studentgroups SET group_id='$group_id', t_id='$teacher',  program='$program', season='$season', year='$year', part='$part' WHERE std_id='$studentID'");
+                                        $stmt1->execute();
+                
+                                        // For Student group's status
+                                        $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                                        $stmt2->execute();
+                                    }else{
+                                        // For Group student's class
+                                        $stmt1 = $conn->prepare("INSERT INTO studentgroups (group_id, t_id, std_id, program, season, year, part)
+                                                    VALUES ('$group_id', '$teacher', '$studentID', '$program', '$season', '$year', '$part')");
+                                        $stmt1->execute();
+                
+                                        // For Student group's status
+                                        $stmt2 = $conn->prepare("UPDATE students SET group_status='$group_id' WHERE std_id='$studentID'");
+                                        $stmt2->execute();
+                                    }
+                                }catch (PDOException $e) {
+                                    echo "Error: " . $e->getMessage();
+                                }
+                            }
                         }
                         // $_SESSION['success'] = 'Success!' . $season . $program . $part . $group_id . $teacher . $year . $amount;
                         echo "<script>
@@ -466,11 +488,10 @@ if (!isset($_SESSION['admin_login'])) {
                                                 </tr>
                                                 <?php } else {
                                                             foreach ($students as $student) {
-                                                                if ($student['group_status'] == '') {
                                                                     $i++; ?>
 
                                                 <tr>
-                                                    <td><input type="checkbox" name="check" value='true' class="checkbox" onchange="updateCheckedCount()"></td>
+                                                    <td><input type="checkbox" name="<?php echo 'check'.$i ?>" value='true' class="checkbox" onchange="updateCheckedCount()"></td>
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $student['std_id'] ?></td>
                                                     <input type="hidden" name="<?php echo $i . 'studentID' ?>"
@@ -509,7 +530,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                     <td><?php echo $student['program'] ?></td>
                                                     <td><?php echo $student['part'] ?></td>
                                                 </tr>
-                                                <?php  }
+                                                <?php  
                                                             }
                                                         } ?>
                                             </tbody>
@@ -556,7 +577,7 @@ if (!isset($_SESSION['admin_login'])) {
                                                 <div class="form-group local-forms">
                                                     <label>Amount<span class="login-danger">*</span></label>
                                                     <input class="form-control select <?php echo $amount_red_border ?>"
-                                                        type="text" name="amount" value="<?php echo $amount ?>">
+                                                        type="text" name="amount" id="checkedCount" readonly>
                                                     <div class="error"><?php echo $amount_err ?></div>
                                                 </div>
                                             </div>
@@ -592,11 +613,10 @@ if (!isset($_SESSION['admin_login'])) {
 
                                                 <?php } else {
                                                         foreach ($students as $student) {
-                                                            if ($student['group_status'] == '') {
                                                                 $i++; ?>
 
                                                 <tr>
-                                                <td><input type="checkbox" name="check" value='true' class="checkbox" onchange="updateCheckedCount()"></td>
+                                                    <td><input type="checkbox" name="<?php echo 'check'.$i ?>" value='true' class="checkbox" onchange="updateCheckedCount()"></td>
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $student['std_id'] ?></td>
                                                     <input type="hidden" name="<?php echo $i . 'studentID' ?>"
@@ -636,7 +656,6 @@ if (!isset($_SESSION['admin_login'])) {
                                                     <td><?php echo $student['program'] ?></td>
                                                     <td><?php echo $student['part'] ?></td>
                                                 </tr>
-                                                <?php } ?>
                                                 <?php } ?>
                                                 <?php } ?>
                                             </tbody>
